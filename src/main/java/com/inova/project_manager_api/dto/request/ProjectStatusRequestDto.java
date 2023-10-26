@@ -3,8 +3,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 
 public class ProjectStatusRequestDto {
 
