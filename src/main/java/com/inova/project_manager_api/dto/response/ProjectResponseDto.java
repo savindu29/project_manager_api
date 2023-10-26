@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class ProjectResponseDto {
+    private int id;
+   private String name;
 }
