@@ -4,14 +4,14 @@ import com.inova.project_manager_api.entities.GrantClient;
 import com.inova.project_manager_api.entities.IntermediateClient;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class ExternalContactPersonResponseDto {
     private int id;
 
