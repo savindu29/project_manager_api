@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 @Repository
 public interface ProjectRepo extends JpaRepository<Project,Integer> {
-    @Query(value = "SELECT COUNT(id) FROM customer WHERE name LIKE %?1% || address LIKE %?1%",
-            nativeQuery = true)
-    long countCustomer(String searchText);
+
 }
