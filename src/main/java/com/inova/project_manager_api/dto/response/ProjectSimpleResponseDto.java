@@ -13,5 +13,5 @@ public class ProjectSimpleResponseDto {
     private String priority;
     private String todo;
     private String currentStatus;
-    private Date nextTaskDate;
+    private Date latestStatusHistoryDate;
 }
