@@ -4,7 +4,7 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "task")
@@ -28,5 +28,8 @@ public class Task {
     @Column(name = "date")
     private Date date;
 
-    // Constructors, getters, and setters
+    @ManyToOne
+    @JoinColumn(name = "todo_id")
+    private Todo todo;
+
 }
