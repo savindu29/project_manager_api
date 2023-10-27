@@ -3,7 +3,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.List;
 
 @Entity

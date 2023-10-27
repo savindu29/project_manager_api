@@ -35,6 +35,7 @@ public class ProjectDaoImpl implements ProjectDao {
             List<ProjectSimpleResponseDto> dtos = new ArrayList<>();
 
             for (Object[] row : resultList) {
+                String csquery = "SELECT date FROM status_history AS sh WHERE project_id = 1 ORDER BY sh.date DESC LIMIT 1;";
                 ProjectSimpleResponseDto dto = new ProjectSimpleResponseDto();
                 dto.setId((Integer) row[0]);
                 dto.setProjectName((String) row[1]);
@@ -42,11 +43,12 @@ public class ProjectDaoImpl implements ProjectDao {
                 dto.setPriority((String) row[3]);
                 dto.setTodo((String) row[4]);
                 dto.setCurrentStatus((String) row[5]);
-                Date d = new Date();
-                d.setDate(26);
-                d.setMonth(9);
-                d.setYear(2023 - 1900);
-                dto.setNextTaskDate(d);
+                String dateQuery = "SELECT sh.date FROM status_history AS sh WHERE project_id = :projectId ORDER BY sh.date DESC LIMIT 1";
+                Date date = (Date) entityManager.createNativeQuery(dateQuery)
+                        .setParameter("projectId", row[0])
+                        .getSingleResult();
+
+                dto.setLatestStatusHistoryDate(date);
                 // Set other fields as needed
                 dtos.add(dto);
             }
