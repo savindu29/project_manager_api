@@ -12,7 +12,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

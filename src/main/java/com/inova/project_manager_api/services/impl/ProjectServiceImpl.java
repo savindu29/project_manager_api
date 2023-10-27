@@ -1,6 +1,6 @@
 package com.inova.project_manager_api.services.impl;
 
-import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
+import com.inova.project_manager_api.dto.response.ProjectResponseDto;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ProjectRepo;
 import com.inova.project_manager_api.services.ProjectService;
@@ -15,13 +15,16 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRepo projectRepo;
 
     @Override
-    public ProjectAdvanceResponseDto findProject(int id) {
+    public ProjectResponseDto findProject(int id) {
         Optional<Project> project = projectRepo.findById(id);
-        ProjectAdvanceResponseDto p = new ProjectAdvanceResponseDto();
+        ProjectResponseDto p = new ProjectResponseDto();
+        p.setId(1);
+        p.setName("etfb");
         if (project.isPresent()) {
-            return p;
+            System.out.println(project.get());
         } else {
-            return null;
+            System.out.println("empty");
         }
+        return p;
     }
 }
