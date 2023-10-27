@@ -3,7 +3,7 @@ package com.inova.project_manager_api.dto.response;
 import jakarta.persistence.Column;
 import lombok.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
