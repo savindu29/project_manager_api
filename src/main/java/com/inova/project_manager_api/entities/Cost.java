@@ -29,5 +29,4 @@ public class Cost {
     @Column(name = "amc_value")
     private int amcValue;
 
-    // Constructors, getters, and setters
 }

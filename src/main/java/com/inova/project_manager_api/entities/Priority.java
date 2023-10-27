@@ -3,6 +3,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "priority")
 @AllArgsConstructor
@@ -22,5 +24,8 @@ public class Priority {
     @Column(name = "code")
     private String code;
 
-    // Constructors, getters, and setters
+    @OneToMany(mappedBy = "priority")
+    private List<Project> projects;
+
+
 }

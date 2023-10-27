@@ -3,6 +3,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "external_contact_person")
 @AllArgsConstructor
@@ -23,7 +25,22 @@ public class ExternalContactPerson {
     @Column(name = "mobile")
     private String mobile;
 
-    // Other fields
+    @Column(name = "fix_tel")
+    private String fixTel;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "designation")
+    private String designation;
+    @Column(name = "description")
+    private String description;
 
-    // Constructors, getters, and setters
+    @OneToMany(mappedBy = "externalContactPerson")
+    private List<GrantClient> grantClients;
+
+    @OneToMany(mappedBy = "externalContactPerson")
+    private List<IntermediateClient> intermediateClients;
+
+
+
+
 }

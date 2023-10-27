@@ -22,5 +22,6 @@ public class RfpResource {
     @Column(name = "description")
     private String description;
 
-    // Constructors, getters, and setters
+
+
 }

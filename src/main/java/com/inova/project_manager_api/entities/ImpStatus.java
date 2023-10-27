@@ -22,5 +22,9 @@ public class ImpStatus {
     @Column(name = "reason")
     private String reason;
 
-    // Constructors, getters, and setters
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+
 }

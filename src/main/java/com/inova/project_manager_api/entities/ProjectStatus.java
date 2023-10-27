@@ -2,6 +2,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "project_status")
 @AllArgsConstructor
@@ -18,5 +20,8 @@ public class ProjectStatus {
     @Column(name = "name")
     private String name;
 
-    // Constructors, getters, and setters
+    @OneToMany(mappedBy = "projectStatus")
+    private List<Project> projectList;
+
+
 }

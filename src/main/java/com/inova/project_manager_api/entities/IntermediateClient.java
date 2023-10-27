@@ -3,6 +3,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "intermediate_client")
 @AllArgsConstructor
@@ -22,9 +24,13 @@ public class IntermediateClient {
     @Column(name = "country")
     private String country;
 
+    @OneToMany(mappedBy = "intermediateClient")
+    private List<Project> projects;
+
+
     @ManyToOne
     @JoinColumn(name = "contact_person_id")
-    private ExternalContactPerson contactPerson;
+    private ExternalContactPerson externalContactPerson;
 
-    // Constructors, getters, and setters
+
 }
