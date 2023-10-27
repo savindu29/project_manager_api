@@ -1,6 +1,6 @@
 package com.inova.project_manager_api.controllers;
 
-import com.inova.project_manager_api.dto.response.ProjectResponseDto;
+import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,20 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
     @GetMapping("/{id}")
-    public StandardResponse findOne(@PathVariable int id){
-        StandardResponse standardResponse = new StandardResponse(
-                200,
-                id+"project details",
-                projectService.findProject(id)
-        );
+    public StandardResponse findOne(@PathVariable int id) {
+        ProjectAdvanceResponseDto projectAdvanceResponseDto = projectService.findProject(id);
+        StandardResponse standardResponse = new StandardResponse();
+        if (projectAdvanceResponseDto == null) {
+            standardResponse.setCode(404);
+            standardResponse.setMessage(id + " not found");
+            standardResponse.setData(null);
+        } else {
+            standardResponse.setCode(200);
+            standardResponse.setMessage(id + " found");
+            standardResponse.setData(projectAdvanceResponseDto);
+        }
         return standardResponse;
     }
 }
