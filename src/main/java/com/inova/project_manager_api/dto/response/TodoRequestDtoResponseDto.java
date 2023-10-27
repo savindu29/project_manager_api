@@ -3,14 +3,14 @@ package com.inova.project_manager_api.dto.response;
 import com.inova.project_manager_api.entities.Task;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class TodoRequestDtoResponseDto {
     private int id;
 
