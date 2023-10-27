@@ -4,10 +4,9 @@ import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/project")
@@ -17,7 +16,7 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping("/{id}")
-    public StandardResponse findOne(@PathVariable int id) {
+    public ResponseEntity<StandardResponse> findOne(@PathVariable int id) {
         ProjectAdvanceResponseDto projectAdvanceResponseDto = projectService.findProject(id);
         StandardResponse standardResponse = new StandardResponse();
         if (projectAdvanceResponseDto == null) {
@@ -29,6 +28,24 @@ public class ProjectController {
             standardResponse.setMessage(id + " found");
             standardResponse.setData(projectAdvanceResponseDto);
         }
-        return standardResponse;
+        return new ResponseEntity<>(
+                standardResponse, HttpStatus.OK
+        );
+    }
+
+    @GetMapping(value = "/list", params = {"page","size"}) // localhost:8000/api/v1/customer/list (GET)
+    public ResponseEntity<StandardResponse> findAllCustomer(
+            @RequestParam int page,
+            @RequestParam int size
+    ){
+        return new ResponseEntity<>(
+                new StandardResponse(
+                        200 ,
+                        "Data list",
+                        projectService.findAllProjects(page,size)
+
+                ), HttpStatus.OK
+        );
+
     }
 }

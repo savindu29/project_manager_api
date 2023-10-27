@@ -2,6 +2,8 @@ package com.inova.project_manager_api.dto.response;
 
 import lombok.Data;
 
+import java.util.Date;
+
 
 @Data
 public class ProjectSimpleResponseDto {
@@ -11,5 +13,5 @@ public class ProjectSimpleResponseDto {
     private String priority;
     private String todo;
     private String currentStatus;
-    private String nextTaskDate;
+    private Date nextTaskDate;
 }

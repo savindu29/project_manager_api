@@ -1,30 +1,37 @@
 package com.inova.project_manager_api.services.impl;
 
-import com.inova.project_manager_api.dto.response.ProjectResponseDto;
+import com.inova.project_manager_api.dao.ProjectDao;
+import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
+import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ProjectRepo;
 import com.inova.project_manager_api.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepo projectRepo;
+    @Autowired
+    private ProjectDao projectDao;
 
     @Override
-    public ProjectResponseDto findProject(int id) {
+    public ProjectAdvanceResponseDto findProject(int id) {
         Optional<Project> project = projectRepo.findById(id);
-        ProjectResponseDto p = new ProjectResponseDto();
-        p.setId(1);
-        p.setName("etfb");
+        ProjectAdvanceResponseDto p = new ProjectAdvanceResponseDto();
         if (project.isPresent()) {
-            System.out.println(project.get());
+            return p;
         } else {
-            System.out.println("empty");
+            return null;
         }
-        return p;
+    }
+
+    @Override
+    public List<ProjectSimpleResponseDto> findAllProjects(int page, int count) {
+        return projectDao.getAllProjects(1,10);
     }
 }
