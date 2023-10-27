@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class OutputsFromInova {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

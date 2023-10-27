@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class ImpStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
