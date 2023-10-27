@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class GrantClient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

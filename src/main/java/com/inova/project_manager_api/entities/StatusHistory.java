@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class StatusHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

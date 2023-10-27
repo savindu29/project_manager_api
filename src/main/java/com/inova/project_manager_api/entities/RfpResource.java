@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class RfpResource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
