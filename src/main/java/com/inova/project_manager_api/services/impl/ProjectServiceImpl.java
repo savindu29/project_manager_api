@@ -8,16 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepo projectRepo;
+
     @Override
     public ProjectResponseDto findProject(int id) {
-        Optional<Project> project =  projectRepo.findById(id);
+        Optional<Project> project = projectRepo.findById(id);
         ProjectResponseDto p = new ProjectResponseDto();
         p.setId(1);
         p.setName("etfb");
-        return  p;
+        if (project.isPresent()) {
+            System.out.println(project.get());
+        } else {
+            System.out.println("empty");
+        }
+        return p;
     }
 }

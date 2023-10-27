@@ -22,5 +22,7 @@ public class OutputsFromInova {
     @Column(name = "description")
     private String description;
 
-    // Constructors, getters, and setters
+
+
+
 }

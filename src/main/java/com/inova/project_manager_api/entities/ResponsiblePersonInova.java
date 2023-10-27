@@ -3,6 +3,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "responsible_person_inova")
@@ -29,9 +31,16 @@ public class ResponsiblePersonInova {
     @Column(name = "private_email")
     private String privateEmail;
 
-    @Column(name = "post")
-    private String post;
+    @Column(name = "designation")
+    private String designation;
 
     @Column(name = "specialized_field")
     private String specializedField;
+
+    @OneToMany(mappedBy = "projectLead")
+    private List<Project> leadProjects;
+
+    @ManyToMany(mappedBy = "effortEstimators")
+    private List<Project> projectsEffortEstimated;
+
 }

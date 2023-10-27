@@ -4,7 +4,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "project")
@@ -12,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,17 +53,18 @@ public class Project {
     @Column(name = "code")
     private String code;
 
+
     @ManyToOne
-    @JoinColumn(name = "priority_id")
+    @JoinColumn(name = "priority")
     private Priority priority;
 
     @ManyToOne
-    @JoinColumn(name = "project_status_id")
+    @JoinColumn(name = "project_status")
     private ProjectStatus projectStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "status_history_id")
-    private StatusHistory statusHistory;
+
+    @OneToMany(mappedBy = "project")
+    private List<StatusHistory> statusHistoryList;
 
     @ManyToOne
     @JoinColumn(name = "intermediate_client_id")
@@ -72,29 +74,45 @@ public class Project {
     @JoinColumn(name = "grant_client_id")
     private GrantClient grantClient;
 
-    @ManyToOne
-    @JoinColumn(name = "cost_id")
-    private Cost cost;
 
-    @ManyToOne
-    @JoinColumn(name = "inova_project_lead")
-    private ResponsiblePersonInova inovaProjectLead;
 
     @OneToOne
-    @JoinColumn(name = "todo_id")
+    @JoinColumn(name = "cost_id") // Define the foreign key here
+    private Cost cost;
+
+
+    @OneToOne
+    @JoinColumn(name = "todo_id") // Define the foreign key here
     private Todo todo;
 
-    @ManyToOne
-    @JoinColumn(name = "rfp_resource_id")
+
+    @OneToOne
+    @JoinColumn(name = "rfp_resource_id") // Define the foreign key here
     private RfpResource rfpResource;
 
-    @ManyToOne
-    @JoinColumn(name = "imp_status_id")
-    private ImpStatus impStatus;
+    @OneToMany(mappedBy = "project")
+    private List<ImpStatus> impStatusList;
 
-    @ManyToOne
-    @JoinColumn(name = "outputs_from_inova_id")
+    @OneToOne
+    @JoinColumn(name = "outputs_from_inova_id") // Define the foreign key here
     private OutputsFromInova outputsFromInova;
 
-    // Constructors, getters, and setters
+    @ManyToOne
+    @JoinColumn(name = "project_lead_id")
+    private ResponsiblePersonInova projectLead;
+
+    @ManyToMany
+    @JoinTable(
+            name = "project_effort_estimators",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "effort_estimator_id")
+    )
+    private List<ResponsiblePersonInova> effortEstimators;
+    // In Priority.java
+
+
+
+
+
+
 }

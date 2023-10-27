@@ -2,6 +2,9 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
+
 @Entity
 @Table(name = "todo")
 @AllArgsConstructor
@@ -15,9 +18,13 @@ public class Todo {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Task task;
+    @Column(name = "notes")
+    private String notes;
 
-    // Constructors, getters, and setters
+    @OneToMany(mappedBy = "todo")
+    private List<Task> tasks;
+
+
+
+
 }

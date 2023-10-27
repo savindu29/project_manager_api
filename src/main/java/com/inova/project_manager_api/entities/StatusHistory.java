@@ -3,7 +3,8 @@ package com.inova.project_manager_api.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "status_history")
@@ -24,5 +25,9 @@ public class StatusHistory {
     @Column(name = "description")
     private String description;
 
-    // Constructors, getters, and setters
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
 }
