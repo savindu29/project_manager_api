@@ -3,38 +3,40 @@ package com.inova.project_manager_api.utils.mapper;
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.entities.GrantClient;
 import com.inova.project_manager_api.entities.Project;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-
+@NoArgsConstructor
 public class ProjectMapper {
-    @Autowired
-    private CostMapper costMapper;
 
-    @Autowired
-    private GrantClientMapper grantClientMapper;
+    private final CostMapper costMapper = new CostMapper();
+    private final ProjectStatusMapper  projectStatusMapper = new ProjectStatusMapper();
 
-    @Autowired
-    private PriorityMapper priorityMapper;
 
-    @Autowired
-    private IntermediateClientMapper intermediateClientMapper;
+    private final GrantClientMapper grantClientMapper = new GrantClientMapper();
 
-    @Autowired
-    private TodoMapper todoMapper;
 
-    @Autowired
-    private RfpResourceMapper rfpResourceMapper;
+    private final PriorityMapper priorityMapper = new PriorityMapper();
 
-    @Autowired
-    private ImpStatusMapper impStatusMapper;
 
-    @Autowired
-    private ResponsiblePersonInovaMapper responsiblePersonInovaMapper;
+    private final IntermediateClientMapper intermediateClientMapper = new IntermediateClientMapper();
 
-    @Autowired
-    private OutputsFromInovaMapper outputsFromInovaMapper;
 
-    @Autowired
-    private StatusHistoryMapper statusHistoryMapper;
+    private final TodoMapper todoMapper =  new TodoMapper();
+
+
+    private final RfpResourceMapper rfpResourceMapper = new RfpResourceMapper();
+
+
+    private final ImpStatusMapper impStatusMapper = new ImpStatusMapper();
+
+
+    private final ResponsiblePersonInovaMapper responsiblePersonInovaMapper =  new ResponsiblePersonInovaMapper();
+
+
+    private final OutputsFromInovaMapper outputsFromInovaMapper = new OutputsFromInovaMapper();
+
+
+    private final  StatusHistoryMapper statusHistoryMapper = new StatusHistoryMapper();
 
 
     public ProjectAdvanceResponseDto toProjectAdvanceResponseDto(Project p){
@@ -51,6 +53,7 @@ public class ProjectMapper {
         pDto.setCdDetails(p.getCdDetails());
         pDto.setLessonsLearned(p.getLessonsLearned());
         pDto.setCode(p.getCode());
+        pDto.setProjectStatus(projectStatusMapper.toProjectStatusResponseDto(p.getProjectStatus()));
         pDto.setPriority(priorityMapper.toPriorityResponseDto(p.getPriority()));
         pDto.setStatusHistoryList(statusHistoryMapper.toStatusHistoryList(p.getStatusHistoryList()));
         pDto.setIntermediateClient(intermediateClientMapper.toIntermediateClientResponseDto(p.getIntermediateClient()));
@@ -61,7 +64,7 @@ public class ProjectMapper {
         pDto.setImpStatusList(impStatusMapper.toImpStatusResponseDtoList(p.getImpStatusList()));
         pDto.setOutputsFromInova(outputsFromInovaMapper.toOutputsFromInovaResponseDto(p.getOutputsFromInova()));
         pDto.setProjectLead(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(p.getProjectLead()));
-        //Effort estimate list (responsible person )
+        pDto.setEffortEstimators(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDtoList(p.getEffortEstimators()));
 
         return pDto;
     }

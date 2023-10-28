@@ -6,10 +6,11 @@ import com.inova.project_manager_api.dto.response.TodoRequestDtoResponseDto;
 import com.inova.project_manager_api.entities.ExternalContactPerson;
 import com.inova.project_manager_api.entities.Task;
 import com.inova.project_manager_api.entities.Todo;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@NoArgsConstructor
 public class ExternalContactPersonMapper {
     public ExternalContactPersonResponseDto toExternalContactPersonResponseDto(ExternalContactPerson e) {
 
