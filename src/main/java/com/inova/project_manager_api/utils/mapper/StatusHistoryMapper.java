@@ -5,10 +5,11 @@ import com.inova.project_manager_api.dto.response.TaskResponseDto;
 import com.inova.project_manager_api.entities.ImpStatus;
 import com.inova.project_manager_api.entities.StatusHistory;
 import com.inova.project_manager_api.entities.Task;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@NoArgsConstructor
 public class StatusHistoryMapper {
     public StatusHistoryResponseDto toStatusHistoryResponseDto(StatusHistory sh) {
         return new StatusHistoryResponseDto(

@@ -6,6 +6,7 @@ import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ProjectRepo;
 import com.inova.project_manager_api.services.ProjectService;
+import com.inova.project_manager_api.utils.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectDao projectDao;
 
+    private  final ProjectMapper projectMapper= new ProjectMapper();
     @Override
     public ProjectAdvanceResponseDto findProject(int id) {
         Optional<Project> project = projectRepo.findById(id);
-        ProjectAdvanceResponseDto p = new ProjectAdvanceResponseDto();
+        ProjectAdvanceResponseDto p = projectMapper.toProjectAdvanceResponseDto(project.get());
         if (project.isPresent()) {
             return p;
         } else {
