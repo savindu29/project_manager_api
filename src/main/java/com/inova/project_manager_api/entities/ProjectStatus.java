@@ -20,6 +20,9 @@ public class ProjectStatus {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "stage_code")
+    private int stageCode;
+
     @OneToMany(mappedBy = "projectStatus")
     private List<Project> projectList;
 

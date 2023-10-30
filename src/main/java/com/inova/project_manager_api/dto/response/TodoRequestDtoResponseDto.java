@@ -1,9 +1,9 @@
 package com.inova.project_manager_api.dto.response;
 
-import com.inova.project_manager_api.entities.Task;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 

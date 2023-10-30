@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ProjectStatusMapper {
     public ProjectStatusResponseDto toProjectStatusResponseDto(ProjectStatus ps) {
         return new ProjectStatusResponseDto(
-                ps.getId(),ps.getName()
+                ps.getId(),ps.getName(),ps.getStageCode()
         );
     }
 }

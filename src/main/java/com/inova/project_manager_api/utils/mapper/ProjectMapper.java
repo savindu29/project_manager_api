@@ -1,15 +1,14 @@
 package com.inova.project_manager_api.utils.mapper;
 
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
-import com.inova.project_manager_api.entities.GrantClient;
 import com.inova.project_manager_api.entities.Project;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 @NoArgsConstructor
 public class ProjectMapper {
 
     private final CostMapper costMapper = new CostMapper();
-    private final ProjectStatusMapper  projectStatusMapper = new ProjectStatusMapper();
+    private final ProjectStatusMapper projectStatusMapper = new ProjectStatusMapper();
 
 
     private final GrantClientMapper grantClientMapper = new GrantClientMapper();
@@ -21,7 +20,7 @@ public class ProjectMapper {
     private final IntermediateClientMapper intermediateClientMapper = new IntermediateClientMapper();
 
 
-    private final TodoMapper todoMapper =  new TodoMapper();
+    private final TodoMapper todoMapper = new TodoMapper();
 
 
     private final RfpResourceMapper rfpResourceMapper = new RfpResourceMapper();
@@ -30,17 +29,17 @@ public class ProjectMapper {
     private final ImpStatusMapper impStatusMapper = new ImpStatusMapper();
 
 
-    private final ResponsiblePersonInovaMapper responsiblePersonInovaMapper =  new ResponsiblePersonInovaMapper();
+    private final ResponsiblePersonInovaMapper responsiblePersonInovaMapper = new ResponsiblePersonInovaMapper();
 
 
     private final OutputsFromInovaMapper outputsFromInovaMapper = new OutputsFromInovaMapper();
 
 
-    private final  StatusHistoryMapper statusHistoryMapper = new StatusHistoryMapper();
+    private final StatusHistoryMapper statusHistoryMapper = new StatusHistoryMapper();
 
 
-    public ProjectAdvanceResponseDto toProjectAdvanceResponseDto(Project p){
-        ProjectAdvanceResponseDto pDto =  new ProjectAdvanceResponseDto();
+    public ProjectAdvanceResponseDto toProjectAdvanceResponseDto(Project p) {
+        ProjectAdvanceResponseDto pDto = new ProjectAdvanceResponseDto();
         pDto.setId(p.getId());
         pDto.setName(p.getName());
         pDto.setInitiationDate(p.getInitiationDate());

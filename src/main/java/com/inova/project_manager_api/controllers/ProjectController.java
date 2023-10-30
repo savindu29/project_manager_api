@@ -17,8 +17,9 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<StandardResponse> findOne(@PathVariable int id) {
-        ProjectAdvanceResponseDto projectAdvanceResponseDto = projectService.findProject(id);
+    public ResponseEntity<StandardResponse> findOne(@PathVariable String id) {
+        int intId = Integer.parseInt(id);
+        ProjectAdvanceResponseDto projectAdvanceResponseDto = projectService.findProject(intId);
         StandardResponse standardResponse = new StandardResponse();
         if (projectAdvanceResponseDto == null) {
             standardResponse.setCode(404);
@@ -34,19 +35,25 @@ public class ProjectController {
         );
     }
 
-    @GetMapping(value = "/list", params = {"page","size"}) // localhost:8000/api/v1/customer/list (GET)
+    @GetMapping(value = "/list", params = {"page", "size"}) // localhost:8000/api/v1/customer/list (GET)
     public ResponseEntity<StandardResponse> findAllCustomer(
             @RequestParam int page,
             @RequestParam int size
-    ){
+    ) {
         return new ResponseEntity<>(
                 new StandardResponse(
-                        200 ,
+                        200,
                         "Data list",
-                        projectService.findAllProjects(page,size)
+                        projectService.findAllProjects(page, size)
 
                 ), HttpStatus.OK
         );
 
     }
+
+
+
+
+
+
 }
