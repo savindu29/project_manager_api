@@ -29,7 +29,7 @@ public class GrantClient {
     private String country;
 
     @Column(name = "isForeign")
-    private Integer isForeign;
+    private Boolean isForeign;
 
     @OneToMany(mappedBy = "grantClient")
     private List<Project> projects;

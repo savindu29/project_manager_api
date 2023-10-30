@@ -19,13 +19,8 @@ public class ProjectDaoImpl implements ProjectDao {
     @Override
     public List<ProjectSimpleResponseDto> getAllProjects( int page, int size) {
         StringBuilder nativeQuery = new StringBuilder();
-        nativeQuery.append("SELECT pj.id, pj.name, pj.code, pr.name AS priority_name, td.notes, st.name AS status_name FROM project AS pj  JOIN priority AS pr ON pj.priority = pr.id " +
-                "JOIN todo AS td ON pj.todo_id = td.id JOIN project_status AS st ON st.id = pj.project_status;");
-
-
-
-
-
+        nativeQuery.append("SELECT pj.id, pj.name, pj.code, pr.name AS priority_name, td.notes, st.name AS status_name FROM project AS pj  JOIN mst_priority AS pr ON pj.priority = pr.id " +
+                "JOIN todo AS td ON pj.todo_id = td.id JOIN mst_project_status AS st ON st.id = pj.project_status;");
         try {
             System.out.println(nativeQuery.toString());
             String queryStr = nativeQuery.toString();
@@ -59,5 +54,10 @@ public class ProjectDaoImpl implements ProjectDao {
         return null;
 
 
+    }
+
+    @Override
+    public String updateProject(int i, int i1) {
+        return null;
     }
 }

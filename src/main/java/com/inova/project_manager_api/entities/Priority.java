@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "priority")
+@Table(name = "mst_priority")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

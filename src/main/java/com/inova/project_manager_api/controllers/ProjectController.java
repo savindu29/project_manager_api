@@ -1,5 +1,6 @@
 package com.inova.project_manager_api.controllers;
 
+import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
@@ -52,7 +53,18 @@ public class ProjectController {
     }
 
 
+    @PutMapping(value = "/update",params = {"id"})
+    public ResponseEntity<StandardResponse> updateStudent(@RequestBody ProjectRequestDto dto, @RequestParam String id)  {
+        return new ResponseEntity<>(
+                new StandardResponse(
+                        201 ,
+                        projectService.updateProject(dto,id),
+                        null
 
+                ), HttpStatus.CREATED
+        );
+
+    }
 
 
 
