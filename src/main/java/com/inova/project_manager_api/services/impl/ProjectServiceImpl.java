@@ -1,6 +1,7 @@
 package com.inova.project_manager_api.services.impl;
 
 import com.inova.project_manager_api.dao.ProjectDao;
+import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.entities.Project;
@@ -36,5 +37,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectSimpleResponseDto> findAllProjects(int page, int count) {
         return projectDao.getAllProjects(1, 10);
+    }
+
+    @Override
+    public String updateProject(ProjectRequestDto dto, String id) {
+        return projectDao.updateProject(1, 10);
     }
 }

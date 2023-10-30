@@ -16,7 +16,7 @@ public class GrantClientResponseDto {
 
     private String country;
 
-    private Integer isForeign;
+    private Boolean isForeign;
 
     private ExternalContactPersonResponseDto externalContactPerson;
 }
