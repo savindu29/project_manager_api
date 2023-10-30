@@ -1,10 +1,5 @@
 package com.inova.project_manager_api.dto.response;
 
-import com.inova.project_manager_api.entities.*;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 import java.sql.Date;

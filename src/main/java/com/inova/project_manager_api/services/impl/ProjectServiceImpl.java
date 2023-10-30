@@ -20,7 +20,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectDao projectDao;
 
-    private  final ProjectMapper projectMapper= new ProjectMapper();
+    private final ProjectMapper projectMapper = new ProjectMapper();
+
     @Override
     public ProjectAdvanceResponseDto findProject(int id) {
         Optional<Project> project = projectRepo.findById(id);
@@ -34,6 +35,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectSimpleResponseDto> findAllProjects(int page, int count) {
-        return projectDao.getAllProjects(1,10);
+        return projectDao.getAllProjects(1, 10);
     }
 }

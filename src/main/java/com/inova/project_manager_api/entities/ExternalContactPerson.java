@@ -27,8 +27,10 @@ public class ExternalContactPerson {
 
     @Column(name = "fix_tel")
     private String fixTel;
+
     @Column(name = "email")
-    private String email;
+    private String companyEmail;
+
     @Column(name = "designation")
     private String designation;
     @Column(name = "description")

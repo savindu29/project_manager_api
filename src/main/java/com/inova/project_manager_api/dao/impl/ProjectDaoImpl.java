@@ -4,10 +4,9 @@ import com.inova.project_manager_api.dao.ProjectDao;
 import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
-import jakarta.persistence.*;
+
 
 import java.util.ArrayList;
 import java.util.Date;

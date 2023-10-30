@@ -21,7 +21,7 @@ public class ExternalContactPersonResponseDto {
 
     private String fixTel;
 
-    private String email;
+    private String companyEmail;
 
     private String designation;
 

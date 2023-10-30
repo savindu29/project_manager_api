@@ -11,4 +11,6 @@ public class ProjectStatusResponseDto {
     private int id;
 
     private String name;
+
+    private int stageCode;
 }
