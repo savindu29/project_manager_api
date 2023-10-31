@@ -17,14 +17,18 @@ public class ProjectDaoImpl implements ProjectDao {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public List<ProjectSimpleResponseDto> getAllProjects( int page, int size) {
-        StringBuilder nativeQuery = new StringBuilder();
-        nativeQuery.append("SELECT pj.id, pj.name, pj.code, pr.name AS priority_name, td.notes, st.name AS status_name FROM project AS pj  JOIN mst_priority AS pr ON pj.priority = pr.id " +
-                "JOIN todo AS td ON pj.todo_id = td.id JOIN mst_project_status AS st ON st.id = pj.project_status;");
+    public List<ProjectSimpleResponseDto> getAllProjects( int page, int count) {
+        int offset = (page - 1) * count; // Calculate the offset based on the current page and page size
+
         try {
-            System.out.println(nativeQuery.toString());
-            String queryStr = nativeQuery.toString();
-            List<Object[]> resultList = entityManager.createNativeQuery(queryStr).getResultList();
+
+
+            String nativeQuery = "SELECT pj.id, pj.name, pj.code, pr.name AS priority_name, td.notes, st.name AS status_name FROM project AS pj  JOIN mst_priority AS pr ON pj.priority = pr.id " +
+                    "JOIN todo AS td ON pj.todo_id = td.id JOIN mst_project_status AS st ON st.id = pj.project_status LIMIT :limit OFFSET :offset";
+            List<Object[]> resultList = entityManager.createNativeQuery(nativeQuery)
+                    .setParameter("limit",count)
+                    .setParameter("offset",offset)
+                    .getResultList();
 
             List<ProjectSimpleResponseDto> dtos = new ArrayList<>();
 
@@ -43,7 +47,6 @@ public class ProjectDaoImpl implements ProjectDao {
                         .getSingleResult();
 
                 dto.setLatestStatusHistoryDate(date);
-                // Set other fields as needed
                 dtos.add(dto);
             }
             return dtos;
@@ -55,7 +58,13 @@ public class ProjectDaoImpl implements ProjectDao {
 
 
     }
-
+    @Override
+    public int getProjectCount(){
+        String countQueryStr = "SELECT COUNT(*) FROM project";
+        long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).getSingleResult();
+        int count = Math.toIntExact(countOfProjects);
+        return count;
+    }
     @Override
     public String updateProject(int i, int i1) {
         return null;
