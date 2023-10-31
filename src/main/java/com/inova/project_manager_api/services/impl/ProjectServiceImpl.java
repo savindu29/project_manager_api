@@ -1,6 +1,7 @@
 package com.inova.project_manager_api.services.impl;
 
 import com.inova.project_manager_api.dao.ProjectDao;
+import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
@@ -35,8 +36,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectSimpleResponseDto> findAllProjects(int page, int count) {
-        return projectDao.getAllProjects(1, 10);
+    public PaginatedProjectData findAllProjects(int page, int count) {
+        List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count);
+        return new PaginatedProjectData(
+                projectDao.getProjectCount(),
+                allProjects
+        );
+
     }
 
     @Override
