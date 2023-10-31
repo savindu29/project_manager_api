@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String updateProject(ProjectRequestDto dto, String id) {
+    public String updateProject(ProjectRequestDto dto, int id) {
         return projectDao.updateProject(1, 10);
     }
 }

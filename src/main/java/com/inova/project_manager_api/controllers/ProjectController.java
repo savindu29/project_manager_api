@@ -55,10 +55,11 @@ public class ProjectController {
 
     @PutMapping(value = "/update",params = {"id"})
     public ResponseEntity<StandardResponse> updateStudent(@RequestBody ProjectRequestDto dto, @RequestParam String id)  {
+        int intId = Integer.parseInt(id);
         return new ResponseEntity<>(
                 new StandardResponse(
                         201 ,
-                        projectService.updateProject(dto,id),
+                        projectService.updateProject(dto,intId),
                         null
 
                 ), HttpStatus.CREATED

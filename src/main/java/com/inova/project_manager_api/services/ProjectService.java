@@ -11,5 +11,5 @@ import java.util.List;
 public interface ProjectService {
     ProjectAdvanceResponseDto findProject(int id);
     PaginatedProjectData findAllProjects(int page, int count);
-    String updateProject(ProjectRequestDto dto, String id);
+    String updateProject(ProjectRequestDto dto, int id);
 }
