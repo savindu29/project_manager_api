@@ -1,10 +1,12 @@
 package com.inova.project_manager_api.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Table(name = "status_history")
@@ -12,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class StatusHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

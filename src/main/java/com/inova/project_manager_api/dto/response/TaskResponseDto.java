@@ -1,10 +1,22 @@
 package com.inova.project_manager_api.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+import java.sql.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class TaskResponseDto {
+    private int id;
+
+    private String taskTitle;
+
+    private String taskDescription;
+
+    private Date date;
 }

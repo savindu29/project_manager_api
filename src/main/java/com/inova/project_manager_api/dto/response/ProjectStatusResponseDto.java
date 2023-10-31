@@ -1,11 +1,16 @@
 package com.inova.project_manager_api.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Column;
+import lombok.*;
 
-@Data
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class ProjectStatusResponseDto {
+    private int id;
 
+    private String name;
+
+    private int stageCode;
 }

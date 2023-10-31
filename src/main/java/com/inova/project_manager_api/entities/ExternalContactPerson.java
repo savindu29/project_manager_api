@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class ExternalContactPerson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,10 @@ public class ExternalContactPerson {
 
     @Column(name = "fix_tel")
     private String fixTel;
+
     @Column(name = "email")
-    private String email;
+    private String companyEmail;
+
     @Column(name = "designation")
     private String designation;
     @Column(name = "description")

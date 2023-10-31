@@ -1,10 +1,20 @@
 package com.inova.project_manager_api.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class TodoRequestDtoResponseDto {
+    private int id;
+
+    private String notes;
+
+    private List<TaskResponseDto> tasks;
 }

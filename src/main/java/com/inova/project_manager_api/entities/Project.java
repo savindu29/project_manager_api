@@ -2,7 +2,10 @@ package com.inova.project_manager_api.entities;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.util.List;
@@ -75,7 +78,6 @@ public class Project {
     private GrantClient grantClient;
 
 
-
     @OneToOne
     @JoinColumn(name = "cost_id") // Define the foreign key here
     private Cost cost;
@@ -109,10 +111,6 @@ public class Project {
     )
     private List<ResponsiblePersonInova> effortEstimators;
     // In Priority.java
-
-
-
-
 
 
 }

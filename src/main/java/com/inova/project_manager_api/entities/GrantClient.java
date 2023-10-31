@@ -1,7 +1,10 @@
 package com.inova.project_manager_api.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -12,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class GrantClient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +29,7 @@ public class GrantClient {
     private String country;
 
     @Column(name = "isForeign")
-    private Integer isForeign;
+    private Boolean isForeign;
 
     @OneToMany(mappedBy = "grantClient")
     private List<Project> projects;
@@ -35,7 +38,6 @@ public class GrantClient {
     @ManyToOne
     @JoinColumn(name = "contact_person_id")
     private ExternalContactPerson externalContactPerson;
-
 
 
 }

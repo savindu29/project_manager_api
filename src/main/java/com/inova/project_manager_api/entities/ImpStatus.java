@@ -1,7 +1,10 @@
 package com.inova.project_manager_api.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "imp_status")
@@ -9,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class ImpStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

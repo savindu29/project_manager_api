@@ -1,17 +1,20 @@
 package com.inova.project_manager_api.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Table(name = "priority")
+@Table(name = "mst_priority")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+
 public class Priority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

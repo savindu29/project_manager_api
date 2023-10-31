@@ -1,25 +1,43 @@
 package com.inova.project_manager_api.services.impl;
 
+
 import com.inova.project_manager_api.dto.AppRequest;
 import com.inova.project_manager_api.dto.AppResponse;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
-import com.inova.project_manager_api.dto.response.ProjectResponseDto;
+
 import com.inova.project_manager_api.entities.*;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.repositories.*;
+
+import com.inova.project_manager_api.dao.ProjectDao;
+import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
+import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
+import com.inova.project_manager_api.entities.Project;
+import com.inova.project_manager_api.repositories.ProjectRepo;
+
 import com.inova.project_manager_api.services.ProjectService;
+import com.inova.project_manager_api.utils.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+
 import java.sql.Date;
+
+import java.util.List;
+
 import java.util.Optional;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepo projectRepo;
+    @Autowired
+    private ProjectDao projectDao;
+
+    private final ProjectMapper projectMapper = new ProjectMapper();
 
     @Autowired
     private CostRepo costRepository;
@@ -49,17 +67,14 @@ public class ProjectServiceImpl implements ProjectService {
     private TodoRepo todoRepository;
 
     @Override
-    public ProjectResponseDto findProject(int id) {
+    public ProjectAdvanceResponseDto findProject(int id) {
         Optional<Project> project = projectRepo.findById(id);
-        ProjectResponseDto p = new ProjectResponseDto();
-        p.setId(1);
-        p.setName("etfb");
+        ProjectAdvanceResponseDto p = projectMapper.toProjectAdvanceResponseDto(project.get());
         if (project.isPresent()) {
-            System.out.println(project.get());
+            return p;
         } else {
-            System.out.println("empty");
+            return null;
         }
-        return p;
     }
 
     @Override
@@ -162,4 +177,14 @@ public class ProjectServiceImpl implements ProjectService {
 
         return ResponseEntity.ok(AppResponse.ok(new ProjectDetailsSubmitResponseDto(status)));
     }
+
+    public List<ProjectSimpleResponseDto> findAllProjects(int page, int count) {
+        return projectDao.getAllProjects(1, 10);
+    }
+
+    @Override
+    public String updateProject(ProjectRequestDto dto, String id) {
+        return projectDao.updateProject(1, 10);
+    }
 }
+
