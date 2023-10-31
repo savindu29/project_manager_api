@@ -1,12 +1,12 @@
 package com.inova.project_manager_api.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MetaDataResponseDto {
     private Integer code;
     private String message;

@@ -45,15 +45,12 @@ public class ProjectController {
 
 
     @PostMapping(URIPrefix.ADD_PROJECT_DETAILS)
-    public ResponseEntity<AppResponse<ProjectDetailsSubmitResponseDto>> projectDetailsSubmit (@Valid @RequestBody AppRequest<ProjectDetailsSubmitRequestDto> request)throws ApplicationGeneralException {
+    public ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(@Valid @RequestBody AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException {
         try {
-            ResponseEntity<AppResponse<ProjectDetailsSubmitResponseDto>> response = this.projectService.projectDetailsSubmit(request);
-            return response;
-//        } catch (Exception e) {
-//            throw new ApplicationGeneralException();
-        }catch (Exception e) {
-            return new ResponseEntity<>(AppResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getStackTrace()[0].getClassName(),
-                    e.getStackTrace()[0].getMethodName(), "Error saving project details"), HttpStatus.INTERNAL_SERVER_ERROR);
+            ResponseEntity<ProjectDetailsSubmitResponseDto> response = this.projectService.projectDetailsSubmit(request);
+            return new ResponseEntity<ProjectDetailsSubmitResponseDto>(response.getBody(), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ApplicationGeneralException();
         }
     }
 

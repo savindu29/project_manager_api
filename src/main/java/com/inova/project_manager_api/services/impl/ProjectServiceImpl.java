@@ -2,7 +2,6 @@ package com.inova.project_manager_api.services.impl;
 
 
 import com.inova.project_manager_api.dto.AppRequest;
-import com.inova.project_manager_api.dto.AppResponse;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
 
@@ -11,6 +10,7 @@ import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.repositories.*;
 
 import com.inova.project_manager_api.dao.ProjectDao;
+import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
@@ -20,6 +20,7 @@ import com.inova.project_manager_api.repositories.ProjectRepo;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseEntity<AppResponse<ProjectDetailsSubmitResponseDto>> projectDetailsSubmit(AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException {
+    public ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException {
         String status = null;
 
         //insert into project table
@@ -167,24 +168,28 @@ public class ProjectServiceImpl implements ProjectService {
 
         Todo todoEntity = this.todoRepository.save(todo);
         project.setTodo(todoEntity);
-
+        //TODO
         // effort estimators
 
         //save project entity
         Project projectEntity = this.projectRepo.save(project);
 
         status = "Project details successfully saved.";
-
-        return ResponseEntity.ok(AppResponse.ok(new ProjectDetailsSubmitResponseDto(status)));
+        return new ResponseEntity(new ProjectDetailsSubmitResponseDto(status), HttpStatus.OK);
     }
 
-    public List<ProjectSimpleResponseDto> findAllProjects(int page, int count) {
-        return projectDao.getAllProjects(1, 10);
+    public PaginatedProjectData findAllProjects ( int page, int count){
+        List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count);
+        return new PaginatedProjectData(
+                projectDao.getProjectCount(),
+                allProjects
+        );
     }
 
-    @Override
-    public String updateProject(ProjectRequestDto dto, String id) {
-        return projectDao.updateProject(1, 10);
-    }
+        @Override
+        public String updateProject (ProjectRequestDto dto, String id){
+            return projectDao.updateProject(1, 10);
+        }
 }
+
 
