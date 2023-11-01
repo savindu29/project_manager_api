@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TodoRequestDtoResponseDto {
+public class TodoResponseDto {
     private int id;
 
     private String notes;
