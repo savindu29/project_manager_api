@@ -7,4 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class RfpResourceRequestDto {
+    private String location;
+
+    private String description;
 }
