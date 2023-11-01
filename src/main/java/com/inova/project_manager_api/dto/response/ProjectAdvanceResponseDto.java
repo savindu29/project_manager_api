@@ -43,7 +43,7 @@ public class ProjectAdvanceResponseDto {
 
     private CostResponseDto cost;
 
-    private TodoRequestDtoResponseDto todo;
+    private TodoResponseDto todo;
 
     private RfpResourceResponseDto rfpResource;
 

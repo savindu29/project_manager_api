@@ -1,5 +1,6 @@
 package com.inova.project_manager_api.utils.mapper;
 
+import com.inova.project_manager_api.dto.request.ResponsiblePersonInovaRequestDto;
 import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponseDto;
 import com.inova.project_manager_api.entities.ResponsiblePersonInova;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,27 @@ import java.util.List;
 public class ResponsiblePersonInovaMapper {
     public ResponsiblePersonInovaResponseDto toResponsiblePersonInovaResponseDto(ResponsiblePersonInova r) {
         return new ResponsiblePersonInovaResponseDto(
-                r.getId(),r.getName(),r.getMobile(),r.getCompanyEmail(),r.getPrivateEmail(),r.getDesignation(),r.getSpecializedField()
+                r.getId(), r.getName(), r.getMobile(), r.getCompanyEmail(), r.getPrivateEmail(), r.getDesignation(), r.getSpecializedField()
         );
     }
+
     public List<ResponsiblePersonInovaResponseDto> toResponsiblePersonInovaResponseDtoList(List<ResponsiblePersonInova> list) {
         List<ResponsiblePersonInovaResponseDto> dtoList = new ArrayList<>();
-        for (ResponsiblePersonInova i: list) {
+        for (ResponsiblePersonInova i : list) {
             dtoList.add(toResponsiblePersonInovaResponseDto(i));
         }
         return dtoList;
+    }
+
+    public ResponsiblePersonInova toResponsiblePersonInovaEntity(ResponsiblePersonInovaRequestDto dto) {
+        ResponsiblePersonInova responsiblePersonInova = new ResponsiblePersonInova();
+        responsiblePersonInova.setName(dto.getName());
+        responsiblePersonInova.setMobile(dto.getMobile());
+        responsiblePersonInova.setCompanyEmail(dto.getCompanyEmail());
+        responsiblePersonInova.setPrivateEmail(dto.getPrivateEmail());
+        responsiblePersonInova.setDesignation(dto.getDesignation());
+        responsiblePersonInova.setSpecializedField(dto.getSpecializedField());
+        return responsiblePersonInova;
+
     }
 }

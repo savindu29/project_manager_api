@@ -7,4 +7,16 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class ResponsiblePersonInovaRequestDto {
+
+    private String name;
+
+    private String mobile;
+
+    private String companyEmail;
+
+    private String privateEmail;
+
+    private String designation;
+
+    private String specializedField;
 }

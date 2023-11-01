@@ -36,8 +36,8 @@ public class ProjectController {
         );
     }
 
-    @GetMapping(value = "/list", params = {"page", "size"}) // localhost:8000/api/v1/customer/list (GET)
-    public ResponseEntity<StandardResponse> findAllCustomer(
+    @GetMapping(value = "/list", params = {"page", "size"})
+    public ResponseEntity<StandardResponse> findAllProjects(
             @RequestParam int page,
             @RequestParam int size
     ) {
@@ -54,7 +54,7 @@ public class ProjectController {
 
 
     @PutMapping(value = "/update",params = {"id"})
-    public ResponseEntity<StandardResponse> updateStudent(@RequestBody ProjectRequestDto dto, @RequestParam String id)  {
+    public ResponseEntity<StandardResponse> updateProject(@RequestBody ProjectRequestDto dto, @RequestParam String id)  {
         int intId = Integer.parseInt(id);
         return new ResponseEntity<>(
                 new StandardResponse(
