@@ -7,4 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class CostRequestDto {
+    private int totalEffortMh;
+
+    private int quotedValue;
+
+    private int quotedRate;
+
+    private int amcValue;
 }

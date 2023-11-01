@@ -7,4 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class ImpStatusRequestDto {
+    private String status;
+
+    private String reason;
 }

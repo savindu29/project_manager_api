@@ -7,4 +7,16 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class ExternalContactPersonRequestDto {
+
+    private String name;
+
+    private String mobile;
+
+    private String fixTel;
+
+    private String companyEmail;
+
+    private String designation;
+
+    private String description;
 }
