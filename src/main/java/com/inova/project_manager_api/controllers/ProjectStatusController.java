@@ -21,12 +21,9 @@ public class ProjectStatusController {
     @GetMapping("/list")
     public ResponseEntity<StandardResponse> findAllProjectStatus() {
         return new ResponseEntity<>(
-                new StandardResponse(
-                        200,
-                        "Data list",
-                        projectStatusService.findAllProjectStatus()
 
-                ), HttpStatus.OK
+                        projectStatusService.findAllProjectStatus()
+                , HttpStatus.OK
         );
 
     }

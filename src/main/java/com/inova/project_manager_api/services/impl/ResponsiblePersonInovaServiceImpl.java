@@ -5,6 +5,7 @@ import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponse
 import com.inova.project_manager_api.entities.ResponsiblePersonInova;
 import com.inova.project_manager_api.repositories.ResponsiblePersonInovaRepo;
 import com.inova.project_manager_api.services.ResponsiblePersonInovaService;
+import com.inova.project_manager_api.utils.StandardResponse;
 import com.inova.project_manager_api.utils.mapper.ResponsiblePersonInovaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,17 +19,45 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
     private final ResponsiblePersonInovaMapper responsiblePersonInovaMapper = new ResponsiblePersonInovaMapper();
 
     @Override
-    public List<ResponsiblePersonInovaResponseDto> findAllResponsiblePersons() {
-        return responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDtoList(
+    public StandardResponse findAllResponsiblePersons() {
+
+        List<ResponsiblePersonInovaResponseDto> responsiblePersonInovaResponseDtos = responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDtoList(
                 responsiblePersonInovaRepo.findAll()
         );
+        if(responsiblePersonInovaResponseDtos.size()>0){
+            return new StandardResponse(
+                    200,
+                    "Data list",
+                    responsiblePersonInovaResponseDtos
+            );
+        }else{
+
+            return new StandardResponse(
+                    404,
+                    "Data not found",
+                    null
+            );
+        }
     }
 
     @Override
-    public ResponsiblePersonInovaResponseDto saveResponsiblePerson(ResponsiblePersonInovaRequestDto dto) {
+    public StandardResponse saveResponsiblePerson(ResponsiblePersonInovaRequestDto dto) {
         ResponsiblePersonInova savedData = responsiblePersonInovaRepo.save(
                 responsiblePersonInovaMapper.toResponsiblePersonInovaEntity(dto)
         );
-        return responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(savedData);
+        ResponsiblePersonInovaResponseDto responsiblePersonInovaResponseDto = responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(savedData);
+        if(responsiblePersonInovaResponseDto==null){
+            return new StandardResponse(
+                    500,
+                    "Server error",
+                    null
+            );
+        }else{
+            return new StandardResponse(
+                    200,
+                    "Saved Data",
+                    responsiblePersonInovaResponseDto
+            );
+        }
     }
 }

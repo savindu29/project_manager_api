@@ -18,6 +18,7 @@ import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ProjectRepo;
 
 import com.inova.project_manager_api.services.ProjectService;
+import com.inova.project_manager_api.utils.StandardResponse;
 import com.inova.project_manager_api.utils.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,13 +69,21 @@ public class ProjectServiceImpl implements ProjectService {
     private TodoRepo todoRepository;
 
     @Override
-    public ProjectAdvanceResponseDto findProject(int id) {
+    public StandardResponse findProject(int id) {
         Optional<Project> project = projectRepo.findById(id);
         ProjectAdvanceResponseDto p = projectMapper.toProjectAdvanceResponseDto(project.get());
-        if (project.isPresent()) {
-            return p;
-        } else {
-            return null;
+        if(p==null){
+            return new StandardResponse(
+                    404,
+                    "Data not found",
+                    null
+            );
+        }else{
+            return new StandardResponse(
+                    200,
+                    "Data ",
+                    p
+            );
         }
     }
 
@@ -178,17 +187,34 @@ public class ProjectServiceImpl implements ProjectService {
         return new ResponseEntity(new ProjectDetailsSubmitResponseDto(status), HttpStatus.OK);
     }
 
-    public PaginatedProjectData findAllProjects ( int page, int count){
+    public StandardResponse findAllProjects (int page, int count){
         List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count);
-        return new PaginatedProjectData(
+        PaginatedProjectData paginatedProjectData = new PaginatedProjectData(
                 projectDao.getProjectCount(),
                 allProjects
         );
+        if(paginatedProjectData.getCount()==0){
+            return new StandardResponse(
+                    404,
+                    "Data not found",
+                    null
+            );
+        }else{
+            return new StandardResponse(
+                    200,
+                    "Data list",
+                    paginatedProjectData
+            );
+        }
     }
 
         @Override
-        public String updateProject (ProjectRequestDto dto, String id){
-            return projectDao.updateProject(1, 10);
+        public StandardResponse updateProject (ProjectRequestDto dto, int id){
+            return new StandardResponse(
+                    200,
+                    "updated",
+                    null
+            );
         }
 }
 

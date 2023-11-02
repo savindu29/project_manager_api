@@ -5,6 +5,7 @@ import com.inova.project_manager_api.dto.AppRequest;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
+import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.http.ResponseEntity;
 import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
@@ -16,8 +17,8 @@ public interface ProjectService {
 
     ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException;
 
-    ProjectAdvanceResponseDto findProject(int id);
-    PaginatedProjectData findAllProjects(int page, int count);
-    String updateProject(ProjectRequestDto dto, String id);
+    StandardResponse findProject(int id);
+    StandardResponse findAllProjects(int page, int count);
+    StandardResponse updateProject(ProjectRequestDto dto, int id);
 
 }

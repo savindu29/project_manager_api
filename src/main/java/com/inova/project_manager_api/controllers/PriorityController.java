@@ -20,12 +20,8 @@ public class PriorityController {
     @GetMapping("/list")
     public ResponseEntity<StandardResponse> findAllPriorities() {
         return new ResponseEntity<>(
-                new StandardResponse(
-                        200,
-                        "Data list",
                         priorityService.findAllPriority()
-
-                ), HttpStatus.OK
+                , HttpStatus.OK
         );
 
     }

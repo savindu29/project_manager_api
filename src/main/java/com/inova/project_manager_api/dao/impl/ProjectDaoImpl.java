@@ -65,8 +65,5 @@ public class ProjectDaoImpl implements ProjectDao {
         int count = Math.toIntExact(countOfProjects);
         return count;
     }
-    @Override
-    public String updateProject(int i, int i1) {
-        return null;
-    }
+
 }

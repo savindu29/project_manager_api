@@ -2,7 +2,6 @@ package com.inova.project_manager_api.controllers;
 
 
 import com.inova.project_manager_api.dto.request.ResponsiblePersonInovaRequestDto;
-import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.services.ResponsiblePersonInovaService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +15,21 @@ import org.springframework.web.bind.annotation.*;
 public class ResponsiblePersonInovaController {
     @Autowired
     private ResponsiblePersonInovaService responsiblePersonInovaService;
+
     @GetMapping("/list")
     public ResponseEntity<StandardResponse> findAllResponsiblePersons() {
         return new ResponseEntity<>(
-                new StandardResponse(
-                        200,
-                        "Data list",
-                        responsiblePersonInovaService.findAllResponsiblePersons()
-
-                ), HttpStatus.OK
+                responsiblePersonInovaService.findAllResponsiblePersons()
+                , HttpStatus.OK
         );
 
     }
+
     @PostMapping("/create")
-    public ResponseEntity<StandardResponse> saveResponsiblePerson(@RequestBody ResponsiblePersonInovaRequestDto requestDto){
+    public ResponseEntity<StandardResponse> saveResponsiblePerson(@RequestBody ResponsiblePersonInovaRequestDto requestDto) {
         return new ResponseEntity<>(
-                new StandardResponse(
-                        200,
-                        "message",
-                        responsiblePersonInovaService.saveResponsiblePerson(requestDto)
-                ), HttpStatus.OK
+                responsiblePersonInovaService.saveResponsiblePerson(requestDto)
+                , HttpStatus.OK
         );
     }
 
