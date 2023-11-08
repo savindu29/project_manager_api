@@ -1,6 +1,8 @@
 package com.inova.project_manager_api.utils.mapper;
 
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
+import com.inova.project_manager_api.entities.ExternalContactPerson;
+import com.inova.project_manager_api.entities.IntermediateClient;
 import com.inova.project_manager_api.entities.Project;
 import lombok.NoArgsConstructor;
 
@@ -38,33 +40,33 @@ public class ProjectMapper {
     private final StatusHistoryMapper statusHistoryMapper = new StatusHistoryMapper();
 
 
-    public ProjectAdvanceResponseDto toProjectAdvanceResponseDto(Project p) {
-        ProjectAdvanceResponseDto pDto = new ProjectAdvanceResponseDto();
-        pDto.setId(p.getId());
-        pDto.setName(p.getName());
-        pDto.setInitiationDate(p.getInitiationDate());
-        pDto.setProposalDueDate(p.getProposalDueDate());
-        pDto.setProposalSubmittedDate(p.getProposalSubmittedDate());
-        pDto.setPiStartDate(p.getPiStartDate());
-        pDto.setPiEndDate(p.getPiEndDate());
-        pDto.setAcStartDate(p.getAcStartDate());
-        pDto.setAcEndDate(p.getAcEndDate());
-        pDto.setCdDetails(p.getCdDetails());
-        pDto.setLessonsLearned(p.getLessonsLearned());
-        pDto.setCode(p.getCode());
-        pDto.setProjectStatus(projectStatusMapper.toProjectStatusResponseDto(p.getProjectStatus()));
-        pDto.setPriority(priorityMapper.toPriorityResponseDto(p.getPriority()));
-        pDto.setStatusHistoryList(statusHistoryMapper.toStatusHistoryList(p.getStatusHistoryList()));
-        pDto.setIntermediateClient(intermediateClientMapper.toIntermediateClientResponseDto(p.getIntermediateClient()));
-        pDto.setGrantClient(grantClientMapper.toGrantClientResponseDto(p.getGrantClient()));
-        pDto.setCost(costMapper.toCostResponseDto(p.getCost()));
-        pDto.setTodo(todoMapper.toTodoRequestDtoResponseDto(p.getTodo()));
-        pDto.setRfpResource(rfpResourceMapper.toRfpResourceResponseDto(p.getRfpResource()));
-        pDto.setImpStatusList(impStatusMapper.toImpStatusResponseDtoList(p.getImpStatusList()));
-        pDto.setOutputsFromInova(outputsFromInovaMapper.toOutputsFromInovaResponseDto(p.getOutputsFromInova()));
-        pDto.setProjectLead(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(p.getProjectLead()));
-        pDto.setEffortEstimators(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDtoList(p.getEffortEstimators()));
+    public ProjectAdvanceResponseDto toProjectAdvanceResponseDto(Project project) {
+        ProjectAdvanceResponseDto projectAdvanceResponseDto = new ProjectAdvanceResponseDto();
+        projectAdvanceResponseDto.setId(project.getId());
+        projectAdvanceResponseDto.setName(project.getName());
+        projectAdvanceResponseDto.setInitiationDate(project.getInitiationDate());
+        projectAdvanceResponseDto.setProposalDueDate(project.getProposalDueDate());
+        projectAdvanceResponseDto.setProposalSubmittedDate(project.getProposalSubmittedDate());
+        projectAdvanceResponseDto.setPiStartDate(project.getPiStartDate());
+        projectAdvanceResponseDto.setPiEndDate(project.getPiEndDate());
+        projectAdvanceResponseDto.setAcStartDate(project.getAcStartDate());
+        projectAdvanceResponseDto.setAcEndDate(project.getAcEndDate());
+        projectAdvanceResponseDto.setCdDetails(project.getCdDetails());
+        projectAdvanceResponseDto.setLessonsLearned(project.getLessonsLearned());
+        projectAdvanceResponseDto.setCode(project.getCode());
+        projectAdvanceResponseDto.setProjectStatus(projectStatusMapper.toProjectStatusResponseDto(project.getProjectStatus()));
+        projectAdvanceResponseDto.setPriority(priorityMapper.toPriorityResponseDto(project.getPriority()));
+        projectAdvanceResponseDto.setStatusHistoryList(statusHistoryMapper.toStatusHistoryList(project.getStatusHistoryList()));
+        projectAdvanceResponseDto.setIntermediateClient(intermediateClientMapper.toIntermediateClientResponseDto(project.getIntermediateClient()));
+        projectAdvanceResponseDto.setGrantClient(grantClientMapper.toGrantClientResponseDto(project.getGrantClient()));
+        projectAdvanceResponseDto.setCost(costMapper.toCostResponseDto(project.getCost()));
+        projectAdvanceResponseDto.setTodo(todoMapper.toTodoRequestDtoResponseDto(project.getTodo()));
+        projectAdvanceResponseDto.setRfpResource(rfpResourceMapper.toRfpResourceResponseDto(project.getRfpResource()));
+        projectAdvanceResponseDto.setImpStatusList(impStatusMapper.toImpStatusResponseDtoList(project.getImpStatusList()));
+        projectAdvanceResponseDto.setOutputsFromInova(outputsFromInovaMapper.toOutputsFromInovaResponseDto(project.getOutputsFromInova()));
+        projectAdvanceResponseDto.setProjectLead(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(project.getProjectLead()));
+        projectAdvanceResponseDto.setEffortEstimators(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDtoList(project.getEffortEstimators()));
 
-        return pDto;
+        return projectAdvanceResponseDto;
     }
 }

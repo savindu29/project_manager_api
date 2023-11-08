@@ -43,6 +43,4 @@ public class ExternalContactPerson {
     private List<IntermediateClient> intermediateClients;
 
 
-
-
 }

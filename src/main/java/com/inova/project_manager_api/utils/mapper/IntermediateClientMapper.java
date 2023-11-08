@@ -9,15 +9,15 @@ public class IntermediateClientMapper {
 
     private final ExternalContactPersonMapper externalContactPersonMapper = new ExternalContactPersonMapper();
 
-    public IntermediateClientResponseDto toIntermediateClientResponseDto(IntermediateClient i) {
-        if (i == null) {
+    public IntermediateClientResponseDto toIntermediateClientResponseDto(IntermediateClient intermediateClient) {
+        if (intermediateClient == null) {
             return null;
         }
         return new IntermediateClientResponseDto(
-                i.getId(),
-                i.getName(),
-                i.getCountry(),
-                externalContactPersonMapper.toExternalContactPersonResponseDto(i.getExternalContactPerson())
+                intermediateClient.getId(),
+                intermediateClient.getName(),
+                intermediateClient.getCountry(),
+                externalContactPersonMapper.toExternalContactPersonResponseDto(intermediateClient.getExternalContactPerson())
         );
     }
 }

@@ -1,22 +1,17 @@
 package com.inova.project_manager_api.services.impl;
 
 
+import com.inova.project_manager_api.dao.ProjectDao;
 import com.inova.project_manager_api.dto.AppRequest;
+import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
-
+import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.entities.*;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.repositories.*;
-
-import com.inova.project_manager_api.dao.ProjectDao;
-import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
-import com.inova.project_manager_api.dto.request.ProjectRequestDto;
-import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
-import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
-import com.inova.project_manager_api.entities.Project;
-import com.inova.project_manager_api.repositories.ProjectRepo;
-
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import com.inova.project_manager_api.utils.mapper.ProjectMapper;
@@ -25,11 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-
 import java.sql.Date;
-
 import java.util.List;
-
 import java.util.Optional;
 
 @Service
@@ -68,21 +60,24 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private TodoRepo todoRepository;
 
+    @Autowired
+    private ExternalContactPersonRepo externalContactPersonRepository;
+
     @Override
     public StandardResponse findProject(int id) {
         Optional<Project> project = projectRepo.findById(id);
-        ProjectAdvanceResponseDto p = projectMapper.toProjectAdvanceResponseDto(project.get());
-        if(p==null){
+        ProjectAdvanceResponseDto projectAdvanceResponseDto = projectMapper.toProjectAdvanceResponseDto(project.get());
+        if (projectAdvanceResponseDto == null) {
             return new StandardResponse(
                     404,
                     "Data not found",
                     null
             );
-        }else{
+        } else {
             return new StandardResponse(
                     200,
                     "Data ",
-                    p
+                    projectAdvanceResponseDto
             );
         }
     }
@@ -106,6 +101,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProposalDueDate((Date) request.getData().getProposalDueDate());
         project.setProposalSubmittedDate((Date) request.getData().getProposalSubmittedDate());
 
+
         //insert into cost table
         Cost cost = new Cost();
 
@@ -117,9 +113,23 @@ public class ProjectServiceImpl implements ProjectService {
         Cost costEntity = this.costRepository.save(cost);
         project.setCost(costEntity);
 
+        //insert into external contact person
+        ExternalContactPerson externalContactPerson = new ExternalContactPerson();
+
+        externalContactPerson.setName(request.getData().getExternalContactPersonName());
+        externalContactPerson.setDescription(request.getData().getExternalContactPersonDescription());
+        externalContactPerson.setDesignation(request.getData().getExternalContactPersonDesignation());
+        externalContactPerson.setMobile(request.getData().getExternalContactPersonMobile());
+        externalContactPerson.setCompanyEmail(request.getData().getExternalContactPersonEmail());
+        externalContactPerson.setFixTel(request.getData().getExternalContactPersonFixTel());
+
+        ExternalContactPerson externalContactPersonEntity = this.externalContactPersonRepository.save(externalContactPerson);
+//        externalContactPersonEntity.getId();
+
         // insert into grant_client table
         GrantClient grantClient = new GrantClient();
 
+        grantClient.setExternalContactPerson(externalContactPersonEntity);
         grantClient.setCountry(request.getData().getGrantClientCountry());
         grantClient.setName(request.getData().getGrantClientName());
 
@@ -129,6 +139,7 @@ public class ProjectServiceImpl implements ProjectService {
         // insert into intermediate_client table
         IntermediateClient intermediateClient = new IntermediateClient();
 
+        intermediateClient.setExternalContactPerson(externalContactPersonEntity);
         intermediateClient.setName(request.getData().getIntermediateClientName());
 
         IntermediateClient intermediateClientEntity = this.intermediateClientRepository.save(intermediateClient);
@@ -170,6 +181,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         RfpResource rfpResourceEntity = this.rfpResourceRepository.save(rfpResource);
 
+        project.setRfpResource(rfpResourceEntity);
+
         // Insert into todo table
         Todo todo = new Todo();
 
@@ -180,26 +193,38 @@ public class ProjectServiceImpl implements ProjectService {
         //TODO
         // effort estimators
 
+        //Insert Status History
+
+
         //save project entity
         Project projectEntity = this.projectRepo.save(project);
+        StatusHistory statusHistory = new StatusHistory();
+
+        java.util.Date currentDate = new java.util.Date();
+
+// Set the currentDate to your statusHistory
+        statusHistory.setDate(currentDate);
+        statusHistory.setDescription("Project Created");
+        statusHistory.setId(projectEntity.getId());
+
 
         status = "Project details successfully saved.";
         return new ResponseEntity(new ProjectDetailsSubmitResponseDto(status), HttpStatus.OK);
     }
 
-    public StandardResponse findAllProjects (int page, int count){
+    public StandardResponse findAllProjects(int page, int count) {
         List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count);
         PaginatedProjectData paginatedProjectData = new PaginatedProjectData(
                 projectDao.getProjectCount(),
                 allProjects
         );
-        if(paginatedProjectData.getCount()==0){
+        if (paginatedProjectData.getCount() == 0) {
             return new StandardResponse(
                     404,
                     "Data not found",
                     null
             );
-        }else{
+        } else {
             return new StandardResponse(
                     200,
                     "Data list",
@@ -208,14 +233,14 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-        @Override
-        public StandardResponse updateProject (ProjectRequestDto dto, int id){
-            return new StandardResponse(
-                    200,
-                    "updated",
-                    null
-            );
-        }
+    @Override
+    public StandardResponse updateProject(ProjectRequestDto dto, int id) {
+        return new StandardResponse(
+                200,
+                "updated",
+                null
+        );
+    }
 }
 
 
