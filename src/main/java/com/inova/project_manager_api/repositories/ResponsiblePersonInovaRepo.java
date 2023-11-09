@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 @Repository
 public interface ResponsiblePersonInovaRepo extends JpaRepository<ResponsiblePersonInova,Integer> {
+
+
 }

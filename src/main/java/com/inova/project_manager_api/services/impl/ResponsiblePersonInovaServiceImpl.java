@@ -3,6 +3,7 @@ package com.inova.project_manager_api.services.impl;
 import com.inova.project_manager_api.dto.request.ResponsiblePersonInovaRequestDto;
 import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponseDto;
 import com.inova.project_manager_api.entities.ResponsiblePersonInova;
+import com.inova.project_manager_api.exceptions.PersonNotFoundException;
 import com.inova.project_manager_api.repositories.ResponsiblePersonInovaRepo;
 import com.inova.project_manager_api.services.ResponsiblePersonInovaService;
 import com.inova.project_manager_api.utils.StandardResponse;
@@ -11,12 +12,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInovaService {
     @Autowired
     private ResponsiblePersonInovaRepo responsiblePersonInovaRepo;
     private final ResponsiblePersonInovaMapper responsiblePersonInovaMapper = new ResponsiblePersonInovaMapper();
+
+
+    @Override
+    public StandardResponse updatePerson(int id, ResponsiblePersonInovaRequestDto updatedPerson) {
+        Optional<ResponsiblePersonInova> existingPersonOptional =   responsiblePersonInovaRepo.findById(id);
+
+        if (existingPersonOptional.isPresent()) {
+            // Existing person found
+            ResponsiblePersonInova existingPerson = existingPersonOptional.get();
+
+            // Update the person's details with the provided data
+            existingPerson.setName(updatedPerson.getName());
+            existingPerson.setCompanyEmail(updatedPerson.getCompanyEmail());
+            existingPerson.setMobile(updatedPerson.getMobile());
+            existingPerson.setPrivateEmail(updatedPerson.getPrivateEmail());
+            existingPerson.setDesignation(updatedPerson.getDesignation());
+            existingPerson.setSpecializedField(updatedPerson.getSpecializedField());
+
+            // Save the updated person to the database
+            ResponsiblePersonInova save = responsiblePersonInovaRepo.save(existingPerson);
+            if (save==null){
+                return new StandardResponse(
+                        200,
+                        "Data list",
+                        responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(save)
+                );
+
+            }else{
+                return new StandardResponse(
+                        400,
+                        "error",
+                        null
+                );
+            }
+        } else {
+
+            // Person not found, you can handle this case as needed
+            throw new PersonNotFoundException("Person not found with ID: " + id);
+        }
+    }
 
     @Override
     public StandardResponse findAllResponsiblePersons() {
@@ -38,6 +80,9 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
                     null
             );
         }
+
+
+
     }
 
     @Override
@@ -60,4 +105,9 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
             );
         }
     }
+
+
+
+
+
 }

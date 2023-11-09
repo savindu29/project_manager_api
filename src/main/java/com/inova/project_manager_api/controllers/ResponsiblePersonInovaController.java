@@ -2,7 +2,10 @@ package com.inova.project_manager_api.controllers;
 
 
 import com.inova.project_manager_api.dto.request.ResponsiblePersonInovaRequestDto;
+import com.inova.project_manager_api.entities.ResponsiblePersonInova;
+import com.inova.project_manager_api.exceptions.PersonNotFoundException;
 import com.inova.project_manager_api.services.ResponsiblePersonInovaService;
+import com.inova.project_manager_api.services.impl.ResponsiblePersonInovaServiceImpl;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +35,24 @@ public class ResponsiblePersonInovaController {
                 , HttpStatus.OK
         );
     }
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<StandardResponse> updatePerson(@PathVariable int id, @RequestBody ResponsiblePersonInovaRequestDto updatedPerson) {
+//        try {
+//
+//
+//        } catch (PersonNotFoundException e) {
+//            return ResponseEntity.notFound().build();
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(new ResponsiblePersonInova()); // Provide a valid default value or response
+//        }
+        return new ResponseEntity<>(
+                responsiblePersonInovaService.updatePerson(id,updatedPerson)
+                , HttpStatus.OK
+        );
+    }
+
 
 
 }
