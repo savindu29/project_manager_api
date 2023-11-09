@@ -7,4 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class OutputsFromInovaRequestDto {
+
+    private String location;
+
+    private String description;
 }
