@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,7 +125,6 @@ public class ProjectServiceImpl implements ProjectService {
         externalContactPerson.setFixTel(request.getData().getExternalContactPersonFixTel());
 
         ExternalContactPerson externalContactPersonEntity = this.externalContactPersonRepository.save(externalContactPerson);
-//        externalContactPersonEntity.getId();
 
         // insert into grant_client table
         GrantClient grantClient = new GrantClient();
@@ -190,19 +190,23 @@ public class ProjectServiceImpl implements ProjectService {
 
         Todo todoEntity = this.todoRepository.save(todo);
         project.setTodo(todoEntity);
-        //TODO
-        // effort estimators
-
-        //Insert Status History
-
 
         //save project entity
         Project projectEntity = this.projectRepo.save(project);
+
+        //ResponsiblePersonInova
+        Optional<ResponsiblePersonInova> responsiblePersonInova2 = this.responsiblePersonInovaRepository.findById(1);
+        List<ResponsiblePersonInova> responsiblePersonInovalist = new ArrayList<>();
+        responsiblePersonInovalist.add(responsiblePersonInova2.get());
+
+        project.setEffortEstimators(responsiblePersonInovalist);
+
+        //Insert Status History
         StatusHistory statusHistory = new StatusHistory();
 
         java.util.Date currentDate = new java.util.Date();
 
-// Set the currentDate to your statusHistory
+        // Set the currentDate to your statusHistory
         statusHistory.setDate(currentDate);
         statusHistory.setDescription("Project Created");
         statusHistory.setId(projectEntity.getId());
