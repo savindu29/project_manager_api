@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/auth/project")
+@RequestMapping("api/v1/project")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
 
@@ -67,6 +67,15 @@ public class ProjectController {
 
                 projectService.updateProject(dto, intId),
                 HttpStatus.CREATED
+        );
+
+    }
+    @DeleteMapping(value = "/delete", params = {"id"})
+    public ResponseEntity<StandardResponse> deleteProject( @RequestParam String id){
+        int intId = Integer.parseInt(id);
+        return new ResponseEntity<>(
+                projectService.deleteProject(intId),
+                HttpStatus.ACCEPTED
         );
 
     }

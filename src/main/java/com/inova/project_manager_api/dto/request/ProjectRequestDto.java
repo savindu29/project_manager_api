@@ -7,4 +7,5 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class ProjectRequestDto {
+    private String name;
 }

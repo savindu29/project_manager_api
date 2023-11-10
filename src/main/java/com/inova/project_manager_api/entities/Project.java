@@ -66,8 +66,10 @@ public class Project {
     private ProjectStatus projectStatus;
 
 
-    @OneToMany(mappedBy = "project")
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StatusHistory> statusHistoryList;
+
 
     @ManyToOne
     @JoinColumn(name = "intermediate_client_id")
@@ -92,7 +94,7 @@ public class Project {
     @JoinColumn(name = "rfp_resource_id") // Define the foreign key here
     private RfpResource rfpResource;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImpStatus> impStatusList;
 
     @OneToOne
@@ -111,6 +113,7 @@ public class Project {
     )
     private List<ResponsiblePersonInova> effortEstimators;
     // In Priority.java
-
+    @Column(name = "activeState", columnDefinition = "boolean default true")
+    private boolean activeState;
 
 }
