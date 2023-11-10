@@ -10,12 +10,11 @@ import org.springframework.stereotype.Repository;
 
 @EnableJpaRepositories
 @Repository
-public interface ProjectRepo extends JpaRepository<Project,Integer> {
+public interface ProjectRepo extends JpaRepository<Project, Integer> {
 
-//    @Query(value = "UPDATE project SET active_state = 0 WHERE id = ?1", nativeQuery = true)
-//    @Modifying
-@Modifying
-@Query("UPDATE Project p SET p.activeState = false WHERE p.id = :id")
-int deleteProjectById(@Param("id") int id);
+
+    @Modifying
+    @Query("UPDATE Project p SET p.activeState = false WHERE p.id = :id")
+    int deleteProjectById(@Param("id") int id);
 
 }
