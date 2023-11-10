@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 @Repository
 public interface ProjectRepo extends JpaRepository<Project,Integer> {
-
 }

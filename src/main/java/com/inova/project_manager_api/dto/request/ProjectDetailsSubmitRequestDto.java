@@ -141,5 +141,21 @@ public class ProjectDetailsSubmitRequestDto implements Serializable {
     @JsonProperty("lessons_learned")
     private String lessonsLearned;
 
+    @JsonProperty("external_contact_person_name")
+    private String externalContactPersonName;
 
+    @JsonProperty("external_contact_person_email")
+    private String externalContactPersonEmail;
+
+    @JsonProperty("external_contact_person_description")
+    private String externalContactPersonDescription;
+
+    @JsonProperty("external_contact_person_designation")
+    private String externalContactPersonDesignation;
+
+    @JsonProperty("external_contact_person_fix_tel")
+    private String externalContactPersonFixTel;
+
+    @JsonProperty("external_contact_person_mobile")
+    private String externalContactPersonMobile;
 }

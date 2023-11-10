@@ -10,10 +10,17 @@ import java.util.List;
 
 @NoArgsConstructor
 public class ResponsiblePersonInovaMapper {
-    public ResponsiblePersonInovaResponseDto toResponsiblePersonInovaResponseDto(ResponsiblePersonInova r) {
-        return new ResponsiblePersonInovaResponseDto(
-                r.getId(), r.getName(), r.getMobile(), r.getCompanyEmail(), r.getPrivateEmail(), r.getDesignation(), r.getSpecializedField()
+    public ResponsiblePersonInovaResponseDto toResponsiblePersonInovaResponseDto(ResponsiblePersonInova responsiblePersonInova) {
+        ResponsiblePersonInovaResponseDto responsiblePersonInovaResponseDto = new ResponsiblePersonInovaResponseDto(
+                responsiblePersonInova.getId(),
+                responsiblePersonInova.getName(),
+                responsiblePersonInova.getMobile(),
+                responsiblePersonInova.getCompanyEmail(),
+                responsiblePersonInova.getPrivateEmail(),
+                responsiblePersonInova.getDesignation(),
+                responsiblePersonInova.getSpecializedField()
         );
+        return responsiblePersonInovaResponseDto;
     }
 
     public List<ResponsiblePersonInovaResponseDto> toResponsiblePersonInovaResponseDtoList(List<ResponsiblePersonInova> list) {

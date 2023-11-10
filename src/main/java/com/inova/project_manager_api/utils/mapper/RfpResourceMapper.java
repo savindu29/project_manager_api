@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class RfpResourceMapper {
-    public RfpResourceResponseDto toRfpResourceResponseDto(RfpResource r) {
+    public RfpResourceResponseDto toRfpResourceResponseDto(RfpResource rfpResource) {
         return new RfpResourceResponseDto(
-                r.getId(), r.getLocation(), r.getDescription()
+                rfpResource.getId(), rfpResource.getLocation(), rfpResource.getDescription()
         );
     }
 }
