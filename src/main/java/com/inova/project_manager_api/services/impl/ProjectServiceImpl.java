@@ -15,6 +15,7 @@ import com.inova.project_manager_api.repositories.*;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import com.inova.project_manager_api.utils.mapper.ProjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -245,6 +246,29 @@ public class ProjectServiceImpl implements ProjectService {
                 null
         );
     }
+
+    @Override
+    @Transactional
+    public StandardResponse deleteProject(int intId) {
+        Optional<Project> optionalProject = projectRepo.findById(intId);
+
+        if (optionalProject.isPresent()) {
+            projectRepo.deleteProjectById(intId);
+            return new StandardResponse(
+                    200,
+                    "Deleted project",
+                    null
+            );
+        } else {
+            return new StandardResponse(
+                    404,
+                    "Data not found",
+                    null
+            );
+        }
+    }
+
+
 }
 
 

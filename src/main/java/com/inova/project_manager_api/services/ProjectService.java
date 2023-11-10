@@ -20,5 +20,5 @@ public interface ProjectService {
     StandardResponse findProject(int id);
     StandardResponse findAllProjects(int page, int count,String searchtext);
     StandardResponse updateProject(ProjectRequestDto dto, int id);
-
+    StandardResponse deleteProject(int intId);
 }
