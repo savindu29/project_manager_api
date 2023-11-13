@@ -28,6 +28,18 @@ public class ResponsiblePersonInovaController {
 
     }
 
+    @GetMapping(value = "/search",params = {"page", "size","searchtext"})
+    public ResponseEntity<StandardResponse> searchAllPerson(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String searchtext
+    ){
+        return new ResponseEntity<>(
+                responsiblePersonInovaService.searchAllPersons(page,size,searchtext),
+                HttpStatus.OK
+        );
+    }
+
     @PostMapping("/create")
     public ResponseEntity<StandardResponse> saveResponsiblePerson(@RequestBody ResponsiblePersonInovaRequestDto requestDto) {
         return new ResponseEntity<>(

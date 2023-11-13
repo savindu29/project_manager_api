@@ -1,6 +1,11 @@
 package com.inova.project_manager_api.services.impl;
 
+import com.inova.project_manager_api.dao.ProjectDao;
+import com.inova.project_manager_api.dao.ResponsiblePersonInovaDao;
+import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
+import com.inova.project_manager_api.dto.paginatedData.PaginatedResponsiblePersonData;
 import com.inova.project_manager_api.dto.request.ResponsiblePersonInovaRequestDto;
+import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponseDto;
 import com.inova.project_manager_api.entities.ResponsiblePersonInova;
 import com.inova.project_manager_api.exceptions.PersonNotFoundException;
@@ -18,6 +23,9 @@ import java.util.Optional;
 public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInovaService {
     @Autowired
     private ResponsiblePersonInovaRepo responsiblePersonInovaRepo;
+
+    @Autowired
+    private ResponsiblePersonInovaDao responsiblePersonInovaDao;
     private final ResponsiblePersonInovaMapper responsiblePersonInovaMapper = new ResponsiblePersonInovaMapper();
 
 
@@ -83,6 +91,28 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
 
 
 
+    }
+
+    @Override
+    public StandardResponse searchAllPersons(int page, int count,String searchtext) {
+        List<ResponsiblePersonInovaResponseDto> searchAllPersons = responsiblePersonInovaDao.searchAllProjects(page, count,searchtext);
+        PaginatedResponsiblePersonData paginatedResponsiblePersonData = new PaginatedResponsiblePersonData(
+                responsiblePersonInovaDao.getProjectCount(),
+                searchAllPersons
+        );
+        if (paginatedResponsiblePersonData.getCount() == 0) {
+            return new StandardResponse(
+                    404,
+                    "Data not found",
+                    null
+            );
+        } else {
+            return new StandardResponse(
+                    200,
+                    "Data list",
+                    paginatedResponsiblePersonData
+            );
+        }
     }
 
     @Override
