@@ -136,10 +136,7 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
         }
     }
 
-    @Override
-    public StandardResponse searchResponsiblePersons() {
-        return null;
-    }
+
 
 
 }

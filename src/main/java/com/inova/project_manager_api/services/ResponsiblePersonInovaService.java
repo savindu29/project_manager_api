@@ -13,5 +13,4 @@ public interface ResponsiblePersonInovaService {
 
     StandardResponse saveResponsiblePerson(ResponsiblePersonInovaRequestDto dto);
 
-    StandardResponse searchResponsiblePersons();
 }
