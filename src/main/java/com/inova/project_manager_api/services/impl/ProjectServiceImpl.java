@@ -216,8 +216,8 @@ public class ProjectServiceImpl implements ProjectService {
         return new ResponseEntity(new ProjectDetailsSubmitResponseDto(status), HttpStatus.OK);
     }
 
-    public StandardResponse findAllProjects(int page, int count) {
-        List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count);
+    public StandardResponse findAllProjects(int page, int count,String searchtext) {
+        List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count,searchtext);
         PaginatedProjectData paginatedProjectData = new PaginatedProjectData(
                 projectDao.getProjectCount(),
                 allProjects
