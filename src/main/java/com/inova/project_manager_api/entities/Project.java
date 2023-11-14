@@ -89,16 +89,14 @@ public class Project {
     private Todo todo;
 
 
-    @OneToOne
-    @JoinColumn(name = "rfp_resource_id") // Define the foreign key here
-    private RfpResource rfpResource;
+    @OneToMany(mappedBy = "project")
+    private List<RfpResource> rfpResources;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImpStatus> impStatusList;
 
-    @OneToOne
-    @JoinColumn(name = "outputs_from_inova_id") // Define the foreign key here
-    private OutputsFromInova outputsFromInova;
+    @OneToMany(mappedBy = "project")
+    private List<OutputsFromInova> outputsFromInova;
 
     @ManyToOne
     @JoinColumn(name = "project_lead_id")

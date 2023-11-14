@@ -12,7 +12,9 @@ import lombok.Setter;
 public class RfpResourceResponseDto {
     private int id;
 
-    private String location;
+    private String documentReference;
 
     private String description;
+
+
 }

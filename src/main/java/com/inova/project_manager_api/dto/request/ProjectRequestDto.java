@@ -27,16 +27,13 @@ public class ProjectRequestDto {
     private String lessonsLearned;
     private int ProjectLead;
     private List<Integer> effortEstimators;
-
-
     private String clarificationDiscussionDetails;
-
     private IntermediateClientRequestDto intermediateClientRequestDto;
     private GrantClientRequestDto grantClientRequestDto;
     private CostRequestDto costRequestDto;
     private TodoRequestDto todoRequestDto;
-    private RfpResourceRequestDto rfpResourceRequestDto;
-    private OutputsFromInovaRequestDto outputsFromInovaRequestDto;
+    private List<RfpResourceRequestDto> rfpResources;
+    private List<OutputsFromInovaRequestDto> outputsFromInova;
 
 
 
