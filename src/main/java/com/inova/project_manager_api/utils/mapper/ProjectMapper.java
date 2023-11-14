@@ -60,14 +60,15 @@ public class ProjectMapper {
         projectAdvanceResponseDto.setGrantClient(grantClientMapper.toGrantClientResponseDto(project.getGrantClient()));
         projectAdvanceResponseDto.setCost(costMapper.toCostResponseDto(project.getCost()));
         projectAdvanceResponseDto.setTodo(todoMapper.toTodoRequestDtoResponseDto(project.getTodo()));
-        projectAdvanceResponseDto.setRfpResource(rfpResourceMapper.toRfpResourceResponseDto(project.getRfpResource()));
+        projectAdvanceResponseDto.setRfpResource(rfpResourceMapper.rfpResourceResponseDtoList(project.getRfpResources()));
         projectAdvanceResponseDto.setImpStatusList(impStatusMapper.toImpStatusResponseDtoList(project.getImpStatusList()));
-        projectAdvanceResponseDto.setOutputsFromInova(outputsFromInovaMapper.toOutputsFromInovaResponseDto(project.getOutputsFromInova()));
+        projectAdvanceResponseDto.setOutputsFromInova(outputsFromInovaMapper.toOutputsFromInovaResponseDtoList(project.getOutputsFromInova()));
         projectAdvanceResponseDto.setProjectLead(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(project.getProjectLead()));
         projectAdvanceResponseDto.setEffortEstimators(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDtoList(project.getEffortEstimators()));
 
         return projectAdvanceResponseDto;
     }
+
     public ProjectResponseDto toProjectResponseDto(Project project) {
         ProjectResponseDto dto = new ProjectResponseDto();
         dto.setId(project.getId());
@@ -92,9 +93,9 @@ public class ProjectMapper {
         dto.setGrantClient(grantClientMapper.toGrantClientResponseDto(project.getGrantClient()));
         dto.setCost(costMapper.toCostResponseDto(project.getCost()));
         dto.setTodo(todoMapper.toTodoRequestDtoResponseDto(project.getTodo()));
-        dto.setRfpResource(rfpResourceMapper.toRfpResourceResponseDto(project.getRfpResource()));
+        dto.setRfpResource(rfpResourceMapper.rfpResourceResponseDtoList(project.getRfpResources()));
 //        projectAdvanceResponseDto.setImpStatusList(impStatusMapper.toImpStatusResponseDtoList(project.getImpStatusList()));
-        dto.setOutputsFromInova(outputsFromInovaMapper.toOutputsFromInovaResponseDto(project.getOutputsFromInova()));
+        dto.setOutputsFromInova(outputsFromInovaMapper.toOutputsFromInovaResponseDtoList(project.getOutputsFromInova()));
         dto.setProjectLead(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(project.getProjectLead()));
         dto.setEffortEstimators(responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDtoList(project.getEffortEstimators()));
 

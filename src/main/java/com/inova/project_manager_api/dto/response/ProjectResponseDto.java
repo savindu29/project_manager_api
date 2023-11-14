@@ -40,6 +40,6 @@ public class ProjectResponseDto {
     private GrantClientResponseDto grantClient;
     private CostResponseDto cost;
     private TodoResponseDto todo;
-    private RfpResourceResponseDto rfpResource;
-    private OutputsFromInovaResponseDto outputsFromInova;
+    private List<RfpResourceResponseDto> rfpResource;
+    private List<OutputsFromInovaResponseDto> outputsFromInova;
 }

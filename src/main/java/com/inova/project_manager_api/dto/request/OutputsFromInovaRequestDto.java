@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 public class OutputsFromInovaRequestDto {
 
-    private String location;
+    private String documentReference;
 
     private String description;
 }

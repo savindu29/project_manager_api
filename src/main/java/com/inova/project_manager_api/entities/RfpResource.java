@@ -19,11 +19,15 @@ public class RfpResource {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "location")
-    private String location;
-
     @Column(name = "description")
     private String description;
+
+    @Column(name = "dms_ref", length = 500)
+    private String documentReference;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 
 
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 public class OutputsFromInovaResponseDto {
     private int id;
 
-    private String location;
+    private String documentReference;
 
     private String description;
 }
