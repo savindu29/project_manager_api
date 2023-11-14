@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -61,7 +60,7 @@ public class ProjectDaoImpl implements ProjectDao {
     }
     @Override
     public int getProjectCount(){
-        String countQueryStr = "SELECT COUNT(*) FROM project";
+        String countQueryStr = "SELECT COUNT(*) FROM project where ";
         long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).getSingleResult();
         int count = Math.toIntExact(countOfProjects);
         return count;

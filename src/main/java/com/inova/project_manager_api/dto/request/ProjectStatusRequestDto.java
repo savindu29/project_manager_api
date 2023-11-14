@@ -5,5 +5,9 @@ import lombok.*;
 @Data
 
 public class ProjectStatusRequestDto {
+    private String name;
 
+    private String code;
+
+    private int stageCode;
 }

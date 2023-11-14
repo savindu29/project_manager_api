@@ -1,5 +1,6 @@
 package com.inova.project_manager_api.utils.mapper;
 
+import com.inova.project_manager_api.dto.request.PriorityRequestDto;
 import com.inova.project_manager_api.dto.response.PriorityResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectStatusResponseDto;
 import com.inova.project_manager_api.entities.Priority;
@@ -23,6 +24,12 @@ public class PriorityMapper {
             dtoList.add(toPriorityResponseDto(i));
         }
         return dtoList;
+    }
+    public Priority toPriorityEntity(PriorityRequestDto dto ){
+        Priority p = new Priority();
+        p.setName(dto.getName());
+        p.setCode(dto.getCode());
+        return p;
     }
 
 }

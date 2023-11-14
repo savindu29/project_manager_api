@@ -2,10 +2,7 @@ package com.inova.project_manager_api.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 import java.util.List;
@@ -16,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-
+@ToString
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +43,8 @@ public class Project {
 
     @Column(name = "ac_end_date")
     private Date acEndDate;
+    @Column(name = "ac_imp_due_date")
+    private Date acImpDueDate;
 
     @Column(name = "cd_details")
     private String cdDetails;
@@ -66,8 +65,10 @@ public class Project {
     private ProjectStatus projectStatus;
 
 
-    @OneToMany(mappedBy = "project")
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StatusHistory> statusHistoryList;
+
 
     @ManyToOne
     @JoinColumn(name = "intermediate_client_id")
@@ -92,7 +93,7 @@ public class Project {
     @JoinColumn(name = "rfp_resource_id") // Define the foreign key here
     private RfpResource rfpResource;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImpStatus> impStatusList;
 
     @OneToOne
@@ -111,6 +112,7 @@ public class Project {
     )
     private List<ResponsiblePersonInova> effortEstimators;
     // In Priority.java
-
+    @Column(name = "activeState", columnDefinition = "boolean default true")
+    private boolean activeState;
 
 }

@@ -12,4 +12,6 @@ public interface ResponsiblePersonInovaService {
     StandardResponse searchAllPersons(int page, int count,String searchtext);
 
     StandardResponse saveResponsiblePerson(ResponsiblePersonInovaRequestDto dto);
+
+    StandardResponse searchResponsiblePersons();
 }

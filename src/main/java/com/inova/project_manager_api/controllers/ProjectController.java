@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/auth/project")
+@RequestMapping("api/v1/project")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
 
@@ -35,15 +35,24 @@ public class ProjectController {
     }
 
 
-    @PostMapping(URIPrefix.ADD_PROJECT_DETAILS)
-    public ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(@Valid @RequestBody AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException {
+    @PostMapping(value="/create" )
+    public ResponseEntity<StandardResponse> createProject( @RequestBody ProjectRequestDto request) throws ApplicationGeneralException {
         try {
-            ResponseEntity<ProjectDetailsSubmitResponseDto> response = this.projectService.projectDetailsSubmit(request);
-            return new ResponseEntity<ProjectDetailsSubmitResponseDto>(response.getBody(), HttpStatus.OK);
+            ResponseEntity<StandardResponse> project = this.projectService.createProject(request);
+            return project;
         } catch (Exception e) {
             throw new ApplicationGeneralException();
         }
     }
+//    @PostMapping(URIPrefix.ADD_PROJECT_DETAILS)
+//    public ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(@Valid @RequestBody AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException {
+//        try {
+//            this.projectService.projectDetailsSubmit(request);
+//            return new ResponseEntity<ProjectDetailsSubmitResponseDto>(response.getBody(), HttpStatus.OK);
+//        } catch (Exception e) {
+//            throw new ApplicationGeneralException();
+//        }
+//    }
 
     @GetMapping(value = "/search", params = {"page", "size","searchtext"}) // localhost:8000/api/v1/customer/list (GET)
     public ResponseEntity<StandardResponse> findAllCustomer(
@@ -68,6 +77,15 @@ public class ProjectController {
 
                 projectService.updateProject(dto, intId),
                 HttpStatus.CREATED
+        );
+
+    }
+    @DeleteMapping(value = "/delete", params = {"id"})
+    public ResponseEntity<StandardResponse> deleteProject( @RequestParam String id){
+        int intId = Integer.parseInt(id);
+        return new ResponseEntity<>(
+                projectService.deleteProject(intId),
+                HttpStatus.ACCEPTED
         );
 
     }
