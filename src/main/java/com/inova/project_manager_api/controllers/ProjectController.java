@@ -1,5 +1,6 @@
 package com.inova.project_manager_api.controllers;
 
+import com.inova.project_manager_api.config.MetaDataServiceConfig;
 import com.inova.project_manager_api.dto.AppRequest;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
@@ -22,6 +23,9 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private MetaDataServiceConfig metaDataServiceConfig;
+
     @GetMapping("/{id}")
     public ResponseEntity<StandardResponse> findOne(@PathVariable String id) {
         int intId = Integer.parseInt(id);
@@ -41,7 +45,7 @@ public class ProjectController {
             ResponseEntity<ProjectDetailsSubmitResponseDto> response = this.projectService.projectDetailsSubmit(request);
             return new ResponseEntity<ProjectDetailsSubmitResponseDto>(response.getBody(), HttpStatus.OK);
         } catch (Exception e) {
-            throw new ApplicationGeneralException();
+            throw new ApplicationGeneralException(this.metaDataServiceConfig.getCreationFailed());
         }
     }
 
