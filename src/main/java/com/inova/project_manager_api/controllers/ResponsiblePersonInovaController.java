@@ -2,10 +2,7 @@ package com.inova.project_manager_api.controllers;
 
 
 import com.inova.project_manager_api.dto.request.ResponsiblePersonInovaRequestDto;
-import com.inova.project_manager_api.entities.ResponsiblePersonInova;
-import com.inova.project_manager_api.exceptions.PersonNotFoundException;
 import com.inova.project_manager_api.services.ResponsiblePersonInovaService;
-import com.inova.project_manager_api.services.impl.ResponsiblePersonInovaServiceImpl;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +20,32 @@ public class ResponsiblePersonInovaController {
     public ResponseEntity<StandardResponse> findAllResponsiblePersons() {
         return new ResponseEntity<>(
                 responsiblePersonInovaService.findAllResponsiblePersons()
+                , HttpStatus.OK
+        );
+
+    }
+
+    @GetMapping(value = "/search",params = {"page", "size","searchtext"})
+    public ResponseEntity<StandardResponse> searchAllPerson(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String searchtext
+    ){
+        return new ResponseEntity<>(
+                responsiblePersonInovaService.searchAllPersons(page,size,searchtext),
+                HttpStatus.OK
+        );
+    }
+
+
+    @GetMapping(value = "/list", params = {"searchText","page", "size"})
+    public ResponseEntity<StandardResponse> searchResponsiblePersons(
+            @RequestParam String searchText,
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        return new ResponseEntity<>(
+                responsiblePersonInovaService.searchResponsiblePersons()
                 , HttpStatus.OK
         );
 
@@ -48,7 +71,7 @@ public class ResponsiblePersonInovaController {
 //            return ResponseEntity.badRequest().body(new ResponsiblePersonInova()); // Provide a valid default value or response
 //        }
         return new ResponseEntity<>(
-                responsiblePersonInovaService.updatePerson(id,updatedPerson)
+                responsiblePersonInovaService.updatePerson(id, updatedPerson)
                 , HttpStatus.OK
         );
     }

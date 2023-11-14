@@ -11,6 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponsiblePersonInovaMapper {
     public ResponsiblePersonInovaResponseDto toResponsiblePersonInovaResponseDto(ResponsiblePersonInova responsiblePersonInova) {
+        if(responsiblePersonInova==null){
+            return null;
+        }
         ResponsiblePersonInovaResponseDto responsiblePersonInovaResponseDto = new ResponsiblePersonInovaResponseDto(
                 responsiblePersonInova.getId(),
                 responsiblePersonInova.getName(),
@@ -25,6 +28,9 @@ public class ResponsiblePersonInovaMapper {
 
     public List<ResponsiblePersonInovaResponseDto> toResponsiblePersonInovaResponseDtoList(List<ResponsiblePersonInova> list) {
         List<ResponsiblePersonInovaResponseDto> dtoList = new ArrayList<>();
+        if(list==null){
+            return dtoList;
+        }
         for (ResponsiblePersonInova i : list) {
             dtoList.add(toResponsiblePersonInovaResponseDto(i));
         }

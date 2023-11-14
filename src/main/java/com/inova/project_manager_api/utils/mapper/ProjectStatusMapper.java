@@ -1,5 +1,7 @@
 package com.inova.project_manager_api.utils.mapper;
 
+import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectStatusRequestDto;
 import com.inova.project_manager_api.dto.response.ImpStatusResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectStatusResponseDto;
 import com.inova.project_manager_api.dto.response.StatusHistoryResponseDto;
@@ -27,4 +29,12 @@ public class ProjectStatusMapper {
         }
         return dtoList;
     }
+    public ProjectStatus toProjectStatusEntity(ProjectStatusRequestDto dto){
+        ProjectStatus ps =new ProjectStatus();
+        ps.setName(dto.getName());
+        ps.setStageCode(dto.getStageCode());
+        return ps;
+
+    }
+
 }

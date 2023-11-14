@@ -18,7 +18,9 @@ public interface ProjectService {
     ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException;
 
     StandardResponse findProject(int id);
-    StandardResponse findAllProjects(int page, int count);
+    StandardResponse findAllProjects(int page, int count,String searchtext);
     StandardResponse updateProject(ProjectRequestDto dto, int id);
+    StandardResponse deleteProject(int intId);
 
+    ResponseEntity<StandardResponse> createProject(ProjectRequestDto request);
 }
