@@ -11,6 +11,5 @@ import java.util.List;
 
 public class TodoRequestDto {
     private String notes;
-
     private List<TaskRequestDto> tasks;
 }

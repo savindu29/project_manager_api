@@ -2,10 +2,7 @@ package com.inova.project_manager_api.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 import java.util.List;
@@ -16,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-
+@ToString
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +43,8 @@ public class Project {
 
     @Column(name = "ac_end_date")
     private Date acEndDate;
+    @Column(name = "ac_imp_due_date")
+    private Date acImpDueDate;
 
     @Column(name = "cd_details")
     private String cdDetails;

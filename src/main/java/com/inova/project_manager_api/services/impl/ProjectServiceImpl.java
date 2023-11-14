@@ -4,25 +4,29 @@ package com.inova.project_manager_api.services.impl;
 import com.inova.project_manager_api.dao.ProjectDao;
 import com.inova.project_manager_api.dto.AppRequest;
 import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
+import com.inova.project_manager_api.dto.request.CostRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.request.TaskRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
+import com.inova.project_manager_api.dto.response.ProjectResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.entities.*;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.repositories.*;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
-import com.inova.project_manager_api.utils.mapper.ProjectMapper;
+import com.inova.project_manager_api.utils.codeGenerator.CodeGenerator;
+import com.inova.project_manager_api.utils.mapper.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,9 +65,25 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private TodoRepo todoRepository;
+    @Autowired
+    private TaskRepo taskRepository;
+    @Autowired
+    private StatusHistoryRepo statusHistoryRepository;
 
     @Autowired
     private ExternalContactPersonRepo externalContactPersonRepository;
+
+    private final CostMapper costMapper = new CostMapper();
+    private final RfpResourceMapper rfpResourceMapper = new RfpResourceMapper();
+    private final OutputsFromInovaMapper outputsFromInovaMapper = new OutputsFromInovaMapper();
+    private final TodoMapper todoMapper = new TodoMapper();
+    private final TaskMapper taskMapper = new TaskMapper();
+    private final PriorityMapper priorityMapper = new PriorityMapper();
+    private final ProjectStatusMapper projectStatusMapper = new ProjectStatusMapper();
+    private final IntermediateClientMapper intermediateClientMapper = new IntermediateClientMapper();
+    private final ExternalContactPersonMapper externalContactPersonMapper = new ExternalContactPersonMapper();
+    private final GrantClientMapper grantClientMapper = new GrantClientMapper();
+    private final ResponsiblePersonInovaMapper responsiblePersonInovaMapper = new ResponsiblePersonInovaMapper();
 
     @Override
     public StandardResponse findProject(int id) {
@@ -94,14 +114,14 @@ public class ProjectServiceImpl implements ProjectService {
         project.setName(request.getData().getProjectName());
         project.setCdDetails(request.getData().getClarificationDiscussionDetails());
         //code
-        project.setAcStartDate((Date) request.getData().getActualImplementationStartDate());
-        project.setAcEndDate((Date) request.getData().getActualImplementationEndDate());
-        project.setInitiationDate((Date) request.getData().getInitiationDate());
-        project.setLessonsLearned(request.getData().getLessonsLearned());
-        project.setPiStartDate((Date) request.getData().getProposedImplementationStartDate());
-        project.setPiEndDate((Date) request.getData().getProposedImplementationEndDate());
-        project.setProposalDueDate((Date) request.getData().getProposalDueDate());
-        project.setProposalSubmittedDate((Date) request.getData().getProposalSubmittedDate());
+//        project.setAcStartDate((Date) request.getData().getActualImplementationStartDate());
+//        project.setAcEndDate((Date) request.getData().getActualImplementationEndDate());
+//        project.setInitiationDate((Date) request.getData().getInitiationDate());
+//        project.setLessonsLearned(request.getData().getLessonsLearned());
+//        project.setPiStartDate((Date) request.getData().getProposedImplementationStartDate());
+//        project.setPiEndDate((Date) request.getData().getProposedImplementationEndDate());
+//        project.setProposalDueDate((Date) request.getData().getProposalDueDate());
+//        project.setProposalSubmittedDate((Date) request.getData().getProposalSubmittedDate());
 
 
         //insert into cost table
@@ -264,6 +284,203 @@ public class ProjectServiceImpl implements ProjectService {
                     404,
                     "Data not found",
                     null
+            );
+        }
+    }
+
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public ResponseEntity<StandardResponse> createProject(ProjectRequestDto request) {
+        try {
+
+            //      priority
+            int priorityId = request.getPriority();
+            Optional<Priority> priority = priorityRepository.findById(priorityId);
+            //      project status
+            int projectStatusId = request.getProjectStatus();
+            Optional<ProjectStatus> projectStatus = projectStatusRepository.findById(projectStatusId);
+
+            //       intermediate Client
+            IntermediateClient intermediateClient = null;
+            ExternalContactPerson intermediateClientContact = null;
+            if (request.getIntermediateClientRequestDto() != null) {
+                intermediateClient = intermediateClientMapper.toGrantClientEntity(request.getIntermediateClientRequestDto());
+                if (request.getIntermediateClientRequestDto().getExternalContactPerson() != null) {
+                    intermediateClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getIntermediateClientRequestDto().getExternalContactPerson());
+                }
+
+            }
+
+//        //       grant Client
+            GrantClient grantClient = null;
+            ExternalContactPerson grantClientContact = null;
+            if (request.getGrantClientRequestDto() != null) {
+                grantClient = grantClientMapper.toGrantClientEntity(request.getGrantClientRequestDto());
+                if (request.getGrantClientRequestDto().getExternalContactPerson() != null) {
+                    grantClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getGrantClientRequestDto().getExternalContactPerson());
+                }
+            }
+
+            //        save cost
+            CostRequestDto costRequestDto = request.getCostRequestDto() != null ? request.getCostRequestDto() : new CostRequestDto(0, 0, 0, 0);
+            Cost cost = costMapper.toCostEntity(costRequestDto);
+
+
+            //      save rfp resource
+            RfpResource rfpResource = null;
+            if (request.getRfpResourceRequestDto() != null) {
+                rfpResource = rfpResourceMapper.toRfpResourceResponseEntity(request.getRfpResourceRequestDto());
+
+            }
+
+            //       outputs from inova
+            OutputsFromInova outputsFromInova = null;
+            if (request.getOutputsFromInovaRequestDto() != null) {
+                outputsFromInova = outputsFromInovaMapper.toOutputsFromInovaEntity(request.getOutputsFromInovaRequestDto());
+
+            }
+            //       responsible Person Inova (project Lead)
+            ResponsiblePersonInova projectLead = null;
+            if (request.getProjectLead() >= 0) {
+                projectLead = responsiblePersonInovaRepository.findById(request.getProjectLead()).get();
+
+            }
+
+            //      effort estimators
+            List<ResponsiblePersonInova> effortEstimators = new ArrayList<>();
+            if (request.getEffortEstimators().size() > 0) {
+                for (int i : request.getEffortEstimators()) {
+                    Optional<ResponsiblePersonInova> byId = responsiblePersonInovaRepository.findById(i);
+                    if (byId.isPresent()) {
+                        effortEstimators.add(byId.get());
+                    }
+                }
+            }
+
+            //todoTask list
+            Todo todo = null;
+            List<Task> tasks = new ArrayList<>();
+            if (request.getTodoRequestDto() != null) {
+
+                todo = todoMapper.todoEntity(request.getTodoRequestDto());
+                if (request.getTodoRequestDto().getTasks() == null) {
+                    tasks = new ArrayList<>();
+                } else if (request.getTodoRequestDto().getTasks().size() > 0) {
+                    for (TaskRequestDto dto : request.getTodoRequestDto().getTasks()) {
+                        Task task = taskMapper.toTaskEntity(dto);
+                        tasks.add(task);
+                    }
+                }
+
+            }
+
+
+            Project project = new Project();
+
+            project.setName(request.getName());
+            project.setInitiationDate(request.getInitiationDate());
+            project.setProposalDueDate(request.getProposalDueDate() != null ? request.getProposalDueDate() : null);
+            project.setProposalSubmittedDate(request.getProposalSubmittedDate() != null ? request.getProposalSubmittedDate() : null);
+            project.setPiStartDate(request.getProposedImplementStartDate() != null ? request.getProposedImplementStartDate() : null);
+            project.setPiEndDate(request.getProposedImplementEndDate() != null ? request.getProposedImplementEndDate() : null);
+            project.setAcStartDate(request.getActualImplementationStartDate() != null ? request.getActualImplementationStartDate() : null);
+            project.setAcEndDate(request.getActualImplementationEndDate() != null ? request.getActualImplementationEndDate() : null);
+            project.setAcImpDueDate(request.getActualImplementationDueDate() != null ? request.getActualImplementationDueDate() : null);
+            project.setCdDetails(request.getClarificationDiscussionDetails() != null ? request.getClarificationDiscussionDetails() : null);
+            project.setLessonsLearned(request.getLessonsLearned() != null ? request.getLessonsLearned() : null);
+
+
+
+            project.setCode("aa/aa/aa/aa"); //Todo
+
+            project.setPriority(priority.get());
+            project.setProjectStatus(projectStatus.get());
+
+            project.setActiveState(true);
+
+            if (intermediateClient != null) {
+                if (intermediateClientContact != null) {
+                    ExternalContactPerson externalContactPersonClient = externalContactPersonRepository.save(intermediateClientContact);
+                    intermediateClient.setExternalContactPerson(externalContactPersonClient);
+                }
+                IntermediateClient savedIntermediateClient = intermediateClientRepository.save(intermediateClient);
+                project.setIntermediateClient(savedIntermediateClient);
+            }
+
+
+            if (grantClient != null) {
+                if (grantClientContact != null) {
+                    ExternalContactPerson externalContactPersonClient = externalContactPersonRepository.save(grantClientContact);
+                    grantClient.setExternalContactPerson(externalContactPersonClient);
+                }
+                GrantClient savedGrantClient = grantClientRepository.save(grantClient);
+                project.setGrantClient(savedGrantClient);
+            }
+            costRepository.save(cost);
+            project.setCost(cost);
+            if (rfpResource != null) {
+                rfpResourceRepository.save(rfpResource);
+                project.setRfpResource(rfpResource);
+            }
+            if (outputsFromInova != null) {
+                outputsFromInovaRepository.save(outputsFromInova);
+                project.setOutputsFromInova(outputsFromInova);
+            }
+            if (projectLead != null) {
+                project.setProjectLead(projectLead);
+            }
+            if (effortEstimators.size() > 0) {
+                project.setEffortEstimators(effortEstimators);
+            }
+            if (todo != null) {
+                todoRepository.save(todo);
+                project.setTodo(todo);
+                if (tasks.size() > 0) {
+                    for (Task t : tasks) {
+                        t.setTodo(todo);
+                    }
+                    List<Task> tasksList = taskRepository.saveAll(tasks);
+                    todo.setTasks(tasksList);
+                }
+
+            }
+
+            project.setStatusHistoryList(new ArrayList<>());
+            Project save = projectRepo.save(project);
+            CodeGenerator codeGenerator = new CodeGenerator();
+            String s = codeGenerator.generateCode(request.getGrantClientRequestDto().getName(), request.getGrantClientRequestDto().getIsForeign(), priority.get().getId(), save.getId());
+            Optional<Project> savedProject = projectRepo.findById(save.getId());
+            savedProject.get().setCode(s);
+            projectRepo.save(savedProject.get());
+            ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(save);
+
+
+
+
+            StatusHistory sh = new StatusHistory();
+            sh.setDescription("Project Added to the System");
+            sh.setDate(new Date());
+            sh.setProject(save);
+            statusHistoryRepository.save(sh);
+
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            200,
+                            "Project Saved",
+                            projectResponseDto
+                    ),
+                    HttpStatus.CREATED
+            );
+        } catch (Exception e) {
+            // If any exception occurs, the transaction will be rolled back, and no data will be saved
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error occurred while saving the project: " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
     }
