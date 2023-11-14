@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaginatedProjectData {
+public class PaginatedResponsiblePersonData {
     private int count;
-    private List<ProjectSimpleResponseDto> data;
+    private List<ResponsiblePersonInovaResponseDto> data;
 }

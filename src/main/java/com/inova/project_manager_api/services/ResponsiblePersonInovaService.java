@@ -9,5 +9,7 @@ public interface ResponsiblePersonInovaService {
     StandardResponse updatePerson(int id, ResponsiblePersonInovaRequestDto updatedPerson);
     StandardResponse findAllResponsiblePersons();
 
+    StandardResponse searchAllPersons(int page, int count,String searchtext);
+
     StandardResponse saveResponsiblePerson(ResponsiblePersonInovaRequestDto dto);
 }

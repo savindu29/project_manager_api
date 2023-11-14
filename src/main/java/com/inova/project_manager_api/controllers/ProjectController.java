@@ -45,14 +45,15 @@ public class ProjectController {
         }
     }
 
-    @GetMapping(value = "/list", params = {"page", "size"}) // localhost:8000/api/v1/customer/list (GET)
+    @GetMapping(value = "/search", params = {"page", "size","searchtext"}) // localhost:8000/api/v1/customer/list (GET)
     public ResponseEntity<StandardResponse> findAllCustomer(
             @RequestParam int page,
-            @RequestParam int size
+            @RequestParam int size,
+            @RequestParam String searchtext
     ) {
         return new ResponseEntity<>(
 
-                projectService.findAllProjects(page, size)
+                projectService.findAllProjects(page, size,searchtext)
 
                 , HttpStatus.OK
         );
