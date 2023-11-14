@@ -19,7 +19,7 @@ public class ResponsiblePersonInovaDaoImpl implements ResponsiblePersonInovaDao 
     public List<ResponsiblePersonInovaResponseDto> searchAllProjects(int page, int count, String searchtext) {
         int offset = (page - 1) * count; // Calculate the offset based on the current page and page size
 
-        String nativeQuery = "SELECT * FROM responsible_person_inova WHERE name LIKE %:searchtext% LIMIT :limit OFFSET :offset";
+        String nativeQuery = "SELECT * FROM responsible_person_inova WHERE name LIKE :searchtext LIMIT :limit OFFSET :offset";
         List<Object[]> resultList = entityManager.createNativeQuery(nativeQuery)
                 .setParameter("searchtext","%"+searchtext+"%")
                 .setParameter("limit",count)
