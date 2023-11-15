@@ -37,6 +37,18 @@ public class ResponsiblePersonInovaController {
         );
     }
 
+    @GetMapping(value = "/search-by-name",params = {"searchtext"})
+    public ResponseEntity<StandardResponse> searchEmployeeByName(
+
+            @RequestParam String searchtext
+    ){
+        return new ResponseEntity<>(
+                responsiblePersonInovaService.searchEmployeeByName(searchtext),
+                HttpStatus.OK
+        );
+    }
+
+
 
     @PostMapping("/create")
     public ResponseEntity<StandardResponse> saveResponsiblePerson(@RequestBody ResponsiblePersonInovaRequestDto requestDto) {
@@ -61,6 +73,17 @@ public class ResponsiblePersonInovaController {
                 responsiblePersonInovaService.updatePerson(id, updatedPerson)
                 , HttpStatus.OK
         );
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<StandardResponse> findOne(@PathVariable String id) {
+        int intId = Integer.parseInt(id);
+
+        return new ResponseEntity<>(
+
+                responsiblePersonInovaService.findProject(intId),
+                HttpStatus.OK
+        );
+
     }
 
 
