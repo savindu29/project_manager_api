@@ -28,10 +28,10 @@ public class ProjectRequestDto {
     private int ProjectLead;
     private List<Integer> effortEstimators;
     private String clarificationDiscussionDetails;
-    private IntermediateClientRequestDto intermediateClientRequestDto;
-    private GrantClientRequestDto grantClientRequestDto;
-    private CostRequestDto costRequestDto;
-    private TodoRequestDto todoRequestDto;
+    private IntermediateClientRequestDto intermediateClient;
+    private GrantClientRequestDto grantClient;
+    private CostRequestDto cost;
+    private TodoRequestDto todo;
     private List<RfpResourceRequestDto> rfpResources;
     private List<OutputsFromInovaRequestDto> outputsFromInova;
 

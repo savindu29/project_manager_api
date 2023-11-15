@@ -235,8 +235,8 @@ public class ProjectServiceImpl implements ProjectService {
         return null;
     }
 
-    public StandardResponse findAllProjects(int page, int count,String searchtext) {
-        List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count,searchtext);
+    public StandardResponse findAllProjects(int page, int count, String searchtext) {
+        List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count, searchtext);
         PaginatedProjectData paginatedProjectData = new PaginatedProjectData(
                 projectDao.getProjectCount(),
                 allProjects
@@ -288,7 +288,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackOn = Throwable.class)
     public ResponseEntity<StandardResponse> createProject(ProjectRequestDto request) {
         try {
 
@@ -302,10 +302,10 @@ public class ProjectServiceImpl implements ProjectService {
             //       intermediate Client
             IntermediateClient intermediateClient = null;
             ExternalContactPerson intermediateClientContact = null;
-            if (request.getIntermediateClientRequestDto() != null) {
-                intermediateClient = intermediateClientMapper.toGrantClientEntity(request.getIntermediateClientRequestDto());
-                if (request.getIntermediateClientRequestDto().getExternalContactPerson() != null) {
-                    intermediateClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getIntermediateClientRequestDto().getExternalContactPerson());
+            if (request.getIntermediateClient() != null) {
+                intermediateClient = intermediateClientMapper.toGrantClientEntity(request.getIntermediateClient());
+                if (request.getIntermediateClient().getExternalContactPerson() != null) {
+                    intermediateClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getIntermediateClient().getExternalContactPerson());
                 }
 
             }
@@ -313,19 +313,19 @@ public class ProjectServiceImpl implements ProjectService {
 //        //       grant Client
             GrantClient grantClient = null;
             ExternalContactPerson grantClientContact = null;
-            if (request.getGrantClientRequestDto() != null) {
-                grantClient = grantClientMapper.toGrantClientEntity(request.getGrantClientRequestDto());
-                if (request.getGrantClientRequestDto().getExternalContactPerson() != null) {
-                    grantClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getGrantClientRequestDto().getExternalContactPerson());
+            if (request.getGrantClient() != null) {
+                grantClient = grantClientMapper.toGrantClientEntity(request.getGrantClient());
+                if (request.getGrantClient().getExternalContactPerson() != null) {
+                    grantClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getGrantClient().getExternalContactPerson());
                 }
+            }
+            if (grantClient == null || request.getGrantClient().getIsForeign()==null || request.getGrantClient().getName()==null ) {
+                throw new RuntimeException("GrantClientRequestDto is null");
             }
 
             //        save cost
-            CostRequestDto costRequestDto = request.getCostRequestDto() != null ? request.getCostRequestDto() : new CostRequestDto(0, 0, 0, 0);
+            CostRequestDto costRequestDto = request.getCost() != null ? request.getCost() : new CostRequestDto(0, 0, 0, 0);
             Cost cost = costMapper.toCostEntity(costRequestDto);
-
-
-
 
 
             //       responsible Person Inova (project Lead)
@@ -349,18 +349,22 @@ public class ProjectServiceImpl implements ProjectService {
             //todoTask list
             Todo todo = null;
             List<Task> tasks = new ArrayList<>();
-            if (request.getTodoRequestDto() != null) {
+            if (request.getTodo() != null) {
 
-                todo = todoMapper.todoEntity(request.getTodoRequestDto());
-                if (request.getTodoRequestDto().getTasks() == null) {
+                todo = todoMapper.todoEntity(request.getTodo());
+                if (request.getTodo().getTasks() == null) {
                     tasks = new ArrayList<>();
-                } else if (request.getTodoRequestDto().getTasks().size() > 0) {
-                    for (TaskRequestDto dto : request.getTodoRequestDto().getTasks()) {
+                } else if (request.getTodo().getTasks().size() > 0) {
+                    for (TaskRequestDto dto : request.getTodo().getTasks()) {
                         Task task = taskMapper.toTaskEntity(dto);
                         tasks.add(task);
                     }
                 }
 
+            } else {
+                todo = new Todo();
+                todo.setNotes("Pending ... ");
+                todo.setTasks(new ArrayList<>());
             }
 
 
@@ -378,9 +382,6 @@ public class ProjectServiceImpl implements ProjectService {
             project.setCdDetails(request.getClarificationDiscussionDetails() != null ? request.getClarificationDiscussionDetails() : null);
             project.setLessonsLearned(request.getLessonsLearned() != null ? request.getLessonsLearned() : null);
 
-
-
-            project.setCode("aa/aa/aa/aa"); //Todo
 
             project.setPriority(priority.get());
             project.setProjectStatus(projectStatus.get());
@@ -429,23 +430,16 @@ public class ProjectServiceImpl implements ProjectService {
 
             project.setStatusHistoryList(new ArrayList<>());
 
-
-
-
-
-
             //save project
             Project save = projectRepo.save(project);
-
-
+            String code = null;
             CodeGenerator codeGenerator = new CodeGenerator();
-            String s = codeGenerator.generateCode(request.getGrantClientRequestDto().getName(), request.getGrantClientRequestDto().getIsForeign(), priority.get().getId(), save.getId());
+            code = codeGenerator.generateCode(request.getGrantClient().getName(), request.getGrantClient().getIsForeign(), priority.get().getId(), save.getId());
+
             Optional<Project> savedProject = projectRepo.findById(save.getId());
-            savedProject.get().setCode(s);
+            savedProject.get().setCode(code);
             projectRepo.save(savedProject.get());
             ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(save);
-
-
 
 
             //      save rfp resource
@@ -470,7 +464,6 @@ public class ProjectServiceImpl implements ProjectService {
             }
 
 
-
             StatusHistory sh = new StatusHistory();
             sh.setDescription("Project Added to the System");
             sh.setDate(new Date());
@@ -485,7 +478,7 @@ public class ProjectServiceImpl implements ProjectService {
                     ),
                     HttpStatus.CREATED
             );
-        } catch (Exception e) {
+        } catch (Throwable e) {
             // If any exception occurs, the transaction will be rolled back, and no data will be saved
             return new ResponseEntity<>(
                     new StandardResponse(

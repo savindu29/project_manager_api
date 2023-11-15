@@ -32,11 +32,11 @@ public class ResponsiblePersonInovaDaoImpl implements ResponsiblePersonInovaDao 
 
             ResponsiblePersonInovaResponseDto dto = new ResponsiblePersonInovaResponseDto();
             dto.setId((Integer) row[0]);
-            dto.setName((String) row[1]);
-            dto.setMobile((String) row[2]);
-            dto.setCompanyEmail((String) row[3]);
-            dto.setPrivateEmail((String) row[4]);
-            dto.setDesignation((String) row[5]);
+            dto.setCompanyEmail((String) row[1]);
+            dto.setDesignation((String) row[2]);
+            dto.setMobile((String) row[3]);
+            dto.setName((String) row[4]);
+            dto.setPrivateEmail((String) row[5]);
             dto.setSpecializedField((String) row[6]);
             dtos.add(dto);
         }
@@ -49,5 +49,10 @@ public class ResponsiblePersonInovaDaoImpl implements ResponsiblePersonInovaDao 
         long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).getSingleResult();
         int count = Math.toIntExact(countOfProjects);
         return count;
+    }
+
+    @Override
+    public List<ResponsiblePersonInovaResponseDto> searchEmployeeByname(String searchtext) {
+        return null;
     }
 }

@@ -13,4 +13,7 @@ public interface ResponsiblePersonInovaService {
 
     StandardResponse saveResponsiblePerson(ResponsiblePersonInovaRequestDto dto);
 
+    StandardResponse searchEmployeeByName(String searchtext);
+
+    StandardResponse findProject(int intId);
 }
