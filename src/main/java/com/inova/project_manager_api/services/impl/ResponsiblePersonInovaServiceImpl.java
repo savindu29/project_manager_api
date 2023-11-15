@@ -5,8 +5,10 @@ import com.inova.project_manager_api.dao.ResponsiblePersonInovaDao;
 import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
 import com.inova.project_manager_api.dto.paginatedData.PaginatedResponsiblePersonData;
 import com.inova.project_manager_api.dto.request.ResponsiblePersonInovaRequestDto;
+import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponseDto;
+import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.entities.ResponsiblePersonInova;
 import com.inova.project_manager_api.exceptions.PersonNotFoundException;
 import com.inova.project_manager_api.repositories.ResponsiblePersonInovaRepo;
@@ -47,7 +49,7 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
 
             // Save the updated person to the database
             ResponsiblePersonInova save = responsiblePersonInovaRepo.save(existingPerson);
-            if (save==null){
+            if (save!=null){
                 return new StandardResponse(
                         200,
                         "Data list",
@@ -137,8 +139,44 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
     }
 
     @Override
-    public StandardResponse searchResponsiblePersons() {
-        return null;
+    public StandardResponse searchEmployeeByName(String searchtext) {
+        List<ResponsiblePersonInovaResponseDto> searchAllPersons = responsiblePersonInovaDao.searchEmployeeByname(searchtext);
+        PaginatedResponsiblePersonData paginatedResponsiblePersonData = new PaginatedResponsiblePersonData(
+                responsiblePersonInovaDao.getProjectCount(),
+                searchAllPersons
+        );
+        if (paginatedResponsiblePersonData.getCount() == 0) {
+            return new StandardResponse(
+                    404,
+                    "Data not found",
+                    null
+            );
+        } else {
+            return new StandardResponse(
+                    200,
+                    "Data list",
+                    paginatedResponsiblePersonData
+            );
+        }
+    }
+
+    @Override
+    public StandardResponse findProject(int intId) {
+        Optional<ResponsiblePersonInova> byId = responsiblePersonInovaRepo.findById(intId);
+        ResponsiblePersonInovaResponseDto responsiblePersonInovaResponseDto = responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(byId.get());
+        if (responsiblePersonInovaResponseDto == null) {
+            return new StandardResponse(
+                    404,
+                    "Data not found",
+                    null
+            );
+        } else {
+            return new StandardResponse(
+                    200,
+                    "Data ",
+                    responsiblePersonInovaResponseDto
+            );
+        }
     }
 
 

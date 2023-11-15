@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -42,11 +43,11 @@ public class ProjectDaoImpl implements ProjectDao {
                 dto.setTodo((String) row[4]);
                 dto.setCurrentStatus((String) row[5]);
                 String dateQuery = "SELECT sh.date FROM status_history AS sh WHERE project_id = :projectId ORDER BY sh.date DESC LIMIT 1";
-//                Date date = (Date) entityManager.createNativeQuery(dateQuery)
-//                        .setParameter("projectId", row[0])
-//                        .getSingleResult();
+                Date date = (Date) entityManager.createNativeQuery(dateQuery)
+                        .setParameter("projectId", row[0])
+                        .getSingleResult();
 
-                dto.setLatestStatusHistoryDate(null);
+                dto.setLatestStatusHistoryDate(date);
                 dtos.add(dto);
             }
             return dtos;
@@ -60,7 +61,7 @@ public class ProjectDaoImpl implements ProjectDao {
     }
     @Override
     public int getProjectCount(){
-        String countQueryStr = "SELECT COUNT(*) FROM project where ";
+        String countQueryStr = "SELECT COUNT(*) FROM project ";
         long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).getSingleResult();
         int count = Math.toIntExact(countOfProjects);
         return count;

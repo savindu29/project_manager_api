@@ -45,11 +45,11 @@ public class ProjectAdvanceResponseDto {
 
     private TodoResponseDto todo;
 
-    private RfpResourceResponseDto rfpResource;
+    private List<RfpResourceResponseDto> rfpResource;
 
     private List<ImpStatusResponseDto> impStatusList;
 
-    private OutputsFromInovaResponseDto outputsFromInova;
+    private List<OutputsFromInovaResponseDto> outputsFromInova;
 
     private ResponsiblePersonInovaResponseDto projectLead;
 
