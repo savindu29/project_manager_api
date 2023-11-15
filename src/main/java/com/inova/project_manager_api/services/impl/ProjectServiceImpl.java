@@ -5,13 +5,11 @@ import com.inova.project_manager_api.dao.ProjectDao;
 import com.inova.project_manager_api.dto.AppRequest;
 import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
 import com.inova.project_manager_api.dto.request.*;
-import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
-import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
-import com.inova.project_manager_api.dto.response.ProjectResponseDto;
-import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
+import com.inova.project_manager_api.dto.response.*;
 import com.inova.project_manager_api.entities.*;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.repositories.*;
+import com.inova.project_manager_api.services.DmsService;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import com.inova.project_manager_api.utils.codeGenerator.CodeGenerator;
@@ -22,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,6 +68,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ExternalContactPersonRepo externalContactPersonRepository;
+
+    @Autowired
+    private DmsService dmsService;
 
     private final CostMapper costMapper = new CostMapper();
     private final RfpResourceMapper rfpResourceMapper = new RfpResourceMapper();
@@ -498,7 +500,34 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String file, String description) throws ApplicationGeneralException, IOException {
+        String status = null;
 
+        ResponseEntity<DocumentResponseDto> response = dmsService.uploadImage(file);
+
+        //update rfp_resources
+        RfpResource rfpResource = new RfpResource();
+        rfpResource.setDescription(description);
+        rfpResource.setDocumentReference(response.getBody().getDocumentReference());
+
+        Project project = this.projectRepo.getOne(projectId);
+        rfpResource.setProject(project);
+
+        RfpResource savedRfpResource = this.rfpResourceRepository.save(rfpResource);
+
+        //update outputs_from_inova
+        OutputsFromInova outputsFromInova = new OutputsFromInova();
+        outputsFromInova.setDescription(description);
+        outputsFromInova.setDocumentReference(response.getBody().getDocumentReference());
+
+        outputsFromInova.setProject(project);
+
+        OutputsFromInova savedOutputsFromInova = this.outputsFromInovaRepository.save(outputsFromInova);
+
+        status = "Image uploaded successfully.";
+        return new ResponseEntity(status, HttpStatus.OK);
+    }
 }
 
 

@@ -3,13 +3,14 @@ package com.inova.project_manager_api.services;
 
 import com.inova.project_manager_api.dto.AppRequest;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.http.ResponseEntity;
-import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
-import com.inova.project_manager_api.dto.request.ProjectRequestDto;
-import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
+
+import java.io.IOException;
 
 public interface ProjectService {
 
@@ -23,4 +24,6 @@ public interface ProjectService {
     StandardResponse deleteProject(int intId);
 
     ResponseEntity<StandardResponse> createProject(ProjectRequestDto request);
+
+    ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String imageString, String description) throws ApplicationGeneralException, IOException;
 }

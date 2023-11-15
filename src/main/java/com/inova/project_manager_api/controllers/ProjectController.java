@@ -1,10 +1,9 @@
 package com.inova.project_manager_api.controllers;
 
 import com.inova.project_manager_api.config.MetaDataServiceConfig;
-import com.inova.project_manager_api.dto.AppRequest;
-import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
+import com.inova.project_manager_api.dto.request.ImageUploadRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
-import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
+import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
@@ -39,8 +38,8 @@ public class ProjectController {
     }
 
 
-    @PostMapping(value="/create" )
-    public ResponseEntity<StandardResponse> createProject( @RequestBody ProjectRequestDto request) throws ApplicationGeneralException {
+    @PostMapping(value = "/create")
+    public ResponseEntity<StandardResponse> createProject(@RequestBody ProjectRequestDto request) throws ApplicationGeneralException {
         try {
             ResponseEntity<StandardResponse> project = this.projectService.createProject(request);
             return project;
@@ -58,7 +57,7 @@ public class ProjectController {
 //        }
 //    }
 
-    @GetMapping(value = "/search", params = {"page", "size","searchtext"}) // localhost:8000/api/v1/customer/list (GET)
+    @GetMapping(value = "/search", params = {"page", "size", "searchtext"}) // localhost:8000/api/v1/customer/list (GET)
     public ResponseEntity<StandardResponse> findAllCustomer(
             @RequestParam int page,
             @RequestParam int size,
@@ -66,7 +65,7 @@ public class ProjectController {
     ) {
         return new ResponseEntity<>(
 
-                projectService.findAllProjects(page, size,searchtext)
+                projectService.findAllProjects(page, size, searchtext)
 
                 , HttpStatus.OK
         );
@@ -84,13 +83,24 @@ public class ProjectController {
         );
 
     }
+
     @DeleteMapping(value = "/delete", params = {"id"})
-    public ResponseEntity<StandardResponse> deleteProject( @RequestParam String id){
+    public ResponseEntity<StandardResponse> deleteProject(@RequestParam String id) {
         int intId = Integer.parseInt(id);
         return new ResponseEntity<>(
                 projectService.deleteProject(intId),
                 HttpStatus.ACCEPTED
         );
 
+    }
+
+    @PostMapping(URIPrefix.IMAGE_UPLOAD)
+    public ResponseEntity<ImageUploadResponseDto> imageUpload(@Valid @RequestBody ImageUploadRequestDto request) throws ApplicationGeneralException {
+        try {
+            ResponseEntity<ImageUploadResponseDto> response = this.projectService.uploadImage(request.getProjectId(), request.getImageString(), request.getDescription());
+            return response;
+        } catch (Exception e) {
+            throw new ApplicationGeneralException(e.getMessage());
+        }
     }
 }
