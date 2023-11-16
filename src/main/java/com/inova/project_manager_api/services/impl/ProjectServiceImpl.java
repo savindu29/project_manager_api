@@ -258,6 +258,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public StandardResponse updateProject(ProjectRequestDto dto, int id) {
+        Project project = projectRepo.findById(id).get();
+        //implement update
+
+        Project save = projectRepo.save(project);
+
+
         return new StandardResponse(
                 200,
                 "updated",
