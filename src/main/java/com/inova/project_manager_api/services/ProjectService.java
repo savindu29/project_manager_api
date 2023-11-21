@@ -19,7 +19,7 @@ public interface ProjectService {
 
     StandardResponse findProject(int id);
     StandardResponse findAllProjects(int page, int count,String searchtext);
-    StandardResponse updateProject(ProjectRequestDto dto, int id);
+    ResponseEntity<StandardResponse> updateProject(ProjectRequestDto dto, int id);
     StandardResponse deleteProject(int intId);
 
     ResponseEntity<StandardResponse> createProject(ProjectRequestDto request);

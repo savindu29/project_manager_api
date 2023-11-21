@@ -257,12 +257,143 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public StandardResponse updateProject(ProjectRequestDto dto, int id) {
-        return new StandardResponse(
-                200,
-                "updated",
-                null
-        );
+    @Transactional(rollbackOn = Throwable.class)
+    public ResponseEntity<StandardResponse> updateProject(ProjectRequestDto request, int id) {
+        try {
+            Optional<Project> optionalProject = projectRepo.findById(id);
+            if (optionalProject.isPresent()) {
+                Project existingProject = optionalProject.get();
+
+                // Update project fields
+                existingProject.setName(request.getName());
+                existingProject.setInitiationDate(request.getInitiationDate());
+                existingProject.setProposalDueDate(request.getProposalDueDate());
+                existingProject.setProposalSubmittedDate(request.getProposalSubmittedDate());
+                existingProject.setPiStartDate(request.getProposedImplementStartDate());
+                existingProject.setPiEndDate(request.getProposedImplementEndDate());
+                existingProject.setAcStartDate(request.getActualImplementationStartDate());
+                existingProject.setAcImpDueDate(request.getActualImplementationDueDate());
+                existingProject.setCdDetails(request.getClarificationDiscussionDetails());
+                existingProject.setLessonsLearned(request.getLessonsLearned());
+
+                existingProject.setActiveState(true);
+
+
+                // Update priority
+                int priorityId = request.getPriority();
+                Optional<Priority> priority = priorityRepository.findById(priorityId);
+                existingProject.setPriority(priority.orElse(existingProject.getPriority()));
+
+                // Update project status
+                int projectStatusId = request.getProjectStatus();
+                Optional<ProjectStatus> projectStatus = projectStatusRepository.findById(projectStatusId);
+                existingProject.setProjectStatus(projectStatus.orElse(existingProject.getProjectStatus()));
+
+                // Update intermediate client
+                IntermediateClient intermediateClient = existingProject.getIntermediateClient();
+                if (request.getIntermediateClient() != null) {
+                    intermediateClient = intermediateClientMapper.toGrantClientEntity(request.getIntermediateClient());
+                    // Update external contact person if needed
+                }
+                existingProject.setIntermediateClient(intermediateClient);
+
+                // Update grant client
+                GrantClient grantClient = existingProject.getGrantClient();
+                if (request.getGrantClient() != null) {
+                    grantClient = grantClientMapper.toGrantClientEntity(request.getGrantClient());
+                    // Update external contact person if needed
+                }
+                existingProject.setGrantClient(grantClient);
+
+                // Update cost
+                CostRequestDto costRequestDto = request.getCost() != null ? request.getCost() : new CostRequestDto(0, 0, 0, 0);
+                Cost cost = costMapper.toCostEntity(costRequestDto);
+                existingProject.setCost(costRepository.save(cost));
+
+                // Update project lead and effort estimators as needed
+
+                ResponsiblePersonInova projectLead = null;
+                if (request.getProjectLead() >= 0) {
+                    projectLead = responsiblePersonInovaRepository.findById(request.getProjectLead()).orElse(null);
+                    existingProject.setProjectLead(projectLead);
+                }
+
+                // Update effort estimators
+                List<ResponsiblePersonInova> updatedEffortEstimators = new ArrayList<>();
+                if (request.getEffortEstimators().size() > 0) {
+                    for (int i : request.getEffortEstimators()) {
+                        Optional<ResponsiblePersonInova> byId = responsiblePersonInovaRepository.findById(i);
+                        byId.ifPresent(updatedEffortEstimators::add);
+                    }
+                }
+                existingProject.setEffortEstimators(updatedEffortEstimators);
+
+                // Update todo and tasks
+                Todo todo = existingProject.getTodo();
+                if (request.getTodo() != null) {
+                    todo = todoMapper.todoEntity(request.getTodo());
+
+                   //task update
+                    List<Task> updatedTasks = new ArrayList<>();
+                    if (request.getTodo().getTasks() != null && !request.getTodo().getTasks().isEmpty()) {
+                        for (TaskRequestDto taskDto : request.getTodo().getTasks()) {
+                            if (taskDto.getId() != null) {
+                                Optional<Task> existingTask = taskRepository.findById(Math.toIntExact(taskDto.getId()));
+                                if (existingTask.isPresent()) {
+                                    Task updatedTask = taskMapper.toTaskEntity(taskDto);
+                                    updatedTask.setTodo(todo);
+                                    updatedTasks.add(updatedTask);
+                                }
+                            }
+                        }
+                    }
+
+                    // Save updated tasks
+                    List<Task> savedTasks = taskRepository.saveAll(updatedTasks);
+                    todo.setTasks(savedTasks);
+                }
+
+                // Save updated todo
+                existingProject.setTodo(todoRepository.save(todo));
+
+
+                // Save the updated project
+                projectRepo.save(existingProject);
+
+                Project project = projectRepo.findById(id).get();
+                ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(project);
+
+                return new ResponseEntity<>(
+                        new StandardResponse(
+                                200,
+                                "Project Updated"+ id,
+                                projectResponseDto
+                        ),
+                        HttpStatus.INTERNAL_SERVER_ERROR
+                );
+
+            } else {
+                return new ResponseEntity<>(
+                        new StandardResponse(
+                                404,
+                                "Not Found Project By Id : "+ id,
+                                null
+                        ),
+                        HttpStatus.NO_CONTENT
+                );
+            }
+        } catch (Throwable e) {
+
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error occurred while updating the project: " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+
     }
 
     @Override

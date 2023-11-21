@@ -71,13 +71,15 @@ public class ProjectController {
 
 
     @PutMapping(value = "/update", params = {"id"})
-    public ResponseEntity<StandardResponse> updateStudent(@RequestBody ProjectRequestDto dto, @RequestParam String id) {
-        int intId = Integer.parseInt(id);
-        return new ResponseEntity<>(
+    public ResponseEntity<StandardResponse> updateProject(@RequestBody ProjectRequestDto dto, @RequestParam String id) throws ApplicationGeneralException {
 
-                projectService.updateProject(dto, intId),
-                HttpStatus.CREATED
-        );
+        try {
+            int intId = Integer.parseInt(id);
+            ResponseEntity<StandardResponse> project = this.projectService.updateProject(dto,intId);
+            return project;
+        } catch (Exception e) {
+            throw new ApplicationGeneralException();
+        }
 
     }
     @DeleteMapping(value = "/delete", params = {"id"})
