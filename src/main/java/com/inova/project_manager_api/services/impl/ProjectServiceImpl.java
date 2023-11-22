@@ -264,21 +264,9 @@ public class ProjectServiceImpl implements ProjectService {
             if (optionalProject.isPresent()) {
                 Project existingProject = optionalProject.get();
 
-                // Update project fields
+                // Update Project Details
                 existingProject.setName(request.getName());
                 existingProject.setInitiationDate(request.getInitiationDate());
-                existingProject.setProposalDueDate(request.getProposalDueDate());
-                existingProject.setProposalSubmittedDate(request.getProposalSubmittedDate());
-                existingProject.setPiStartDate(request.getProposedImplementStartDate());
-                existingProject.setPiEndDate(request.getProposedImplementEndDate());
-                existingProject.setAcStartDate(request.getActualImplementationStartDate());
-                existingProject.setAcImpDueDate(request.getActualImplementationDueDate());
-                existingProject.setCdDetails(request.getClarificationDiscussionDetails());
-                existingProject.setLessonsLearned(request.getLessonsLearned());
-
-                existingProject.setActiveState(true);
-
-
                 // Update priority
                 int priorityId = request.getPriority();
                 Optional<Priority> priority = priorityRepository.findById(priorityId);
@@ -288,6 +276,40 @@ public class ProjectServiceImpl implements ProjectService {
                 int projectStatusId = request.getProjectStatus();
                 Optional<ProjectStatus> projectStatus = projectStatusRepository.findById(projectStatusId);
                 existingProject.setProjectStatus(projectStatus.orElse(existingProject.getProjectStatus()));
+
+                // Update Project Dates
+                existingProject.setProposalDueDate(request.getProposalDueDate());
+                existingProject.setProposalSubmittedDate(request.getProposalSubmittedDate());
+                existingProject.setPiStartDate(request.getProposedImplementStartDate());
+                existingProject.setPiEndDate(request.getProposedImplementEndDate());
+                existingProject.setAcStartDate(request.getActualImplementationStartDate());
+                existingProject.setAcImpDueDate(request.getActualImplementationDueDate());
+
+                //Update Clarification Details
+                existingProject.setCdDetails(request.getClarificationDiscussionDetails());
+
+                // Update project lead and effort estimators as needed
+                ResponsiblePersonInova projectLead = null;
+                if (request.getProjectLead() >= 0) {
+                    projectLead = responsiblePersonInovaRepository.findById(request.getProjectLead()).orElse(null);
+                    existingProject.setProjectLead(projectLead);
+                }
+
+                // Update effort estimators
+                List<ResponsiblePersonInova> updatedEffortEstimators = new ArrayList<>();
+                if (request.getEffortEstimators().size() > 0) {
+                    for (int i : request.getEffortEstimators()) {
+                        Optional<ResponsiblePersonInova> byId = responsiblePersonInovaRepository.findById(i);
+                        byId.ifPresent(updatedEffortEstimators::add);
+                    }
+                }
+                existingProject.setEffortEstimators(updatedEffortEstimators);
+
+                //Update Lesson learned
+                existingProject.setLessonsLearned(request.getLessonsLearned());
+
+                existingProject.setActiveState(true);
+
 
                 // Update intermediate client
                 IntermediateClient intermediateClient = existingProject.getIntermediateClient();
@@ -309,24 +331,6 @@ public class ProjectServiceImpl implements ProjectService {
                 CostRequestDto costRequestDto = request.getCost() != null ? request.getCost() : new CostRequestDto(0, 0, 0, 0);
                 Cost cost = costMapper.toCostEntity(costRequestDto);
                 existingProject.setCost(costRepository.save(cost));
-
-                // Update project lead and effort estimators as needed
-
-                ResponsiblePersonInova projectLead = null;
-                if (request.getProjectLead() >= 0) {
-                    projectLead = responsiblePersonInovaRepository.findById(request.getProjectLead()).orElse(null);
-                    existingProject.setProjectLead(projectLead);
-                }
-
-                // Update effort estimators
-                List<ResponsiblePersonInova> updatedEffortEstimators = new ArrayList<>();
-                if (request.getEffortEstimators().size() > 0) {
-                    for (int i : request.getEffortEstimators()) {
-                        Optional<ResponsiblePersonInova> byId = responsiblePersonInovaRepository.findById(i);
-                        byId.ifPresent(updatedEffortEstimators::add);
-                    }
-                }
-                existingProject.setEffortEstimators(updatedEffortEstimators);
 
                 // Update todo and tasks
                 Todo todo = existingProject.getTodo();
