@@ -31,6 +31,9 @@ public class Task {
     @Column(name = "date")
     private Date date;
 
+    @Column(name ="is_done")
+    private boolean isDone;
+
     @ManyToOne
     @JoinColumn(name = "todo_id")
     private Todo todo;

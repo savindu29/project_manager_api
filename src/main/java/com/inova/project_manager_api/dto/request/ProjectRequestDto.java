@@ -34,6 +34,7 @@ public class ProjectRequestDto {
     private TodoRequestDto todo;
     private List<RfpResourceRequestDto> rfpResources;
     private List<OutputsFromInovaRequestDto> outputsFromInova;
+    private List<StatusHistoryRequestDto> latestActivity;
 
 
 
