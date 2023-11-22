@@ -29,4 +29,7 @@ public class StatusHistoryMapper {
         sh.setDescription(dto.getDescription());
         return sh;
     }
+//    public List<StatusHistory> statusHistoryEntityList (List<StatusHistoryRequestDto> dto){
+//
+//    }
 }

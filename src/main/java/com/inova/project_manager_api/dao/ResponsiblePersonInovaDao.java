@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ResponsiblePersonInovaDao {
     List<ResponsiblePersonInovaResponseDto> searchAllProjects(int page, int size,String searchtext);
-    int getProjectCount();
+    int getPersonCount(String searchtext);
 
     List<ResponsiblePersonInovaResponseDto> searchEmployeeByname(String searchtext);
 }

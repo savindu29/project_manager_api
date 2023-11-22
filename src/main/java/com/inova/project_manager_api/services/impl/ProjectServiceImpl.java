@@ -69,7 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ExternalContactPersonRepo externalContactPersonRepository;
-
+    private final StatusHistoryMapper statusHistoryMapper = new StatusHistoryMapper();
     private final CostMapper costMapper = new CostMapper();
     private final RfpResourceMapper rfpResourceMapper = new RfpResourceMapper();
     private final OutputsFromInovaMapper outputsFromInovaMapper = new OutputsFromInovaMapper();
@@ -238,7 +238,7 @@ public class ProjectServiceImpl implements ProjectService {
     public StandardResponse findAllProjects(int page, int count, String searchtext) {
         List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count, searchtext);
         PaginatedProjectData paginatedProjectData = new PaginatedProjectData(
-                projectDao.getProjectCount(),
+                projectDao.getProjectCount(searchtext),
                 allProjects
         );
         if (paginatedProjectData.getCount() == 0) {
@@ -570,7 +570,7 @@ public class ProjectServiceImpl implements ProjectService {
             Optional<Project> savedProject = projectRepo.findById(save.getId());
             savedProject.get().setCode(code);
             projectRepo.save(savedProject.get());
-            ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(save);
+
 
 
             //      save rfp resource
@@ -600,7 +600,13 @@ public class ProjectServiceImpl implements ProjectService {
             sh.setDate(new Date());
             sh.setProject(save);
             statusHistoryRepository.save(sh);
-
+            if(request.getLatestActivity()!=null )
+                for (StatusHistoryRequestDto dto: request.getLatestActivity()) {
+                    StatusHistory statusHistory = statusHistoryMapper.statusHistoryEntity(dto);
+                    statusHistory.setProject(save);
+                    statusHistoryRepository.save(statusHistory);
+                }
+            ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(projectRepo.findById(save.getId()).get());
             return new ResponseEntity<>(
                     new StandardResponse(
                             200,

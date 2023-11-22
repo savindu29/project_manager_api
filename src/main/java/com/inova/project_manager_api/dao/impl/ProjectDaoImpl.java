@@ -60,9 +60,10 @@ public class ProjectDaoImpl implements ProjectDao {
 
     }
     @Override
-    public int getProjectCount(){
-        String countQueryStr = "SELECT COUNT(*) FROM project  WHERE active_state = 1 ";
-        long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).getSingleResult();
+    public int getProjectCount(String searchText){
+        String countQueryStr = "SELECT COUNT(*) FROM project as pj JOIN mst_priority AS pr ON pj.priority = pr.id  WHERE pj.active_state = 1 AND (pj.name LIKE :searchtext OR pr.name LIKE :searchtext)";
+        long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).setParameter("searchtext","%"+searchText+"%").getSingleResult();
+
         int count = Math.toIntExact(countOfProjects);
         return count;
     }
