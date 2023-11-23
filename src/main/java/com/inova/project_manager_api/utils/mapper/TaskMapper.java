@@ -15,7 +15,7 @@ public class TaskMapper {
             return null;
         }
         return new TaskResponseDto(
-                t.getId(), t.getTaskTitle(), t.getTaskDescription(), t.getDate()
+                t.getId(), t.getTaskTitle(), t.getTaskDescription(), t.getDate() ,t.isDone()
         );
     }
 

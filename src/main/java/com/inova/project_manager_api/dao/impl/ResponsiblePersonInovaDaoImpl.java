@@ -44,9 +44,9 @@ public class ResponsiblePersonInovaDaoImpl implements ResponsiblePersonInovaDao 
     }
 
     @Override
-    public int getProjectCount() {
-        String countQueryStr = "SELECT COUNT(*) FROM responsible_person_inova";
-        long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).getSingleResult();
+    public int getPersonCount(String searchText) {
+        String countQueryStr = "SELECT COUNT(*) FROM responsible_person_inova where  name LIKE :searchtext ";
+        long countOfProjects =  (long) entityManager.createNativeQuery(countQueryStr).setParameter("searchtext","%"+searchText+"%").getSingleResult();
         int count = Math.toIntExact(countOfProjects);
         return count;
     }

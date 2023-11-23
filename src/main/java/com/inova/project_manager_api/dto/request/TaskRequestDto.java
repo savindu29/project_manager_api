@@ -14,4 +14,5 @@ public class TaskRequestDto {
     private String taskDescription;
 
     private Date date;
+    private boolean isDone;
 }
