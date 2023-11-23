@@ -23,10 +23,11 @@ public class IntermediateClientMapper {
         );
     }
 
-    public IntermediateClient toGrantClientEntity(IntermediateClientRequestDto dto) {
+    public IntermediateClient toIntermediateClientEntity(IntermediateClientRequestDto dto) {
         IntermediateClient i = new IntermediateClient();
         i.setName(dto.getName());
         i.setCountry(dto.getCountry());
+
         return i;
     }
 }

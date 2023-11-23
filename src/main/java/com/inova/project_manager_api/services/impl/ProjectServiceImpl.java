@@ -438,7 +438,7 @@ public class ProjectServiceImpl implements ProjectService {
             IntermediateClient intermediateClient = null;
             ExternalContactPerson intermediateClientContact = null;
             if (request.getIntermediateClient() != null) {
-                intermediateClient = intermediateClientMapper.toGrantClientEntity(request.getIntermediateClient());
+                intermediateClient = intermediateClientMapper.toIntermediateClientEntity(request.getIntermediateClient());
                 if (request.getIntermediateClient().getExternalContactPerson() != null) {
                     intermediateClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getIntermediateClient().getExternalContactPerson());
                 }
