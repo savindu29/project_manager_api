@@ -3,6 +3,7 @@ package com.inova.project_manager_api.services;
 
 import com.inova.project_manager_api.dto.AppRequest;
 import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.utils.StandardResponse;
@@ -22,7 +23,7 @@ public interface ProjectService {
     StandardResponse findAllProjects(int page, int count,String searchtext);
 
     @Transactional(rollbackOn = Throwable.class)
-    ResponseEntity<StandardResponse> updateProject(ProjectRequestDto request, int id);
+    ResponseEntity<StandardResponse> updateProject(ProjectUpdateRequestDto request, int id);
 
     StandardResponse deleteProject(int intId);
 

@@ -9,6 +9,7 @@ import java.sql.Date;
 @Data
 
 public class TaskRequestDto {
+    private int id;
     private String taskTitle;
 
     private String taskDescription;

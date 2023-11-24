@@ -1,6 +1,7 @@
 package com.inova.project_manager_api.controllers;
 
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
@@ -65,12 +66,12 @@ public class ProjectController {
     }
 
 
-    @PutMapping(value = "/update", params = {"id"})
-    public ResponseEntity<StandardResponse> updateProject(@RequestBody ProjectRequestDto dto, @RequestParam String id) throws ApplicationGeneralException {
+    @PutMapping(value = "/update", params = {"projectId"})
+    public ResponseEntity<StandardResponse> updateProject(@RequestBody ProjectUpdateRequestDto dto, @RequestParam int projectId) throws ApplicationGeneralException {
 
         try {
-            int intId = Integer.parseInt(id);
-            ResponseEntity<StandardResponse> project = this.projectService.updateProject(dto, intId);
+
+            ResponseEntity<StandardResponse> project = this.projectService.updateProject(dto, projectId);
             return project;
         } catch (Exception e) {
             throw new ApplicationGeneralException();

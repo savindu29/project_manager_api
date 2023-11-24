@@ -103,135 +103,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException {
-//        String status = null;
-//
-//        //insert into project table
-//        Project project = new Project();
-//
-//        project.setName(request.getData().getProjectName());
-//        project.setCdDetails(request.getData().getClarificationDiscussionDetails());
-        //code
-//        project.setAcStartDate((Date) request.getData().getActualImplementationStartDate());
-//        project.setAcEndDate((Date) request.getData().getActualImplementationEndDate());
-//        project.setInitiationDate((Date) request.getData().getInitiationDate());
-//        project.setLessonsLearned(request.getData().getLessonsLearned());
-//        project.setPiStartDate((Date) request.getData().getProposedImplementationStartDate());
-//        project.setPiEndDate((Date) request.getData().getProposedImplementationEndDate());
-//        project.setProposalDueDate((Date) request.getData().getProposalDueDate());
-//        project.setProposalSubmittedDate((Date) request.getData().getProposalSubmittedDate());
 
-
-        //insert into cost table
-//        Cost cost = new Cost();
-//
-//        cost.setAmcValue(request.getData().getAmcValue());
-//        cost.setQuotedRate(request.getData().getQuotingRate());
-//        cost.setQuotedValue(request.getData().getQuotedValue());
-//        cost.setTotalEffortMh(request.getData().getTotalEffort());
-//
-//        Cost costEntity = this.costRepository.save(cost);
-//        project.setCost(costEntity);
-//
-//        //insert into external contact person
-//        ExternalContactPerson externalContactPerson = new ExternalContactPerson();
-//
-//        externalContactPerson.setName(request.getData().getExternalContactPersonName());
-//        externalContactPerson.setDescription(request.getData().getExternalContactPersonDescription());
-//        externalContactPerson.setDesignation(request.getData().getExternalContactPersonDesignation());
-//        externalContactPerson.setMobile(request.getData().getExternalContactPersonMobile());
-//        externalContactPerson.setCompanyEmail(request.getData().getExternalContactPersonEmail());
-//        externalContactPerson.setFixTel(request.getData().getExternalContactPersonFixTel());
-//
-//        ExternalContactPerson externalContactPersonEntity = this.externalContactPersonRepository.save(externalContactPerson);
-//
-//        // insert into grant_client table
-//        GrantClient grantClient = new GrantClient();
-//
-//        grantClient.setExternalContactPerson(externalContactPersonEntity);
-//        grantClient.setCountry(request.getData().getGrantClientCountry());
-//        grantClient.setName(request.getData().getGrantClientName());
-//
-//        GrantClient grantClientEntity = this.grantClientRepository.save(grantClient);
-//        project.setGrantClient(grantClientEntity);
-//
-//        // insert into intermediate_client table
-//        IntermediateClient intermediateClient = new IntermediateClient();
-//
-//        intermediateClient.setExternalContactPerson(externalContactPersonEntity);
-//        intermediateClient.setName(request.getData().getIntermediateClientName());
-//
-//        IntermediateClient intermediateClientEntity = this.intermediateClientRepository.save(intermediateClient);
-//        project.setIntermediateClient(intermediateClientEntity);
-//
-//        // insert into outputs_from_inova table
-//        OutputsFromInova outputsFromInova = new OutputsFromInova();
-//
-//        outputsFromInova.setDescription(request.getData().getOutputsFromInovaDescription());
-//        outputsFromInova.setLocation(request.getData().getOutputsFromInovaLocation());
-//
-//        OutputsFromInova outputsFromInovaEntity = this.outputsFromInovaRepository.save(outputsFromInova);
-//        project.setOutputsFromInova(outputsFromInovaEntity);
-//
-//        //get project priority
-//        Optional<Priority> priorityEntity = this.priorityRepository.findById(1);//returns priority entity
-//        project.setPriority(priorityEntity.get());
-//
-//        // Insert into responsible_person_inova table
-//        ResponsiblePersonInova responsiblePersonInova = new ResponsiblePersonInova();
-//
-//        responsiblePersonInova.setName(request.getData().getInovaProjectLeadName());
-//        responsiblePersonInova.setMobile(request.getData().getInovaProjectLeadMobno());
-//        responsiblePersonInova.setDesignation(request.getData().getInovaProjectLeadDesignation());
-//        responsiblePersonInova.setCompanyEmail(request.getData().getInovaProjectLeadEmail());
-//        responsiblePersonInova.setSpecializedField(request.getData().getInovaProjectLeadSpecializedField());
-//
-//        ResponsiblePersonInova responsiblePersonInovaEntity = this.responsiblePersonInovaRepository.save(responsiblePersonInova);
-//
-//        //get project status
-//        Optional<ProjectStatus> projectStatus = this.projectStatusRepository.findById(1);//returns projectStatus entity
-//        project.setProjectStatus(projectStatus.get());
-//
-//        // Insert into rfp_resource table
-//        RfpResource rfpResource = new RfpResource();
-//
-//        rfpResource.setDescription(request.getData().getRfpResourcesDescription());
-//        rfpResource.setLocation(request.getData().getRfpResourcesLocations());
-//
-//        RfpResource rfpResourceEntity = this.rfpResourceRepository.save(rfpResource);
-//
-//        project.setRfpResource(rfpResourceEntity);
-//
-//        // Insert into todo table
-//        Todo todo = new Todo();
-//
-//        todo.setNotes(request.getData().getToDo());
-//
-//        Todo todoEntity = this.todoRepository.save(todo);
-//        project.setTodo(todoEntity);
-//
-//        //save project entity
-//        Project projectEntity = this.projectRepo.save(project);
-//
-//        //ResponsiblePersonInova
-//        Optional<ResponsiblePersonInova> responsiblePersonInova2 = this.responsiblePersonInovaRepository.findById(1);
-//        List<ResponsiblePersonInova> responsiblePersonInovalist = new ArrayList<>();
-//        responsiblePersonInovalist.add(responsiblePersonInova2.get());
-//
-//        project.setEffortEstimators(responsiblePersonInovalist);
-//
-//        //Insert Status History
-//        StatusHistory statusHistory = new StatusHistory();
-//
-//        java.util.Date currentDate = new java.util.Date();
-//
-//        // Set the currentDate to your statusHistory
-//        statusHistory.setDate(currentDate);
-//        statusHistory.setDescription("Project Created");
-//        statusHistory.setId(projectEntity.getId());
-//
-//
-//        status = "Project details successfully saved.";
-//        return new ResponseEntity(new ProjectDetailsSubmitResponseDto(status), HttpStatus.OK);
         return null;
     }
 
@@ -258,19 +130,15 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional(rollbackOn = Throwable.class)
-    public ResponseEntity<StandardResponse> updateProject(ProjectRequestDto request, int id) {
+    public ResponseEntity<StandardResponse> updateProject(ProjectUpdateRequestDto request, int id) {
         try {
             Optional<Project> optionalProject = projectRepo.findById(id);
             if (optionalProject.isPresent()) {
                 Project existingProject = optionalProject.get();
 
-                // Update Project Details
-                existingProject.setName(request.getName());
+               // update project Initiation Date
                 existingProject.setInitiationDate(request.getInitiationDate());
-                // Update priority
-                int priorityId = request.getPriority();
-                Optional<Priority> priority = priorityRepository.findById(priorityId);
-                existingProject.setPriority(priority.orElse(existingProject.getPriority()));
+
 
                 // Update project status
                 int projectStatusId = request.getProjectStatus();
@@ -282,13 +150,17 @@ public class ProjectServiceImpl implements ProjectService {
                 existingProject.setProposalSubmittedDate(request.getProposalSubmittedDate());
                 existingProject.setPiStartDate(request.getProposedImplementStartDate());
                 existingProject.setPiEndDate(request.getProposedImplementEndDate());
+
                 existingProject.setAcStartDate(request.getActualImplementationStartDate());
+                existingProject.setAcEndDate(request.getProposedImplementEndDate());
                 existingProject.setAcImpDueDate(request.getActualImplementationDueDate());
 
                 //Update Clarification Details
                 existingProject.setCdDetails(request.getClarificationDiscussionDetails());
+                //Update Lesson learned
+                existingProject.setLessonsLearned(request.getLessonsLearned());
 
-                // Update project lead and effort estimators as needed
+                // Update project lead  as needed
                 ResponsiblePersonInova projectLead = null;
                 if (request.getProjectLead() >= 0) {
                     projectLead = responsiblePersonInovaRepository.findById(request.getProjectLead()).orElse(null);
@@ -296,6 +168,11 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
                 // Update effort estimators
+                if(request.getEffortEstimators()==null || request.getEffortEstimators().size()==0){
+                    existingProject.setEffortEstimators(null);
+                }else{
+
+                }
                 List<ResponsiblePersonInova> updatedEffortEstimators = new ArrayList<>();
                 if (request.getEffortEstimators().size() > 0) {
                     for (int i : request.getEffortEstimators()) {
@@ -305,48 +182,14 @@ public class ProjectServiceImpl implements ProjectService {
                 }
                 existingProject.setEffortEstimators(updatedEffortEstimators);
 
-                //Update Lesson learned
-                existingProject.setLessonsLearned(request.getLessonsLearned());
 
-                existingProject.setActiveState(true);
-
-
-
-
-//                // Update todo and tasks
-//                Todo todo = existingProject.getTodo();
-//                if (request.getTodo() != null) {
-//                    todo = todoMapper.todoEntity(request.getTodo());
-//
-//                   //task update
-//                    List<Task> updatedTasks = new ArrayList<>();
-//                    if (request.getTodo().getTasks() != null && !request.getTodo().getTasks().isEmpty()) {
-//                        for (TaskRequestDto taskDto : request.getTodo().getTasks()) {
-//                            if (taskDto.getId() != null) {
-//                                Optional<Task> existingTask = taskRepository.findById(Math.toIntExact(taskDto.getId()));
-//                                if (existingTask.isPresent()) {
-//                                    Task updatedTask = taskMapper.toTaskEntity(taskDto);
-//                                    updatedTask.setTodo(todo);
-//                                    updatedTasks.add(updatedTask);
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    // Save updated tasks
-//                    List<Task> savedTasks = taskRepository.saveAll(updatedTasks);
-//                    todo.setTasks(savedTasks);
-//                }
-//
-//                // Save updated todo
-//                existingProject.setTodo(todoRepository.save(todo));
 
 
                 // Save the updated project
-                projectRepo.save(existingProject);
+                Project save = projectRepo.save(existingProject);
 
-                Project project = projectRepo.findById(id).get();
-                ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(project);
+
+                ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(save);
 
                 return new ResponseEntity<>(
                         new StandardResponse(
@@ -354,7 +197,7 @@ public class ProjectServiceImpl implements ProjectService {
                                 "Project Updated"+ id,
                                 projectResponseDto
                         ),
-                        HttpStatus.INTERNAL_SERVER_ERROR
+                        HttpStatus.OK
                 );
 
             } else {
