@@ -50,6 +50,7 @@ public class ProjectMapper {
         projectAdvanceResponseDto.setPiEndDate(project.getPiEndDate());
         projectAdvanceResponseDto.setAcStartDate(project.getAcStartDate());
         projectAdvanceResponseDto.setAcEndDate(project.getAcEndDate());
+        projectAdvanceResponseDto.setAcImpDueDate(project.getAcImpDueDate());
         projectAdvanceResponseDto.setCdDetails(project.getCdDetails());
         projectAdvanceResponseDto.setLessonsLearned(project.getLessonsLearned());
         projectAdvanceResponseDto.setCode(project.getCode());
