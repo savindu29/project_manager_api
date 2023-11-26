@@ -25,6 +25,7 @@ public class ProjectAdvanceResponseDto {
 
     private Date acEndDate;
 
+    private Date acImpDueDate;
     private String cdDetails;
 
     private String lessonsLearned;
