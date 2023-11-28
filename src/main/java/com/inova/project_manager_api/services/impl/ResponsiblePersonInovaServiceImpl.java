@@ -11,6 +11,8 @@ import com.inova.project_manager_api.services.ResponsiblePersonInovaService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import com.inova.project_manager_api.utils.mapper.ResponsiblePersonInovaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -170,6 +172,33 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
                     200,
                     "Data ",
                     responsiblePersonInovaResponseDto
+            );
+        }
+    }
+
+    @Override
+    public ResponseEntity<StandardResponse> deleteEmployee(int employeeId) {
+        try {
+             responsiblePersonInovaRepo.deleteById(employeeId);
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Deleted",
+                            null
+                    ),
+                    HttpStatus.OK
+            );
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error occurred while deleting the employee : " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
     }

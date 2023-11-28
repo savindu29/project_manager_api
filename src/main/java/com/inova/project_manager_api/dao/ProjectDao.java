@@ -7,4 +7,5 @@ import java.util.List;
 public interface ProjectDao {
     List<ProjectSimpleResponseDto> getAllProjects(int page,int size,String searchtext);
     int getProjectCount(String searchText);
+
 }

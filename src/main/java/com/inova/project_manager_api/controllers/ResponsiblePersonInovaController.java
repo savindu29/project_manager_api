@@ -88,4 +88,27 @@ public class ResponsiblePersonInovaController {
 
 
 
+    @DeleteMapping(value = "delete", params = {"employeeId"} )
+    public ResponseEntity<StandardResponse> deleteEmployee(int employeeId ){
+        try {
+
+
+            ResponseEntity<StandardResponse> response = responsiblePersonInovaService.deleteEmployee(employeeId);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error",
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+
+
+
 }
