@@ -69,8 +69,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ExternalContactPersonRepo externalContactPersonRepository;
 
+
     @Autowired
     private DmsService dmsService;
+
+
+    private final StatusHistoryMapper statusHistoryMapper = new StatusHistoryMapper();
 
     private final CostMapper costMapper = new CostMapper();
     private final RfpResourceMapper rfpResourceMapper = new RfpResourceMapper();
@@ -105,142 +109,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResponseEntity<ProjectDetailsSubmitResponseDto> projectDetailsSubmit(AppRequest<ProjectDetailsSubmitRequestDto> request) throws ApplicationGeneralException {
-//        String status = null;
-//
-//        //insert into project table
-//        Project project = new Project();
-//
-//        project.setName(request.getData().getProjectName());
-//        project.setCdDetails(request.getData().getClarificationDiscussionDetails());
-        //code
-//        project.setAcStartDate((Date) request.getData().getActualImplementationStartDate());
-//        project.setAcEndDate((Date) request.getData().getActualImplementationEndDate());
-//        project.setInitiationDate((Date) request.getData().getInitiationDate());
-//        project.setLessonsLearned(request.getData().getLessonsLearned());
-//        project.setPiStartDate((Date) request.getData().getProposedImplementationStartDate());
-//        project.setPiEndDate((Date) request.getData().getProposedImplementationEndDate());
-//        project.setProposalDueDate((Date) request.getData().getProposalDueDate());
-//        project.setProposalSubmittedDate((Date) request.getData().getProposalSubmittedDate());
 
-
-        //insert into cost table
-//        Cost cost = new Cost();
-//
-//        cost.setAmcValue(request.getData().getAmcValue());
-//        cost.setQuotedRate(request.getData().getQuotingRate());
-//        cost.setQuotedValue(request.getData().getQuotedValue());
-//        cost.setTotalEffortMh(request.getData().getTotalEffort());
-//
-//        Cost costEntity = this.costRepository.save(cost);
-//        project.setCost(costEntity);
-//
-//        //insert into external contact person
-//        ExternalContactPerson externalContactPerson = new ExternalContactPerson();
-//
-//        externalContactPerson.setName(request.getData().getExternalContactPersonName());
-//        externalContactPerson.setDescription(request.getData().getExternalContactPersonDescription());
-//        externalContactPerson.setDesignation(request.getData().getExternalContactPersonDesignation());
-//        externalContactPerson.setMobile(request.getData().getExternalContactPersonMobile());
-//        externalContactPerson.setCompanyEmail(request.getData().getExternalContactPersonEmail());
-//        externalContactPerson.setFixTel(request.getData().getExternalContactPersonFixTel());
-//
-//        ExternalContactPerson externalContactPersonEntity = this.externalContactPersonRepository.save(externalContactPerson);
-//
-//        // insert into grant_client table
-//        GrantClient grantClient = new GrantClient();
-//
-//        grantClient.setExternalContactPerson(externalContactPersonEntity);
-//        grantClient.setCountry(request.getData().getGrantClientCountry());
-//        grantClient.setName(request.getData().getGrantClientName());
-//
-//        GrantClient grantClientEntity = this.grantClientRepository.save(grantClient);
-//        project.setGrantClient(grantClientEntity);
-//
-//        // insert into intermediate_client table
-//        IntermediateClient intermediateClient = new IntermediateClient();
-//
-//        intermediateClient.setExternalContactPerson(externalContactPersonEntity);
-//        intermediateClient.setName(request.getData().getIntermediateClientName());
-//
-//        IntermediateClient intermediateClientEntity = this.intermediateClientRepository.save(intermediateClient);
-//        project.setIntermediateClient(intermediateClientEntity);
-//
-//        // insert into outputs_from_inova table
-//        OutputsFromInova outputsFromInova = new OutputsFromInova();
-//
-//        outputsFromInova.setDescription(request.getData().getOutputsFromInovaDescription());
-//        outputsFromInova.setLocation(request.getData().getOutputsFromInovaLocation());
-//
-//        OutputsFromInova outputsFromInovaEntity = this.outputsFromInovaRepository.save(outputsFromInova);
-//        project.setOutputsFromInova(outputsFromInovaEntity);
-//
-//        //get project priority
-//        Optional<Priority> priorityEntity = this.priorityRepository.findById(1);//returns priority entity
-//        project.setPriority(priorityEntity.get());
-//
-//        // Insert into responsible_person_inova table
-//        ResponsiblePersonInova responsiblePersonInova = new ResponsiblePersonInova();
-//
-//        responsiblePersonInova.setName(request.getData().getInovaProjectLeadName());
-//        responsiblePersonInova.setMobile(request.getData().getInovaProjectLeadMobno());
-//        responsiblePersonInova.setDesignation(request.getData().getInovaProjectLeadDesignation());
-//        responsiblePersonInova.setCompanyEmail(request.getData().getInovaProjectLeadEmail());
-//        responsiblePersonInova.setSpecializedField(request.getData().getInovaProjectLeadSpecializedField());
-//
-//        ResponsiblePersonInova responsiblePersonInovaEntity = this.responsiblePersonInovaRepository.save(responsiblePersonInova);
-//
-//        //get project status
-//        Optional<ProjectStatus> projectStatus = this.projectStatusRepository.findById(1);//returns projectStatus entity
-//        project.setProjectStatus(projectStatus.get());
-//
-//        // Insert into rfp_resource table
-//        RfpResource rfpResource = new RfpResource();
-//
-//        rfpResource.setDescription(request.getData().getRfpResourcesDescription());
-//        rfpResource.setLocation(request.getData().getRfpResourcesLocations());
-//
-//        RfpResource rfpResourceEntity = this.rfpResourceRepository.save(rfpResource);
-//
-//        project.setRfpResource(rfpResourceEntity);
-//
-//        // Insert into todo table
-//        Todo todo = new Todo();
-//
-//        todo.setNotes(request.getData().getToDo());
-//
-//        Todo todoEntity = this.todoRepository.save(todo);
-//        project.setTodo(todoEntity);
-//
-//        //save project entity
-//        Project projectEntity = this.projectRepo.save(project);
-//
-//        //ResponsiblePersonInova
-//        Optional<ResponsiblePersonInova> responsiblePersonInova2 = this.responsiblePersonInovaRepository.findById(1);
-//        List<ResponsiblePersonInova> responsiblePersonInovalist = new ArrayList<>();
-//        responsiblePersonInovalist.add(responsiblePersonInova2.get());
-//
-//        project.setEffortEstimators(responsiblePersonInovalist);
-//
-//        //Insert Status History
-//        StatusHistory statusHistory = new StatusHistory();
-//
-//        java.util.Date currentDate = new java.util.Date();
-//
-//        // Set the currentDate to your statusHistory
-//        statusHistory.setDate(currentDate);
-//        statusHistory.setDescription("Project Created");
-//        statusHistory.setId(projectEntity.getId());
-//
-//
-//        status = "Project details successfully saved.";
-//        return new ResponseEntity(new ProjectDetailsSubmitResponseDto(status), HttpStatus.OK);
         return null;
     }
 
     public StandardResponse findAllProjects(int page, int count, String searchtext) {
         List<ProjectSimpleResponseDto> allProjects = projectDao.getAllProjects(page, count, searchtext);
         PaginatedProjectData paginatedProjectData = new PaginatedProjectData(
-                projectDao.getProjectCount(),
+                projectDao.getProjectCount(searchtext),
                 allProjects
         );
         if (paginatedProjectData.getCount() == 0) {
@@ -259,12 +135,99 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public StandardResponse updateProject(ProjectRequestDto dto, int id) {
-        return new StandardResponse(
-                200,
-                "updated",
-                null
-        );
+    @Transactional(rollbackOn = Throwable.class)
+    public ResponseEntity<StandardResponse> updateProject(ProjectUpdateRequestDto request, int id) {
+        try {
+            Optional<Project> optionalProject = projectRepo.findById(id);
+            if (optionalProject.isPresent()) {
+                Project existingProject = optionalProject.get();
+
+               // update project Initiation Date
+                existingProject.setInitiationDate(request.getInitiationDate());
+
+
+                // Update project status
+                int projectStatusId = request.getProjectStatus();
+                Optional<ProjectStatus> projectStatus = projectStatusRepository.findById(projectStatusId);
+                existingProject.setProjectStatus(projectStatus.orElse(existingProject.getProjectStatus()));
+
+                // Update Project Dates
+                existingProject.setProposalDueDate(request.getProposalDueDate());
+                existingProject.setProposalSubmittedDate(request.getProposalSubmittedDate());
+                existingProject.setPiStartDate(request.getProposedImplementStartDate());
+                existingProject.setPiEndDate(request.getProposedImplementEndDate());
+
+                existingProject.setAcStartDate(request.getActualImplementationStartDate());
+                existingProject.setAcEndDate(request.getProposedImplementEndDate());
+                existingProject.setAcImpDueDate(request.getActualImplementationDueDate());
+
+                //Update Clarification Details
+                existingProject.setCdDetails(request.getClarificationDiscussionDetails());
+                //Update Lesson learned
+                existingProject.setLessonsLearned(request.getLessonsLearned());
+
+                // Update project lead  as needed
+                ResponsiblePersonInova projectLead = null;
+                if (request.getProjectLead() >= 0) {
+                    projectLead = responsiblePersonInovaRepository.findById(request.getProjectLead()).orElse(null);
+                    existingProject.setProjectLead(projectLead);
+                }
+
+                // Update effort estimators
+                if(request.getEffortEstimators()==null || request.getEffortEstimators().size()==0){
+                    existingProject.setEffortEstimators(null);
+                }else{
+
+                }
+                List<ResponsiblePersonInova> updatedEffortEstimators = new ArrayList<>();
+                if (request.getEffortEstimators().size() > 0) {
+                    for (int i : request.getEffortEstimators()) {
+                        Optional<ResponsiblePersonInova> byId = responsiblePersonInovaRepository.findById(i);
+                        byId.ifPresent(updatedEffortEstimators::add);
+                    }
+                }
+                existingProject.setEffortEstimators(updatedEffortEstimators);
+
+
+
+
+                // Save the updated project
+                Project save = projectRepo.save(existingProject);
+
+
+                ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(save);
+
+                return new ResponseEntity<>(
+                        new StandardResponse(
+                                200,
+                                "Project Updated"+ id,
+                                projectResponseDto
+                        ),
+                        HttpStatus.OK
+                );
+
+            } else {
+                return new ResponseEntity<>(
+                        new StandardResponse(
+                                404,
+                                "Not Found Project By Id : "+ id,
+                                null
+                        ),
+                        HttpStatus.NO_CONTENT
+                );
+            }
+        } catch (Throwable e) {
+
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error occurred while updating the project: " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+
     }
 
     @Override
@@ -305,7 +268,7 @@ public class ProjectServiceImpl implements ProjectService {
             IntermediateClient intermediateClient = null;
             ExternalContactPerson intermediateClientContact = null;
             if (request.getIntermediateClient() != null) {
-                intermediateClient = intermediateClientMapper.toGrantClientEntity(request.getIntermediateClient());
+                intermediateClient = intermediateClientMapper.toIntermediateClientEntity(request.getIntermediateClient());
                 if (request.getIntermediateClient().getExternalContactPerson() != null) {
                     intermediateClientContact = externalContactPersonMapper.toExternalContactPersonEntity(request.getIntermediateClient().getExternalContactPerson());
                 }
@@ -441,7 +404,7 @@ public class ProjectServiceImpl implements ProjectService {
             Optional<Project> savedProject = projectRepo.findById(save.getId());
             savedProject.get().setCode(code);
             projectRepo.save(savedProject.get());
-            ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(save);
+
 
 
             //      save rfp resource
@@ -471,7 +434,13 @@ public class ProjectServiceImpl implements ProjectService {
             sh.setDate(new Date());
             sh.setProject(save);
             statusHistoryRepository.save(sh);
-
+            if(request.getLatestActivity()!=null )
+                for (StatusHistoryRequestDto dto: request.getLatestActivity()) {
+                    StatusHistory statusHistory = statusHistoryMapper.statusHistoryEntity(dto);
+                    statusHistory.setProject(save);
+                    statusHistoryRepository.save(statusHistory);
+                }
+            ProjectResponseDto projectResponseDto = projectMapper.toProjectResponseDto(projectRepo.findById(save.getId()).get());
             return new ResponseEntity<>(
                     new StandardResponse(
                             200,

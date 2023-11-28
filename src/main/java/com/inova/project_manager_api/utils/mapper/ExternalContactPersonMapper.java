@@ -29,6 +29,9 @@ public class ExternalContactPersonMapper {
     }
 
     public ExternalContactPerson toExternalContactPersonEntity(ExternalContactPersonRequestDto dto){
+        if(dto ==null){
+            return null;
+        }
         ExternalContactPerson exp = new ExternalContactPerson();
         exp.setName(dto.getName());
         exp.setMobile(dto.getMobile());

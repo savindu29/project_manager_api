@@ -1,8 +1,10 @@
 package com.inova.project_manager_api.controllers;
 
+
 import com.inova.project_manager_api.config.MetaDataServiceConfig;
 import com.inova.project_manager_api.dto.request.ImageUploadRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
 import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.ProjectService;
@@ -26,12 +28,12 @@ public class ProjectController {
     private MetaDataServiceConfig metaDataServiceConfig;
 
     @GetMapping("/{id}")
-    public ResponseEntity<StandardResponse> findOne(@PathVariable String id) {
-        int intId = Integer.parseInt(id);
+    public ResponseEntity<StandardResponse> findOne(@PathVariable int id) {
+//        int intId = Integer.parseInt(id);
 
         return new ResponseEntity<>(
 
-                projectService.findProject(intId),
+                projectService.findProject(id),
                 HttpStatus.OK
         );
 
@@ -73,14 +75,16 @@ public class ProjectController {
     }
 
 
-    @PutMapping(value = "/update", params = {"id"})
-    public ResponseEntity<StandardResponse> updateStudent(@RequestBody ProjectRequestDto dto, @RequestParam String id) {
-        int intId = Integer.parseInt(id);
-        return new ResponseEntity<>(
+    @PutMapping(value = "/update", params = {"projectId"})
+    public ResponseEntity<StandardResponse> updateProject(@RequestBody ProjectUpdateRequestDto dto, @RequestParam int projectId) throws ApplicationGeneralException {
 
-                projectService.updateProject(dto, intId),
-                HttpStatus.CREATED
-        );
+        try {
+
+            ResponseEntity<StandardResponse> project = this.projectService.updateProject(dto, projectId);
+            return project;
+        } catch (Exception e) {
+            throw new ApplicationGeneralException(e.getMessage());
+        }
 
     }
 
