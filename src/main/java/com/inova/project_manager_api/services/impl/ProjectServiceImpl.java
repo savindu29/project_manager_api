@@ -136,7 +136,7 @@ public class ProjectServiceImpl implements ProjectService {
             if (optionalProject.isPresent()) {
                 Project existingProject = optionalProject.get();
 
-               // update project Initiation Date
+                // update project Initiation Date
                 existingProject.setInitiationDate(request.getInitiationDate());
 
 
@@ -456,7 +456,61 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public ResponseEntity<StandardResponse> getProposalStat() {
+       try{
+           ProjectStatsDto stat = projectDao.getProposalStat();
+
+           return new ResponseEntity<>(
+                   new StandardResponse(
+                           200,
+                           "sucess " ,
+                           stat
+                   ),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
+
+       }catch (Throwable e) {
+           // If any exception occurs, the transaction will be rolled back, and no data will be saved
+           return new ResponseEntity<>(
+                   new StandardResponse(
+                           500,
+                           "Error occurred while saving the project: " + e.getMessage(),
+                           null
+                   ),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
+
+       }
+    }
+
+    @Override
+    public ResponseEntity<StandardResponse> getImplementationStat() {
+        try{
+            ProjectImplemntationDto stat = projectDao.getImplementationStat();
+
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            stat
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+
+        }catch (Throwable e) {
+            // If any exception occurs, the transaction will be rolled back, and no data will be saved
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error occurred while saving the project: " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+
+        }
+    }
+
 
 }
-
-
