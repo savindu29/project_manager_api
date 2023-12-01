@@ -467,7 +467,7 @@ public class ProjectServiceImpl implements ProjectService {
                            "sucess " ,
                            stat
                    ),
-                   HttpStatus.INTERNAL_SERVER_ERROR
+                   HttpStatus.OK
            );
 
        }catch (Throwable e) {
@@ -495,7 +495,7 @@ public class ProjectServiceImpl implements ProjectService {
                             "sucess " ,
                             stat
                     ),
-                    HttpStatus.INTERNAL_SERVER_ERROR
+                    HttpStatus.OK
             );
 
         }catch (Throwable e) {
