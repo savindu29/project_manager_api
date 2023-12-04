@@ -32,4 +32,8 @@ public interface ProjectService {
     ResponseEntity<StandardResponse> getProposalStat();
 
     ResponseEntity<StandardResponse> getImplementationStat();
+
+    StandardResponse getLessonsLearned(int id);
+
+    StandardResponse getAllLessonsLearned();
 }

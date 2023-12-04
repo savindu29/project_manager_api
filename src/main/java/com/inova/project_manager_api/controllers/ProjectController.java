@@ -101,6 +101,14 @@ public class ProjectController {
         return projectService.getImplementationStat();
 
     }
-
+    @GetMapping("/lessonsLearned")
+    public ResponseEntity<StandardResponse> getAllLessonsLearned() throws ApplicationGeneralException {
+        try {
+            // Retrieve all lesson learned items across all projects
+            return new ResponseEntity<>(projectService.getAllLessonsLearned(), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ApplicationGeneralException();
+        }
+    }
 
 }

@@ -512,5 +512,15 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public StandardResponse getLessonsLearned(int id) {
+        return null;
+    }
+
+    @Override
+    public StandardResponse getAllLessonsLearned() {
+        return null;
+    }
+
 
 }
