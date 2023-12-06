@@ -30,5 +30,5 @@ public interface ProjectService {
 
     ResponseEntity<StandardResponse> createProject(ProjectRequestDto request);
 
-    ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String imageString, String description) throws ApplicationGeneralException, IOException;
+//    ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String imageString, String description) throws ApplicationGeneralException, IOException;
 }

@@ -2,15 +2,11 @@ package com.inova.project_manager_api.controllers;
 
 
 import com.inova.project_manager_api.config.MetaDataServiceConfig;
-import com.inova.project_manager_api.dto.request.ImageUploadRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
-import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
-import com.inova.project_manager_api.utils.URIPrefix;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,14 +94,14 @@ public class ProjectController {
 
     }
 
-    @PostMapping(URIPrefix.IMAGE_UPLOAD)
-    public ResponseEntity<ImageUploadResponseDto> imageUpload(@Valid @RequestBody ImageUploadRequestDto request) throws ApplicationGeneralException {
-        try {
-            ResponseEntity<ImageUploadResponseDto> response = this.projectService.uploadImage(request.getProjectId(), request.getImageString(), request.getDescription());
-            return response;
-        } catch (Exception e) {
-            throw new ApplicationGeneralException(e.getMessage());
-        }
-    }
+//    @PostMapping(URIPrefix.IMAGE_UPLOAD)
+//    public ResponseEntity<ImageUploadResponseDto> imageUpload(@Valid @RequestBody ImageUploadRequestDto request) throws ApplicationGeneralException {
+//        try {
+//            ResponseEntity<ImageUploadResponseDto> response = this.projectService.uploadImage(request.getProjectId(), request.getImageString(), request.getDescription());
+//            return response;
+//        } catch (Exception e) {
+//            throw new ApplicationGeneralException(e.getMessage());
+//        }
+//    }
 
 }

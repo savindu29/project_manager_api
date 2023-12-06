@@ -462,34 +462,34 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    @Override
-    public ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String file, String description) throws ApplicationGeneralException, IOException {
-        String status = null;
-
-        ResponseEntity<DocumentResponseDto> response = dmsService.uploadImage(file);
-
-        //update rfp_resources
-        RfpResource rfpResource = new RfpResource();
-        rfpResource.setDescription(description);
-        rfpResource.setDocumentReference(response.getBody().getDocumentReference());
-
-        Project project = this.projectRepo.getOne(projectId);
-        rfpResource.setProject(project);
-
-        RfpResource savedRfpResource = this.rfpResourceRepository.save(rfpResource);
-
-        //update outputs_from_inova
-        OutputsFromInova outputsFromInova = new OutputsFromInova();
-        outputsFromInova.setDescription(description);
-        outputsFromInova.setDocumentReference(response.getBody().getDocumentReference());
-
-        outputsFromInova.setProject(project);
-
-        OutputsFromInova savedOutputsFromInova = this.outputsFromInovaRepository.save(outputsFromInova);
-
-        status = "Image uploaded successfully.";
-        return new ResponseEntity(status, HttpStatus.OK);
-    }
+//    @Override
+//    public ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String file, String description) throws ApplicationGeneralException, IOException {
+//        String status = null;
+//
+//        ResponseEntity<DocumentResponseDto> response = dmsService.uploadFile(file);
+//
+//        //update rfp_resources
+//        RfpResource rfpResource = new RfpResource();
+//        rfpResource.setDescription(description);
+//        rfpResource.setDocumentReference(response.getBody().getDocumentReference());
+//
+//        Project project = this.projectRepo.getOne(projectId);
+//        rfpResource.setProject(project);
+//
+//        RfpResource savedRfpResource = this.rfpResourceRepository.save(rfpResource);
+//
+//        //update outputs_from_inova
+//        OutputsFromInova outputsFromInova = new OutputsFromInova();
+//        outputsFromInova.setDescription(description);
+//        outputsFromInova.setDocumentReference(response.getBody().getDocumentReference());
+//
+//        outputsFromInova.setProject(project);
+//
+//        OutputsFromInova savedOutputsFromInova = this.outputsFromInovaRepository.save(outputsFromInova);
+//
+//        status = "Image uploaded successfully.";
+//        return new ResponseEntity(status, HttpStatus.OK);
+//    }
 }
 
 
