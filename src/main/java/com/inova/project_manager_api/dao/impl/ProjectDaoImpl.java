@@ -4,6 +4,7 @@ import com.inova.project_manager_api.dao.ProjectDao;
 import com.inova.project_manager_api.dto.request.ProjectImplemntationDto;
 import com.inova.project_manager_api.dto.request.ProjectStatsDto;
 import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
+import com.inova.project_manager_api.dto.response.ProjectStatusSimpleResponseDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -119,6 +120,157 @@ public class ProjectDaoImpl implements ProjectDao {
 
 
         return dto;
+    }
+
+    @Override
+    public List<ProjectStatusSimpleResponseDto> getWonProposalName() {
+        try {
+
+            String nativeQuery = "SELECT name FROM project WHERE project_status=2";
+            List result  = entityManager.createNativeQuery(nativeQuery).getResultList();
+
+            List<Object> resultList = (List<Object>) result;
+
+            List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
+
+            for (Object row : resultList) {
+                ProjectStatusSimpleResponseDto dto = new ProjectStatusSimpleResponseDto();
+
+                dto.setName((String) row);
+                dtos.add(dto);
+
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProjectStatusSimpleResponseDto> getInProgressProposalName() {
+        try {
+
+            String nativeQuery = "SELECT name FROM project WHERE project_status=1";
+            List result  = entityManager.createNativeQuery(nativeQuery).getResultList();
+
+            List<Object> resultList = (List<Object>) result;
+
+            List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
+
+            for (Object row : resultList) {
+                ProjectStatusSimpleResponseDto dto = new ProjectStatusSimpleResponseDto();
+
+                dto.setName((String) row);
+                dtos.add(dto);
+
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @Override
+    public List<ProjectStatusSimpleResponseDto> LossProposalName() {
+        try {
+
+            String nativeQuery = "SELECT name FROM project WHERE project_status=5";
+            List result  = entityManager.createNativeQuery(nativeQuery).getResultList();
+
+            List<Object> resultList = (List<Object>) result;
+
+            List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
+
+            for (Object row : resultList) {
+                ProjectStatusSimpleResponseDto dto = new ProjectStatusSimpleResponseDto();
+
+                dto.setName((String) row);
+                dtos.add(dto);
+
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProjectStatusSimpleResponseDto> getInprogressProjectNames() {
+        try {
+
+            String nativeQuery = "SELECT name FROM project WHERE project_status=3";
+            List result  = entityManager.createNativeQuery(nativeQuery).getResultList();
+
+            List<Object> resultList = (List<Object>) result;
+
+            List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
+
+            for (Object row : resultList) {
+                ProjectStatusSimpleResponseDto dto = new ProjectStatusSimpleResponseDto();
+
+                dto.setName((String) row);
+                dtos.add(dto);
+
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProjectStatusSimpleResponseDto> getImplFailedProjectNames() {
+        try {
+
+            String nativeQuery = "SELECT name FROM project WHERE project_status=6";
+            List result  = entityManager.createNativeQuery(nativeQuery).getResultList();
+
+            List<Object> resultList = (List<Object>) result;
+
+            List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
+
+            for (Object row : resultList) {
+                ProjectStatusSimpleResponseDto dto = new ProjectStatusSimpleResponseDto();
+
+                dto.setName((String) row);
+                dtos.add(dto);
+
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProjectStatusSimpleResponseDto> getImplSucessProjectNames() {
+        try {
+
+            String nativeQuery = "SELECT name FROM project WHERE project_status=4";
+            List result  = entityManager.createNativeQuery(nativeQuery).getResultList();
+
+            List<Object> resultList = (List<Object>) result;
+
+            List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
+
+            for (Object row : resultList) {
+                ProjectStatusSimpleResponseDto dto = new ProjectStatusSimpleResponseDto();
+
+                dto.setName((String) row);
+                dtos.add(dto);
+
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 
