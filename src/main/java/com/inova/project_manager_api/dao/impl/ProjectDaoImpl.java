@@ -253,9 +253,9 @@ public class ProjectDaoImpl implements ProjectDao {
         try {
 
             String nativeQuery = "SELECT name FROM project WHERE project_status=4";
-            List result  = entityManager.createNativeQuery(nativeQuery).getResultList();
+            List results  = entityManager.createNativeQuery(nativeQuery).getResultList();
 
-            List<Object> resultList = (List<Object>) result;
+            List<Object> resultList = (List<Object>) results;
 
             List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
 

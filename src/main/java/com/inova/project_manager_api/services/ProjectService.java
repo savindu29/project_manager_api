@@ -36,4 +36,13 @@ public interface ProjectService {
     StandardResponse getLessonsLearned(int id);
 
     StandardResponse getAllLessonsLearned();
+
+    StandardResponse WonProposalName();
+    StandardResponse LossProposalName();
+    StandardResponse InprogressProposalName();
+    StandardResponse WonImplementationName();
+    StandardResponse LossImplementationName();
+    StandardResponse InprogressImplementationName();
+
+
 }

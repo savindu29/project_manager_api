@@ -102,5 +102,61 @@ public class ProjectController {
 
     }
 
+    @GetMapping (value = "/PropsalWonNames")
+    public ResponseEntity<StandardResponse> findAllCustomer() {
+        return new ResponseEntity<>(
+
+                projectService.WonProposalName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/PropsalLossNames")
+    public ResponseEntity<StandardResponse> LossProposalName() {
+        return new ResponseEntity<>(
+
+                projectService.LossProposalName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/InprogressPropsalNames")
+    public ResponseEntity<StandardResponse> InprogressPropsalNames() {
+        return new ResponseEntity<>(
+
+                projectService.InprogressProposalName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/SucessImplenetationNames")
+    public ResponseEntity<StandardResponse> SucessImplenetationNames() {
+        return new ResponseEntity<>(
+
+                projectService.WonImplementationName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/ImplementationFailedNames")
+    public ResponseEntity<StandardResponse> ImplementationFailedNames() {
+        return new ResponseEntity<>(
+
+                projectService.LossImplementationName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/InprogressImplementationNames")
+    public ResponseEntity<StandardResponse> InprogressImplementationNames() {
+        return new ResponseEntity<>(
+
+                projectService.InprogressImplementationName()
+                , HttpStatus.OK
+        );
+
+    }
+
+
 
 }
