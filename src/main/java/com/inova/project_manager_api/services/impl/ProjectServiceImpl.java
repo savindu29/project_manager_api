@@ -9,7 +9,6 @@ import com.inova.project_manager_api.dto.response.*;
 import com.inova.project_manager_api.entities.*;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.repositories.*;
-import com.inova.project_manager_api.services.DmsService;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import com.inova.project_manager_api.utils.codeGenerator.CodeGenerator;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,14 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ExternalContactPersonRepo externalContactPersonRepository;
-
-
-    @Autowired
-    private DmsService dmsService;
-
-
     private final StatusHistoryMapper statusHistoryMapper = new StatusHistoryMapper();
-
     private final CostMapper costMapper = new CostMapper();
     private final RfpResourceMapper rfpResourceMapper = new RfpResourceMapper();
     private final OutputsFromInovaMapper outputsFromInovaMapper = new OutputsFromInovaMapper();
@@ -142,7 +133,7 @@ public class ProjectServiceImpl implements ProjectService {
             if (optionalProject.isPresent()) {
                 Project existingProject = optionalProject.get();
 
-               // update project Initiation Date
+                // update project Initiation Date
                 existingProject.setInitiationDate(request.getInitiationDate());
 
 
@@ -462,34 +453,207 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-//    @Override
-//    public ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String file, String description) throws ApplicationGeneralException, IOException {
-//        String status = null;
-//
-//        ResponseEntity<DocumentResponseDto> response = dmsService.uploadFile(file);
-//
-//        //update rfp_resources
-//        RfpResource rfpResource = new RfpResource();
-//        rfpResource.setDescription(description);
-//        rfpResource.setDocumentReference(response.getBody().getDocumentReference());
-//
-//        Project project = this.projectRepo.getOne(projectId);
-//        rfpResource.setProject(project);
-//
-//        RfpResource savedRfpResource = this.rfpResourceRepository.save(rfpResource);
-//
-//        //update outputs_from_inova
-//        OutputsFromInova outputsFromInova = new OutputsFromInova();
-//        outputsFromInova.setDescription(description);
-//        outputsFromInova.setDocumentReference(response.getBody().getDocumentReference());
-//
-//        outputsFromInova.setProject(project);
-//
-//        OutputsFromInova savedOutputsFromInova = this.outputsFromInovaRepository.save(outputsFromInova);
-//
-//        status = "Image uploaded successfully.";
-//        return new ResponseEntity(status, HttpStatus.OK);
-//    }
+    @Override
+    public ResponseEntity<StandardResponse> getProposalStat() {
+       try{
+           ProjectStatsDto stat = projectDao.getProposalStat();
+
+           return new ResponseEntity<>(
+                   new StandardResponse(
+                           200,
+                           "sucess " ,
+                           stat
+                   ),
+                   HttpStatus.OK
+           );
+
+       }catch (Throwable e) {
+           // If any exception occurs, the transaction will be rolled back, and no data will be saved
+           return new ResponseEntity<>(
+                   new StandardResponse(
+                           500,
+                           "Error occurred while saving the project: " + e.getMessage(),
+                           null
+                   ),
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
+
+       }
+    }
+
+    @Override
+    public ResponseEntity<StandardResponse> getImplementationStat() {
+        try{
+            ProjectImplemntationDto stat = projectDao.getImplementationStat();
+
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            stat
+                    ),
+                    HttpStatus.OK
+            );
+
+        }catch (Throwable e) {
+            // If any exception occurs, the transaction will be rolled back, and no data will be saved
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error occurred while saving the project: " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+
+        }
+    }
+
+    @Override
+    public StandardResponse getLessonsLearned(int id) {
+        return null;
+    }
+
+    @Override
+    public StandardResponse getAllLessonsLearned() {
+        return null;
+    }
+
+    @Override
+    public StandardResponse WonProposalName() {
+        try{
+            List<ProjectStatusSimpleResponseDto> WonproposalNames = projectDao.getWonProposalName();
+            return
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            WonproposalNames
+                    );
+
+        }catch (Throwable e) {
+
+                    return new StandardResponse(
+                            500,
+                            "Error occurred while saving the project: " + e.getMessage(),
+                            null
+                    );
+
+        }
+
+    }
+
+    @Override
+    public StandardResponse LossProposalName() {
+        try{
+            List<ProjectStatusSimpleResponseDto> WonproposalNames = projectDao.LossProposalName();
+            return
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            WonproposalNames
+                    );
+
+        }catch (Throwable e) {
+
+            return new StandardResponse(
+                    500,
+                    "Error occurred while saving the project: " + e.getMessage(),
+                    null
+            );
+
+        }
+
+    }
+    @Override
+    public StandardResponse InprogressProposalName() {
+        try{
+            List<ProjectStatusSimpleResponseDto> InprogressproposalNames = projectDao.getInProgressProposalName();
+            return
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            InprogressproposalNames
+                    );
+
+        }catch (Throwable e) {
+
+            return new StandardResponse(
+                    500,
+                    "Error occurred while saving the project: " + e.getMessage(),
+                    null
+            );
+
+        }
+
+    }
+    @Override
+    public StandardResponse WonImplementationName() {
+        try{
+            List<ProjectStatusSimpleResponseDto> ImplementationSucessNames = projectDao.getImplSucessProjectNames();
+            return
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            ImplementationSucessNames
+                    );
+
+        }catch (Throwable e) {
+
+            return new StandardResponse(
+                    500,
+                    "Error occurred while saving the project: " + e.getMessage(),
+                    null
+            );
+
+        }
+
+    }
+    @Override
+    public StandardResponse LossImplementationName() {
+        try{
+            List<ProjectStatusSimpleResponseDto> LossImplementationName = projectDao.getImplFailedProjectNames();
+            return
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            LossImplementationName
+                    );
+
+        }catch (Throwable e) {
+
+            return new StandardResponse(
+                    500,
+                    "Error occurred while saving the project: " + e.getMessage(),
+                    null
+            );
+
+        }
+
+    }@Override
+    public StandardResponse InprogressImplementationName() {
+        try{
+            List<ProjectStatusSimpleResponseDto> InprogressImplementationName = projectDao.getInprogressProjectNames();
+            return
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            InprogressImplementationName
+                    );
+
+        }catch (Throwable e) {
+
+            return new StandardResponse(
+                    500,
+                    "Error occurred while saving the project: " + e.getMessage(),
+                    null
+            );
+
+        }
+
+    }
+
+
+
+
+
 }
-
-
