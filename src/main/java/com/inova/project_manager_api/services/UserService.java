@@ -37,7 +37,7 @@ public class UserService {
     private void sendEmailNotification(UserRequest userRequest) {
         // Construct the email message
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo("1savindupanagoda@gmail.com"); // replace with your admin's email
+        mailMessage.setTo("1savindupanagoda@gmail.com");
         mailMessage.setSubject("New User Account Request");
 
         // Build a nice message with user details
