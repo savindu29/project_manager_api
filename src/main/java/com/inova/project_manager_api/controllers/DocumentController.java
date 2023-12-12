@@ -22,6 +22,7 @@ public class DocumentController {
     @Autowired
     private DocumentService documentService;
 
+
     @PostMapping(URIPrefix.IMAGE_UPLOAD)
     public ResponseEntity<StandardResponse> imageUpload(@Valid @RequestBody List<DocumentUploadRequestDto> request) throws ApplicationGeneralException {
         try {
@@ -31,10 +32,10 @@ public class DocumentController {
             throw new ApplicationGeneralException(e.getMessage());
         }
     }
-    @GetMapping(value = "/get" , params = {"projectId", "type"})
-    public ResponseEntity<StandardResponse> downloadDocuments(@Valid @RequestParam int projectId,@RequestParam DocumentResourceType type) throws ApplicationGeneralException {
+    @GetMapping(value = "/get" , params = {"docId", "type"})
+    public ResponseEntity<StandardResponse> downloadDocuments(@Valid @RequestParam int docId,@RequestParam DocumentResourceType type) throws ApplicationGeneralException {
         try {
-            ResponseEntity<StandardResponse> response = this.documentService.getDocuments(projectId,type);
+            ResponseEntity<StandardResponse> response = this.documentService.getDocuments(docId,type);
             return response;
         } catch (Exception e) {
             throw new ApplicationGeneralException(e.getMessage());

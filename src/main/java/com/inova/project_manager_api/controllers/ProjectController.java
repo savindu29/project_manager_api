@@ -38,7 +38,7 @@ public class ProjectController {
             ResponseEntity<StandardResponse> project = this.projectService.createProject(request);
             return project;
         } catch (Exception e) {
-            throw new ApplicationGeneralException();
+            throw new ApplicationGeneralException(e.getMessage());
         }
     }
 //    @PostMapping(URIPrefix.ADD_PROJECT_DETAILS)
@@ -75,7 +75,7 @@ public class ProjectController {
             ResponseEntity<StandardResponse> project = this.projectService.updateProject(dto, projectId);
             return project;
         } catch (Exception e) {
-            throw new ApplicationGeneralException();
+            throw new ApplicationGeneralException(e.getMessage());
         }
 
     }

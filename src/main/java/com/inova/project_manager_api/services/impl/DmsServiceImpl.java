@@ -1,6 +1,7 @@
 package com.inova.project_manager_api.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.inova.project_manager_api.config.DmsCodeConfig;
 import com.inova.project_manager_api.config.DmsConfig;
 import com.inova.project_manager_api.dto.response.DocumentResponse;
 import com.inova.project_manager_api.dto.response.DocumentResponseDto;
@@ -10,6 +11,8 @@ import com.inova.project_manager_api.enums.FileType;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.DmsService;
 import com.inova.project_manager_api.utils.CommonUtil;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.Resource;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -26,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -33,7 +38,8 @@ import java.util.UUID;
 public class DmsServiceImpl implements DmsService {
     @Autowired
     private DmsConfig dmsConfig;
-
+    @Autowired
+    private DmsCodeConfig dmsCodeConfig;
     @Autowired
     private DocumentResponseDtoBuilder documentResponseDtoBuilder;
 
@@ -113,40 +119,86 @@ public class DmsServiceImpl implements DmsService {
     }
 
     @Override
-    public String downloadFile(String documentReference)
-            throws ApplicationGeneralException, IOException {
+    public ResponseEntity<Resource> getDocument(String docId) throws ApplicationGeneralException {
+        StringBuilder urlString = new StringBuilder();
+        urlString.append(dmsConfig.getContextPath());
+        urlString.append(MessageFormat.format(dmsCodeConfig.getRetrieveUrl(), docId));
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<?> entity = new HttpEntity<>(CommonUtil.createMultiHttpHeader(dmsConfig.getUsername().trim(), dmsConfig.getPassword().trim()));
         try {
-            StringBuilder urlString = new StringBuilder();
-            urlString.append(dmsConfig.getContextPath());
-            urlString.append(dmsConfig.getRetrieveUrl());
+            ResponseEntity<Resource> responseEntity = restTemplate.exchange(urlString.toString(), HttpMethod.GET, entity, Resource.class);
+            return responseEntity;
+        } catch (HttpClientErrorException e) {
+            throw new ApplicationGeneralException("Document with ID " + docId + " not found.");
+        }
 
-            // Assuming you need to include the document reference in the download URL
-            urlString.append("?documentReference=").append(documentReference);
+    }
 
-            HttpHeaders headers = CommonUtil.createMultiHttpHeader(
-                    dmsConfig.getUsername().trim(), dmsConfig.getPassword().trim(), 0L);
+    @Override
+    public String getDocumentAsBase64(String docId) throws ApplicationGeneralException {
+        // Build the URL for retrieving the document
+        StringBuilder urlString = new StringBuilder();
+        urlString.append(dmsConfig.getContextPath());
+        urlString.append(MessageFormat.format(dmsCodeConfig.getRetrieveUrl(), docId));
 
-            HttpEntity<Void> entity = new HttpEntity<>(headers);
+        // Create a RestTemplate and set up the HTTP headers
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<?> entity = new HttpEntity<>(CommonUtil.createMultiHttpHeader(dmsConfig.getUsername().trim(), dmsConfig.getPassword().trim()));
 
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<byte[]> responseEntity = restTemplate.exchange(
-                    urlString.toString(),
-                    HttpMethod.GET,
-                    entity,
-                    byte[].class);
+        try {
+            // Make an HTTP GET request to retrieve the document
+            ResponseEntity<Resource> responseEntity = restTemplate.exchange(urlString.toString(), HttpMethod.GET, entity, Resource.class);
 
+            // Check if the request was successful (2xx status code)
             if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                byte[] fileBytes = responseEntity.getBody();
-                String base64String = Base64.getEncoder().encodeToString(fileBytes);
-                return  base64String;
+                // Read the document content as bytes
+                byte[] documentBytes;
+                try (InputStream inputStream = responseEntity.getBody().getInputStream()) {
+                    documentBytes = IOUtils.toByteArray(inputStream);
+                } catch (IOException e) {
+                    throw new ApplicationGeneralException("Error reading document content. "+ e);
+                }
+
+                // Encode the document bytes to Base64
+                String base64Content = Base64.getEncoder().encodeToString(documentBytes);
+
+                // Return the Base64-encoded content
+                return  base64Content;
             } else {
-                throw new ApplicationGeneralException("Error downloading file. Status code: " +
-                        responseEntity.getStatusCodeValue());
+                // Handle the case where the document is not found
+                throw new ApplicationGeneralException("Document with ID " + docId + " not found.");
             }
-        } catch (Exception e) {
-            throw new ApplicationGeneralException("Error downloading file: " + e.getMessage());
+        } catch (HttpClientErrorException e) {
+            // Handle HTTP client errors
+            throw new ApplicationGeneralException("Error retrieving document. Status code: " + e.getStatusCode() + ", " + e.getResponseBodyAsString());
         }
     }
+//    public ResponseEntity<String> deleteDocument(String docId) throws ApplicationException {
+//        StringBuilder urlString = new StringBuilder();
+//        urlString.append(dmsConfig.getContextPath());
+//        urlString.append(MessageFormat.format(dmsCodeConfig.getDeleteUrl(), docId));
+//
+//        try {
+//            RestTemplate restTemplate = new RestTemplate();
+//            HttpEntity<?> entity = new HttpEntity<>(CommonUtil.createMultiHttpHeader(dmsConfig.getUsername().trim(), dmsConfig.getPassword().trim()));
+//            ResponseEntity<String> responseEntity = restTemplate.exchange(urlString.toString(), HttpMethod.DELETE, entity, String.class);
+//
+//            if (responseEntity.getStatusCode().value() == 204) {
+//                return responseEntity;
+//            } else {
+//                throw new ApplicationException("Failed to delete document with ID " + docId);
+//            }
+//        } catch (HttpClientErrorException e) {
+//            if (e.getRawStatusCode() == 404) {
+//                throw new ApplicationException("Document with ID " + docId + " not found.");
+//            } else {
+//                throw new ApplicationException("Failed to delete document with ID " + docId + ": " + e.getMessage());
+//            }
+//        } catch (Exception e) {
+//            throw new ApplicationException("Failed to delete document with ID " + docId + ": " + e.getMessage());
+//        }
+
+//    }
 
 
 }
