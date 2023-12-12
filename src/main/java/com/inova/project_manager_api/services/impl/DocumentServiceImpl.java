@@ -57,7 +57,7 @@ public class DocumentServiceImpl implements DocumentService {
                     RfpResource rfpResource = new RfpResource();
                     rfpResource.setDescription(dto.getDescription());
                     rfpResource.setDocumentReference(response.getBody().getDocumentReference());
-
+                    rfpResource.setFileType(response.getBody().getType());
                     Project project = this.projectRepo.findById(dto.getProjectId()).get();
                     rfpResource.setProject(project);
 

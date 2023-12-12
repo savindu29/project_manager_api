@@ -15,6 +15,7 @@ public class RfpResourceResponseDto {
     private String documentReference;
 
     private String description;
+    private String type;
 
 
 }

@@ -15,4 +15,5 @@ public class OutputsFromInovaResponseDto {
     private String documentReference;
 
     private String description;
+    private String type;
 }

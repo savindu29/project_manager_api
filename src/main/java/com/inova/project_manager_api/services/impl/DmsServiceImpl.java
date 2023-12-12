@@ -48,6 +48,7 @@ public class DmsServiceImpl implements DmsService {
         StringBuilder urlString = new StringBuilder();
         urlString.append(dmsConfig.getContextPath());
         urlString.append(dmsConfig.getUploadUrl());
+        String type="";
 
         // Convert Base64 to file
         byte[] bytes = Base64.getDecoder().decode(base64File);
@@ -60,12 +61,15 @@ public class DmsServiceImpl implements DmsService {
         if (fileType == FileType.IMAGE) {
             defaultFileName = "filename.png";
             contentType = "image/png";
+            type ="png";
         } else if (fileType == FileType.PDF) {
             defaultFileName = "filename.pdf";
             contentType = "application/pdf";
+            type="pdf";
         } else if (fileType == FileType.EXCEL) {
             defaultFileName = "filename.xlsx";
             contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            type="excel";
         } else {
             throw new IllegalArgumentException("Unsupported file type: " + fileType);
         }
@@ -105,6 +109,7 @@ public class DmsServiceImpl implements DmsService {
                 ObjectMapper objectMapper = new ObjectMapper();
                 DocumentResponse documentResponse = objectMapper.readValue(responseEntity.getBody(), DocumentResponse.class);
                 DocumentResponseDto response = documentResponseDtoBuilder.buildResponseDto(documentResponse);
+                response.setType(type);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 throw new ApplicationGeneralException("Error uploading file. Status code: " + responseEntity.getStatusCodeValue());

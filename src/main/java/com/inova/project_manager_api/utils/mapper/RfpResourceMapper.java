@@ -16,7 +16,7 @@ public class RfpResourceMapper {
             return null;
         }
         return new RfpResourceResponseDto(
-                rfpResource.getId(), rfpResource.getDescription(), rfpResource.getDocumentReference()
+                rfpResource.getId(),  rfpResource.getDocumentReference(),rfpResource.getDescription(),rfpResource.getFileType()
         );
     }
     public List<RfpResourceResponseDto> rfpResourceResponseDtoList (List<RfpResource> list){

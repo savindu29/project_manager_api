@@ -25,6 +25,10 @@ public class RfpResource {
     @Column(name = "dms_ref", length = 500)
     private String documentReference;
 
+    @Column(name = "file_type")
+    private String fileType;
+
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
