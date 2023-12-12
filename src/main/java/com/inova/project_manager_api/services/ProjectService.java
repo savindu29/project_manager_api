@@ -2,17 +2,14 @@ package com.inova.project_manager_api.services;
 
 
 import com.inova.project_manager_api.dto.AppRequest;
-import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
-import com.inova.project_manager_api.dto.request.ProjectRequestDto;
-import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
-import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
+import com.inova.project_manager_api.dto.request.*;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.utils.StandardResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
-
-import java.io.IOException;
+import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
+import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 
 public interface ProjectService {
 
@@ -30,5 +27,22 @@ public interface ProjectService {
 
     ResponseEntity<StandardResponse> createProject(ProjectRequestDto request);
 
-    ResponseEntity<ImageUploadResponseDto> uploadImage(Integer projectId, String imageString, String description) throws ApplicationGeneralException, IOException;
+
+
+    ResponseEntity<StandardResponse> getProposalStat();
+
+    ResponseEntity<StandardResponse> getImplementationStat();
+
+    StandardResponse getLessonsLearned(int id);
+
+    StandardResponse getAllLessonsLearned();
+
+    StandardResponse WonProposalName();
+    StandardResponse LossProposalName();
+    StandardResponse InprogressProposalName();
+    StandardResponse WonImplementationName();
+    StandardResponse LossImplementationName();
+    StandardResponse InprogressImplementationName();
+
+
 }

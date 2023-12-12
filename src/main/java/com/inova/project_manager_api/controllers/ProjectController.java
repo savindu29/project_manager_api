@@ -1,17 +1,12 @@
 package com.inova.project_manager_api.controllers;
 
-
-import com.inova.project_manager_api.config.MetaDataServiceConfig;
-import com.inova.project_manager_api.dto.request.ImageUploadRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
-import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
-import com.inova.project_manager_api.utils.URIPrefix;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +18,6 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
-
-    @Autowired
-    private MetaDataServiceConfig metaDataServiceConfig;
 
     @GetMapping("/{id}")
     public ResponseEntity<StandardResponse> findOne(@PathVariable int id) {
@@ -46,7 +38,7 @@ public class ProjectController {
             ResponseEntity<StandardResponse> project = this.projectService.createProject(request);
             return project;
         } catch (Exception e) {
-            throw new ApplicationGeneralException(this.metaDataServiceConfig.getCreationFailed());
+            throw new ApplicationGeneralException();
         }
     }
 //    @PostMapping(URIPrefix.ADD_PROJECT_DETAILS)
@@ -83,7 +75,7 @@ public class ProjectController {
             ResponseEntity<StandardResponse> project = this.projectService.updateProject(dto, projectId);
             return project;
         } catch (Exception e) {
-            throw new ApplicationGeneralException(e.getMessage());
+            throw new ApplicationGeneralException();
         }
 
     }
@@ -98,13 +90,73 @@ public class ProjectController {
 
     }
 
-    @PostMapping(URIPrefix.IMAGE_UPLOAD)
-    public ResponseEntity<ImageUploadResponseDto> imageUpload(@Valid @RequestBody ImageUploadRequestDto request) throws ApplicationGeneralException {
-        try {
-            ResponseEntity<ImageUploadResponseDto> response = this.projectService.uploadImage(request.getProjectId(), request.getImageString(), request.getDescription());
-            return response;
-        } catch (Exception e) {
-            throw new ApplicationGeneralException(e.getMessage());
-        }
+
+    @GetMapping(value = "/proposalStats")
+    public ResponseEntity<StandardResponse> getStat(){
+        return projectService.getProposalStat();
+
     }
+    @GetMapping(value = "/ImplementationStats")
+    public ResponseEntity<StandardResponse> getImplStats(){
+        return projectService.getImplementationStat();
+
+    }
+
+    @GetMapping (value = "/PropsalWonNames")
+    public ResponseEntity<StandardResponse> findAllCustomer() {
+        return new ResponseEntity<>(
+
+                projectService.WonProposalName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/PropsalLossNames")
+    public ResponseEntity<StandardResponse> LossProposalName() {
+        return new ResponseEntity<>(
+
+                projectService.LossProposalName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/InprogressPropsalNames")
+    public ResponseEntity<StandardResponse> InprogressPropsalNames() {
+        return new ResponseEntity<>(
+
+                projectService.InprogressProposalName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/SucessImplenetationNames")
+    public ResponseEntity<StandardResponse> SucessImplenetationNames() {
+        return new ResponseEntity<>(
+
+                projectService.WonImplementationName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/ImplementationFailedNames")
+    public ResponseEntity<StandardResponse> ImplementationFailedNames() {
+        return new ResponseEntity<>(
+
+                projectService.LossImplementationName()
+                , HttpStatus.OK
+        );
+
+    }
+    @GetMapping (value = "/InprogressImplementationNames")
+    public ResponseEntity<StandardResponse> InprogressImplementationNames() {
+        return new ResponseEntity<>(
+
+                projectService.InprogressImplementationName()
+                , HttpStatus.OK
+        );
+
+    }
+
+
+
 }
