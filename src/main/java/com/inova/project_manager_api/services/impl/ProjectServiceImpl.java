@@ -142,6 +142,11 @@ public class ProjectServiceImpl implements ProjectService {
                 Optional<ProjectStatus> projectStatus = projectStatusRepository.findById(projectStatusId);
                 existingProject.setProjectStatus(projectStatus.orElse(existingProject.getProjectStatus()));
 
+                // Update project status
+                int priorityId = request.getPriority();
+                Optional<Priority> priority = priorityRepository.findById(priorityId);
+                existingProject.setPriority(priority.orElse(existingProject.getPriority()));
+
                 // Update Project Dates
                 existingProject.setProposalDueDate(request.getProposalDueDate());
                 existingProject.setProposalSubmittedDate(request.getProposalSubmittedDate());

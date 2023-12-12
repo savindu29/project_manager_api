@@ -8,6 +8,7 @@ import java.util.List;
 public class ProjectUpdateRequestDto {
     private int projectStatus;
     private Date initiationDate;
+    private int priority;
 
     private Date proposalDueDate;
     private Date proposalSubmittedDate;

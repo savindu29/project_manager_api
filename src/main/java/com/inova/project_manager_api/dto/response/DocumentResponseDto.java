@@ -19,6 +19,7 @@ public class DocumentResponseDto {
     private String exceptionMessage;
     private String exceptionCause;
     private Long totalRecords;
+    private String type;
     private List<String> documentReferenceList;
 
 

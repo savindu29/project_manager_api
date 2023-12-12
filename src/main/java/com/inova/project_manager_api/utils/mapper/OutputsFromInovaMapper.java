@@ -19,7 +19,7 @@ public class OutputsFromInovaMapper {
             return null;
         }
         return new OutputsFromInovaResponseDto(
-                out.getId(), out.getDescription(), out.getDocumentReference()
+                out.getId(),  out.getDocumentReference(),out.getDescription(), out.getFileType()
         );
     }
     public List<OutputsFromInovaResponseDto> toOutputsFromInovaResponseDtoList (List<OutputsFromInova> list){
