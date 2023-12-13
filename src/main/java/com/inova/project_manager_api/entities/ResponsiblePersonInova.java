@@ -46,4 +46,14 @@ public class ResponsiblePersonInova {
     @ManyToMany(mappedBy = "effortEstimators")
     private List<Project> projectsEffortEstimated;
 
+    public ResponsiblePersonInova(int id, String name, String mobile, String companyEmail, String privateEmail, String designation, String specializedField) {
+        this.id = id;
+        this.name = name;
+        this.mobile = mobile;
+        this.companyEmail = companyEmail;
+        this.privateEmail = privateEmail;
+        this.designation = designation;
+        this.specializedField = specializedField;
+    }
+
 }

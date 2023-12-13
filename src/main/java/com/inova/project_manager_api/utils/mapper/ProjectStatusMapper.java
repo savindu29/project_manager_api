@@ -1,13 +1,8 @@
 package com.inova.project_manager_api.utils.mapper;
 
-import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectStatusRequestDto;
-import com.inova.project_manager_api.dto.response.ImpStatusResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectStatusResponseDto;
-import com.inova.project_manager_api.dto.response.StatusHistoryResponseDto;
-import com.inova.project_manager_api.entities.ImpStatus;
 import com.inova.project_manager_api.entities.ProjectStatus;
-import com.inova.project_manager_api.entities.StatusHistory;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -17,18 +12,11 @@ import java.util.List;
 public class ProjectStatusMapper {
     public ProjectStatusResponseDto toProjectStatusResponseDto(ProjectStatus ps) {
         return new ProjectStatusResponseDto(
-                ps.getId(),ps.getName(),ps.getStageCode()
+                ps.getId(), ps.getName(), ps.getStageCode()
         );
     }
 
 
-    public List<ProjectStatusResponseDto> toProjectStatusResponseDtoList(List<ProjectStatus> list) {
-        List<ProjectStatusResponseDto> dtoList = new ArrayList<>();
-        for (ProjectStatus i : list) {
-            dtoList.add(toProjectStatusResponseDto(i));
-        }
-        return dtoList;
-    }
     public ProjectStatus toProjectStatusEntity(ProjectStatusRequestDto dto){
         ProjectStatus ps =new ProjectStatus();
         ps.setName(dto.getName());
@@ -36,5 +24,12 @@ public class ProjectStatusMapper {
         return ps;
 
     }
-
+    public List<ProjectStatusResponseDto> toProjectStatusResponseDtoList(List<ProjectStatus> list) {
+        List<ProjectStatusResponseDto> dtoList = new ArrayList<>();
+        for (ProjectStatus i : list) {
+            dtoList.add(toProjectStatusResponseDto(i));
+        }
+        return dtoList;
+    }
 }
+   
