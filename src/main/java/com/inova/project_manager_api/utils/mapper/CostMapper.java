@@ -14,7 +14,7 @@ public class CostMapper {
             return null;
         }
         return new CostResponseDto(
-                c.getId(),c.getTotalEffortMh(),c.getQuotedValue(),c.getQuotedRate(),c.getAmcValue()
+                c.getId(),c.getTotalEffort(),c.getQuotedValue(),c.getQuotedRate(),c.getAmcValue(),c.getWorkUnit(),c.getCurrencyUnit()
         );
     }
     @Bean
@@ -23,7 +23,9 @@ public class CostMapper {
         cost.setAmcValue(c.getAmcValue());
         cost.setQuotedRate(c.getQuotedRate());
         cost.setQuotedValue(c.getQuotedValue());
-        cost.setTotalEffortMh(c.getTotalEffortMh());
+        cost.setTotalEffort(c.getTotalEffort());
+        cost.setCurrencyUnit(c.getCurrencyUnit());
+        cost.setWorkUnit(c.getWorkUnit());
         return cost;
 
     }

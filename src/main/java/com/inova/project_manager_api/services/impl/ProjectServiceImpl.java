@@ -285,7 +285,7 @@ public class ProjectServiceImpl implements ProjectService {
             }
 
             //        save cost
-            CostRequestDto costRequestDto = request.getCost() != null ? request.getCost() : new CostRequestDto(0, 0, 0, 0);
+            CostRequestDto costRequestDto = request.getCost() != null ? request.getCost() : new CostRequestDto(0, 0, 0, 0,null,null);
             Cost cost = costMapper.toCostEntity(costRequestDto);
 
 
