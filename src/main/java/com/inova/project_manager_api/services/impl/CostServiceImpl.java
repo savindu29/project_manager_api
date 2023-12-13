@@ -40,13 +40,17 @@ public class CostServiceImpl implements CostService {
             } else {
                 Project  project = byId.get();
                 int costId = project.getCost().getId();
+
                 Cost cost = costRepo.findById(costId).get();
-                cost.setTotalEffortMh(dto.getTotalEffortMh());
+                cost.setTotalEffort(dto.getTotalEffort());
                 cost.setQuotedValue(dto.getQuotedValue());
                 cost.setQuotedRate(dto.getQuotedRate());
                 cost.setAmcValue(dto.getAmcValue());
+                cost.setWorkUnit(dto.getWorkUnit());
+                cost.setCurrencyUnit(dto.getCurrencyUnit());
 
                 Cost save = costRepo.save(cost);
+                System.out.println(save.getWorkUnit());
                 CostResponseDto costResponseDto = costMapper.toCostResponseDto(save);
                 return new ResponseEntity<>(
                         new StandardResponse(

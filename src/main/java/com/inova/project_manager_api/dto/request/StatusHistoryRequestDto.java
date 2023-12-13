@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 
 public class StatusHistoryRequestDto {
+    private int id;
     private Date date;
 
     private String description;

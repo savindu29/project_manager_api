@@ -1,5 +1,6 @@
 package com.inova.project_manager_api.entities;
 
+import com.inova.project_manager_api.enums.WorkUnitEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,8 +21,8 @@ public class Cost {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "total_effot_mh")
-    private int totalEffortMh;
+    @Column(name = "total_effort")
+    private int totalEffort;
 
     @Column(name = "quoted_value")
     private int quotedValue;
@@ -31,5 +32,11 @@ public class Cost {
 
     @Column(name = "amc_value")
     private int amcValue;
+
+    @Column(name = "work_unit")
+    private WorkUnitEnum workUnit;
+
+    @Column(name = "currency_unit")
+    private String currencyUnit;
 
 }
