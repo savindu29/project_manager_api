@@ -1,12 +1,9 @@
 package com.inova.project_manager_api.utils.mapper;
 
 import com.inova.project_manager_api.dto.request.OutputsFromInovaRequestDto;
-import com.inova.project_manager_api.dto.request.RfpResourceRequestDto;
 import com.inova.project_manager_api.dto.response.OutputsFromInovaResponseDto;
-import com.inova.project_manager_api.dto.response.RfpResourceResponseDto;
 import com.inova.project_manager_api.entities.OutputsFromInova;
 import com.inova.project_manager_api.entities.Project;
-import com.inova.project_manager_api.entities.RfpResource;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;

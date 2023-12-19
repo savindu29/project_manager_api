@@ -1,7 +1,6 @@
 package com.inova.project_manager_api.dao.impl;
 
 import com.inova.project_manager_api.dao.ResponsiblePersonInovaDao;
-import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponseDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

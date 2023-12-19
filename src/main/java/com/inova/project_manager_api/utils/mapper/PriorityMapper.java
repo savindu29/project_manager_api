@@ -2,9 +2,7 @@ package com.inova.project_manager_api.utils.mapper;
 
 import com.inova.project_manager_api.dto.request.PriorityRequestDto;
 import com.inova.project_manager_api.dto.response.PriorityResponseDto;
-import com.inova.project_manager_api.dto.response.ProjectStatusResponseDto;
 import com.inova.project_manager_api.entities.Priority;
-import com.inova.project_manager_api.entities.ProjectStatus;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
