@@ -1,6 +1,5 @@
 package com.inova.project_manager_api.controllers;
 
-import com.inova.project_manager_api.dto.request.CostRequestDto;
 import com.inova.project_manager_api.dto.request.StatusHistoryRequestDto;
 import com.inova.project_manager_api.services.StatusHistoryService;
 import com.inova.project_manager_api.utils.StandardResponse;

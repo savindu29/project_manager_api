@@ -1,7 +1,6 @@
 package com.inova.project_manager_api.services;
 
 import com.inova.project_manager_api.dto.response.DocumentResponseDto;
-import com.inova.project_manager_api.enums.DocumentResourceType;
 import com.inova.project_manager_api.enums.FileType;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import org.springframework.core.io.Resource;

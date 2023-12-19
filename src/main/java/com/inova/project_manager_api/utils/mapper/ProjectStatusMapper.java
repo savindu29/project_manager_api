@@ -1,13 +1,8 @@
 package com.inova.project_manager_api.utils.mapper;
 
-import com.inova.project_manager_api.dto.request.ProjectRequestDto;
 import com.inova.project_manager_api.dto.request.ProjectStatusRequestDto;
-import com.inova.project_manager_api.dto.response.ImpStatusResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectStatusResponseDto;
-import com.inova.project_manager_api.dto.response.StatusHistoryResponseDto;
-import com.inova.project_manager_api.entities.ImpStatus;
 import com.inova.project_manager_api.entities.ProjectStatus;
-import com.inova.project_manager_api.entities.StatusHistory;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;

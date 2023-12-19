@@ -1,7 +1,6 @@
 package com.inova.project_manager_api.services.impl;
 
 
-
 import com.inova.project_manager_api.dto.request.SignUpRequest;
 import com.inova.project_manager_api.dto.request.SigninRequest;
 import com.inova.project_manager_api.dto.response.JwtAuthenticationResponse;
@@ -9,13 +8,11 @@ import com.inova.project_manager_api.entities.User;
 import com.inova.project_manager_api.repositories.UserRepo;
 import com.inova.project_manager_api.services.AuthenticationService;
 import com.inova.project_manager_api.services.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

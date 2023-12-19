@@ -2,14 +2,10 @@ package com.inova.project_manager_api.services.impl;
 
 import com.inova.project_manager_api.dto.request.DocumentUploadRequestDto;
 import com.inova.project_manager_api.dto.response.DocumentResponseDto;
-import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
-import com.inova.project_manager_api.dto.response.OutputsFromInovaResponseDto;
-import com.inova.project_manager_api.dto.response.RfpResourceResponseDto;
 import com.inova.project_manager_api.entities.OutputsFromInova;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.entities.RfpResource;
 import com.inova.project_manager_api.enums.DocumentResourceType;
-import com.inova.project_manager_api.enums.FileType;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.repositories.OutputsFromInovaRepo;
 import com.inova.project_manager_api.repositories.ProjectRepo;
@@ -23,10 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,6 +63,7 @@ public class DocumentServiceImpl implements DocumentService {
                     outputsFromInova.setDocumentReference(response.getBody().getDocumentReference());
                     outputsFromInova.setFileType(response.getBody().getType());
                     Project project = this.projectRepo.findById(dto.getProjectId()).get();
+
                     outputsFromInova.setProject(project);
 
                     OutputsFromInova savedOutputsFromInova = this.outputsFromInovaRepository.save(outputsFromInova);

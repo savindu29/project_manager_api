@@ -1,11 +1,9 @@
 package com.inova.project_manager_api.dto.response;
 
-import com.inova.project_manager_api.dto.request.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
