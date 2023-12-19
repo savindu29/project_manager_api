@@ -1,12 +1,9 @@
 package com.inova.project_manager_api.dto.response;
 
-import com.inova.project_manager_api.entities.GrantClient;
-import com.inova.project_manager_api.entities.IntermediateClient;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import lombok.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,6 +1,5 @@
 package com.inova.project_manager_api.entities;
 
-import com.inova.project_manager_api.entities.User;
 import jakarta.persistence.*;
 
 @Entity

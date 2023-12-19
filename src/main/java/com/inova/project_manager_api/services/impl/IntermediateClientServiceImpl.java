@@ -3,9 +3,7 @@ package com.inova.project_manager_api.services.impl;
 import com.inova.project_manager_api.dto.request.ExternalContactPersonRequestDto;
 import com.inova.project_manager_api.dto.request.IntermediateClientRequestDto;
 import com.inova.project_manager_api.entities.ExternalContactPerson;
-import com.inova.project_manager_api.entities.GrantClient;
 import com.inova.project_manager_api.entities.IntermediateClient;
-
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ExternalContactPersonRepo;
 import com.inova.project_manager_api.repositories.IntermediateClientRepo;

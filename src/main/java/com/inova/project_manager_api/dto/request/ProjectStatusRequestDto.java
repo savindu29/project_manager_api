@@ -1,6 +1,6 @@
 package com.inova.project_manager_api.dto.request;
-import jakarta.persistence.*;
-import lombok.*;
+
+import lombok.Data;
 
 @Data
 

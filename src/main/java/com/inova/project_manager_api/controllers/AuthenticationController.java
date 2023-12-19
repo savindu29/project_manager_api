@@ -1,12 +1,13 @@
 package com.inova.project_manager_api.controllers;
 
+
 import com.inova.project_manager_api.dto.request.SignUpRequest;
 import com.inova.project_manager_api.dto.request.SigninRequest;
 import com.inova.project_manager_api.dto.response.JwtAuthenticationResponse;
 import com.inova.project_manager_api.services.AuthenticationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import lombok.RequiredArgsConstructor;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/auth")

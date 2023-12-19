@@ -2,7 +2,6 @@ package com.inova.project_manager_api.controllers;
 
 
 import com.inova.project_manager_api.dto.request.DocumentUploadRequestDto;
-import com.inova.project_manager_api.dto.response.ImageUploadResponseDto;
 import com.inova.project_manager_api.enums.DocumentResourceType;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.DocumentService;
