@@ -67,6 +67,7 @@ public class DocumentServiceImpl implements DocumentService {
                     OutputsFromInova outputsFromInova = new OutputsFromInova();
                     outputsFromInova.setDescription(dto.getDescription());
                     outputsFromInova.setDocumentReference(response.getBody().getDocumentReference());
+                    outputsFromInova.setFileType(response.getBody().getType());
                     Project project = this.projectRepo.findById(dto.getProjectId()).get();
                     outputsFromInova.setProject(project);
 

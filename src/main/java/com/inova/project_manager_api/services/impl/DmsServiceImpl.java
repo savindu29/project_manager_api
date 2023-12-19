@@ -69,7 +69,7 @@ public class DmsServiceImpl implements DmsService {
         } else if (fileType == FileType.EXCEL) {
             defaultFileName = "filename.xlsx";
             contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            type="excel";
+            type="xlsx";
         } else {
             throw new IllegalArgumentException("Unsupported file type: " + fileType);
         }
