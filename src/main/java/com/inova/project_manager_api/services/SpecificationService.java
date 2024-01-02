@@ -6,5 +6,6 @@ import com.inova.project_manager_api.utils.StandardResponse;
 
 public interface SpecificationService {
 
-    StandardResponse specification();
+    StandardResponse getSpecificationsByArea(String area);
+    StandardResponse getAllSpecificationAreas();
 }

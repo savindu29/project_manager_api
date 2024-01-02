@@ -9,26 +9,20 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "mst_specification")
+@Table(name = "mst_specification_area")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Specification {
+public class SpecificationArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Column(name = "name")
     private String name;
-
-    @OneToMany(mappedBy = "specification")
-    private List<EmployeeSpecification> employeeSpecifications;
-    @ManyToOne
-    @JoinColumn(name = "area_id")
-    private SpecificationArea area;
-
-
-
+    @OneToMany(mappedBy = "area")
+    private List<Specification> specifications;
 
 }
+
