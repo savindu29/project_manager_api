@@ -1,10 +1,9 @@
 package com.inova.project_manager_api.config;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-
-import lombok.Data;
 @Configuration
 @PropertySource("classpath:dmsCodeConfig.properties")
 @Data

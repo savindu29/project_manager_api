@@ -6,17 +6,19 @@ import com.inova.project_manager_api.config.DmsConfig;
 import com.inova.project_manager_api.dto.response.DocumentResponse;
 import com.inova.project_manager_api.dto.response.DocumentResponseDto;
 import com.inova.project_manager_api.dto.response.DocumentResponseDtoBuilder;
-import com.inova.project_manager_api.enums.DocumentResourceType;
 import com.inova.project_manager_api.enums.FileType;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.DmsService;
 import com.inova.project_manager_api.utils.CommonUtil;
-import org.apache.commons.io.IOUtils;
-import org.springframework.core.io.Resource;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.*;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -69,7 +71,7 @@ public class DmsServiceImpl implements DmsService {
         } else if (fileType == FileType.EXCEL) {
             defaultFileName = "filename.xlsx";
             contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            type="excel";
+            type="xlsx";
         } else {
             throw new IllegalArgumentException("Unsupported file type: " + fileType);
         }

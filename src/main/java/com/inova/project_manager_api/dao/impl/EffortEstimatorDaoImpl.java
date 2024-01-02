@@ -1,12 +1,10 @@
 package com.inova.project_manager_api.dao.impl;
 
 import com.inova.project_manager_api.dao.EffortEstimatorDao;
-import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponseDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;

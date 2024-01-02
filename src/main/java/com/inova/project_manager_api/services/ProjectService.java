@@ -8,8 +8,6 @@ import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.utils.StandardResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
-import com.inova.project_manager_api.dto.paginatedData.PaginatedProjectData;
-import com.inova.project_manager_api.dto.response.ProjectAdvanceResponseDto;
 
 public interface ProjectService {
 

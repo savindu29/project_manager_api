@@ -2,7 +2,6 @@ package com.inova.project_manager_api.utils.mapper;
 
 import com.inova.project_manager_api.dto.request.IntermediateClientRequestDto;
 import com.inova.project_manager_api.dto.response.IntermediateClientResponseDto;
-import com.inova.project_manager_api.entities.ExternalContactPerson;
 import com.inova.project_manager_api.entities.IntermediateClient;
 import lombok.NoArgsConstructor;
 

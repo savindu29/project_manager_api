@@ -1,6 +1,5 @@
 package com.inova.project_manager_api.dto.paginatedData;
 
-import com.inova.project_manager_api.dto.response.ProjectSimpleResponseDto;
 import com.inova.project_manager_api.dto.response.ResponsiblePersonInovaResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

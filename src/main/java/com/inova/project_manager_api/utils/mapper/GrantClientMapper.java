@@ -2,7 +2,6 @@ package com.inova.project_manager_api.utils.mapper;
 
 import com.inova.project_manager_api.dto.request.GrantClientRequestDto;
 import com.inova.project_manager_api.dto.response.GrantClientResponseDto;
-import com.inova.project_manager_api.entities.ExternalContactPerson;
 import com.inova.project_manager_api.entities.GrantClient;
 import lombok.NoArgsConstructor;
 
