@@ -1,6 +1,7 @@
 package com.inova.project_manager_api.services.impl;
 
 import com.inova.project_manager_api.dto.request.EmployeeNameDto;
+import com.inova.project_manager_api.entities.Employee;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ProjectResourceRepo;
 import com.inova.project_manager_api.services.ResourceService;
@@ -19,27 +20,27 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public StandardResponse searchPotentialResources() {
-        // Logic for searching potential resources
-        // ...
-
         return null;
     }
 
     @Override
-    public StandardResponse getEmployeesNotAllocatedToProject(int projectId) {
-        // Implement the logic to get employees not allocated to a specific project
-        // ...
+    public StandardResponse getEmployeesNotAllocatedToProject(Long projectId) {
+        List<EmployeeNameDto> employeesNotAllocated = projectResourceRepo.findEmployeesNotAllocatedToProject(projectId)
+                .stream()
+                .map(employee -> new EmployeeNameDto(employee, null, null))
+                .collect(Collectors.toList());
 
-        return null;
+        return new StandardResponse("Success", employeesNotAllocated);
     }
 
     @Override
-    public StandardResponse getEmployeesAndProjectsNotAllocatedToProject(int projectId) {
+    public StandardResponse getEmployeesAndProjectsNotAllocatedToProject(Long projectId) {
         List<EmployeeNameDto> employeesNotAllocated = projectResourceRepo.findEmployeesNotAllocatedToProject(projectId)
                 .stream()
                 .map(employee -> {
-                    List<Project> allocatedProjects = projectResourceRepo.findProjectsAllocatedToEmployeeExcludingGivenProject(employee.getId(), projectId);
-                    return new EmployeeNameDto(employee, allocatedProjects);
+                    List<Project> allocatedProjects = projectResourceRepo.findProjectsAllocatedToEmployeeExcludingGivenProject((long) employee.getId(), projectId);
+                    List<Project> pendingProjects = projectResourceRepo.findPendingProjectsForEmployeeAndProject((long) employee.getId(), projectId);
+                    return new EmployeeNameDto(employee, allocatedProjects, pendingProjects);
                 })
                 .collect(Collectors.toList());
 
