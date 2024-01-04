@@ -11,12 +11,15 @@ import java.util.List;
 
 public interface ProjectResourceRepo extends JpaRepository<ProjectResource, Long> {
 
+    // Find employees not allocated to the specified project and approved
     @Query("SELECT pr.employee FROM ProjectResource pr WHERE pr.project.id = :projectId AND pr.approved = true")
     List<Employee> findEmployeesNotAllocatedToProject(@Param("projectId") Long projectId);
 
+    // Find projects allocated to the employee excluding the specified project and approved
     @Query("SELECT pr.project FROM ProjectResource pr WHERE pr.employee.id = :employeeId AND pr.project.id <> :excludedProjectId AND pr.approved = true")
     List<Project> findProjectsAllocatedToEmployeeExcludingGivenProject(@Param("employeeId") Long employeeId, @Param("excludedProjectId") Long excludedProjectId);
 
+    // Find pending projects for the specified employee and project
     @Query("SELECT pr.project FROM ProjectResource pr WHERE pr.employee.id = :employeeId AND pr.project.id = :projectId AND pr.approved = false")
     List<Project> findPendingProjectsForEmployeeAndProject(@Param("employeeId") Long employeeId, @Param("projectId") Long projectId);
 }
