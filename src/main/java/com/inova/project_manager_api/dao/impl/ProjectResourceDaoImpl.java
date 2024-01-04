@@ -36,6 +36,9 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
     @Override
     public List<ProjectResourceDto> ResourceList() {
         try {
@@ -43,8 +46,7 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
             String name = "SELECT e.name, pr.allocated_date, pr.release_date, pr.approved, pr.percentage " +
                     "FROM employee e " +
                     "JOIN project_resource pr ON e.id = pr.employee_id WHERE pr.project_id=1";
-            List<Object[]> results  = entityManager.createNativeQuery(name).getResultList();
-
+            List<Object[]> results = entityManager.createNativeQuery(name).getResultList();
 
 
             List<ProjectResourceDto> dtos = new ArrayList<>();
@@ -61,15 +63,14 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
                 dtos.add(dto);
             }
             return dtos;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
 
-    @Autowired
-    protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    }
 
-//    List<ProjectResourceResponseDto>
+
     @Override
     public List<ProjectResourceResponseDto> availablePercentages(ResourceRequestDto request) {
         final List<ProjectResourceResponseDto> result = new ArrayList<>();
