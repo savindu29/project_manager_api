@@ -634,7 +634,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         }
 
-    }@Override
+    }
+    @Override
     public StandardResponse InprogressImplementationName() {
         try{
             List<ProjectStatusSimpleResponseDto> InprogressImplementationName = projectDao.getInprogressProjectNames();
@@ -657,8 +658,28 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
+    @Override
+    public StandardResponse getUserRoles() {
+        try{
+            List<ProjectStatusSimpleResponseDto> userRoles = projectDao.getUserRoles();
+            return
+                    new StandardResponse(
+                            200,
+                            "sucess " ,
+                            userRoles
+                    );
 
+        }catch (Throwable e) {
 
+            return new StandardResponse(
+                    500,
+                    "Error occurred while saving the project: " + e.getMessage(),
+                    null
+            );
+
+        }
+
+    }
 
 
 }

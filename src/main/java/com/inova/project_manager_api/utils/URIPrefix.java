@@ -8,4 +8,7 @@ public class URIPrefix {
     public static final String UPLOAD_DOCUMENT = "/upload-document";
     public static final String IMAGE_UPLOAD = "/image-upload";
     public static final String GET_DOCUMENT = "/get-document";
+    public static final String USER = "/user";
+    public static final String BY_ID = "/{id}";
+    public static final String GET_USER_ROLES = "/get-user-roles";
 }

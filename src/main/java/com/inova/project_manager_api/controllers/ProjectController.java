@@ -5,6 +5,7 @@ import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.ProjectService;
 import com.inova.project_manager_api.utils.StandardResponse;
+import com.inova.project_manager_api.utils.URIPrefix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -156,6 +157,15 @@ public class ProjectController {
 
     }
 
+    @GetMapping (URIPrefix.USER + URIPrefix.GET_USER_ROLES)
+    public ResponseEntity<StandardResponse> getUserRoles() {
+        return new ResponseEntity<>(
+
+                projectService.getUserRoles()
+                , HttpStatus.OK
+        );
+
+    }
 
 
 }

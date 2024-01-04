@@ -271,5 +271,30 @@ public class ProjectDaoImpl implements ProjectDao {
         return null;
     }
 
+    @Override
+    public List<ProjectStatusSimpleResponseDto> getUserRoles() {
+        try {
+
+            String nativeQuery = "SELECT name FROM mst_project_role";
+            List results  = entityManager.createNativeQuery(nativeQuery).getResultList();
+
+            List<Object> resultList = (List<Object>) results;
+
+            List<ProjectStatusSimpleResponseDto> dtos = new ArrayList<>();
+
+            for (Object row : resultList) {
+                ProjectStatusSimpleResponseDto dto = new ProjectStatusSimpleResponseDto();
+
+                dto.setName((String) row);
+                dtos.add(dto);
+
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

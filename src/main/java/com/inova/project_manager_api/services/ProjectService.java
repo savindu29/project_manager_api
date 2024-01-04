@@ -2,7 +2,9 @@ package com.inova.project_manager_api.services;
 
 
 import com.inova.project_manager_api.dto.AppRequest;
-import com.inova.project_manager_api.dto.request.*;
+import com.inova.project_manager_api.dto.request.ProjectDetailsSubmitRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectRequestDto;
+import com.inova.project_manager_api.dto.request.ProjectUpdateRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectDetailsSubmitResponseDto;
 import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.utils.StandardResponse;
@@ -41,6 +43,5 @@ public interface ProjectService {
     StandardResponse WonImplementationName();
     StandardResponse LossImplementationName();
     StandardResponse InprogressImplementationName();
-
-
+    StandardResponse getUserRoles();
 }
