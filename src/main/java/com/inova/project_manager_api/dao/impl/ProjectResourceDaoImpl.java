@@ -47,7 +47,7 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
                     "FROM employee e " +
                     "JOIN project_resource pr ON e.id = pr.employee_id WHERE pr.project_id=1";
             List<Object[]> results  = entityManager.createNativeQuery(name).getResultList();
-            List<Object[]> results = entityManager.createNativeQuery(name).getResultList();
+
 
 
 
@@ -65,14 +65,14 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
                 dtos.add(dto);
             }
             return dtos;
-        } catch (Exception ex) {
-        }catch (Exception ex) {
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
 
     }
-<<<<<<< HEAD
+
 
 
     @Override
@@ -173,6 +173,5 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
             }
         });
     }
-=======
->>>>>>> origin/dev_roshen
+
 }
