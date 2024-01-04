@@ -43,9 +43,13 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
     public List<ProjectResourceDto> ResourceList() {
         try {
 
-            String name = "SELECT e.name, pr.allocated_date, pr.release_date, pr.approved, pr.percentage " +
-                    "FROM employee e " +
-                    "JOIN project_resource pr ON e.id = pr.employee_id WHERE pr.project_id=1";
+            String name = "SELECT e.name, MIN(pr.allocated_date) as smallest_allocated_date, MAX(pr.release_date) as latest_released_date, pr.approved "+
+            "FROM employee e JOIN project_resource pr ON e.id = pr.employee_id"
+            +" WHERE pr.project_id = 1"
+            +" GROUP BY e.id, e.name, pr.approved"
+            +" ORDER BY smallest_allocated_date ASC";
+
+
             List<Object[]> results  = entityManager.createNativeQuery(name).getResultList();
 
 
@@ -60,7 +64,7 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
                 dto.setAllocated_date(((Date) row[1]));  // Assuming allocated_date is the second column
                 dto.setReleased_date(((Date) row[2]));   // Assuming release_date is the third column
                 dto.setStatus((boolean) row[3]);
-                dto.setPercentage((int) row[4]);
+
 
                 dtos.add(dto);
             }
