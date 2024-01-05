@@ -9,4 +9,7 @@ public interface AuthenticationService {
     JwtAuthenticationResponse signup(SignUpRequest request);
 
     JwtAuthenticationResponse signin(SigninRequest request);
+
+    interface SpecificationLevelService {
+    }
 }

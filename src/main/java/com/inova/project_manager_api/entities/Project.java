@@ -113,4 +113,9 @@ public class Project {
     @Column(name = "activeState", columnDefinition = "boolean default true")
     private boolean activeState;
 
+
+    @OneToMany(mappedBy = "project")
+    private List<ProjectResource> projectResources;
+
+
 }
