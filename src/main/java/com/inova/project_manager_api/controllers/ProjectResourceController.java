@@ -4,6 +4,7 @@ import com.inova.project_manager_api.dto.request.ResourceRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectResourceResponseDto;
 import com.inova.project_manager_api.dto.response.ResourceAllocationResponseDto;
 import com.inova.project_manager_api.services.ProjectResourceService;
+import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +41,14 @@ public class ProjectResourceController {
         );
 
     }
+    @GetMapping("/resources-projects/{employeeId}")
+    public ResponseEntity<StandardResponse> getProjectsByResource(@PathVariable int employeeId) {
 
+        return new ResponseEntity<>(
+                projectResourceService.getProjectsByResource(employeeId),
+                HttpStatus.OK
+        );
 
-
+    }
 
 }
