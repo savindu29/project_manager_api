@@ -3,6 +3,7 @@ package com.inova.project_manager_api.dao.impl;
 import com.inova.project_manager_api.dao.ProjectResourceDao;
 import com.inova.project_manager_api.dto.request.ProjectResourceDto;
 import com.inova.project_manager_api.dto.response.*;
+import com.inova.project_manager_api.entities.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -211,5 +212,79 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
             return null;
         }
     }
+
+    @Override
+    public List<EmployeeResponseDto> findEmployeesNotAllocatedToProject(int projectId) {
+//        String query ="SELECT * FROM employee AS e WHERE e.id NOT IN (SELECT DISTINCT employee_id FROM project_resource WHERE project_id = :projectId)";
+        try {
+
+
+            String nativeQuery = "SELECT * FROM employee AS e WHERE e.id NOT IN (SELECT DISTINCT employee_id FROM project_resource WHERE project_id = :projectId)";
+
+
+            List<Object[]> resultList = entityManager.createNativeQuery(nativeQuery)
+                    .setParameter("projectId",projectId)
+                    .getResultList();
+
+            List<EmployeeResponseDto> dtos = new ArrayList<>();
+
+
+
+            for (Object[] row : resultList) {
+//                String csquery = "SELECT date FROM status_history AS sh WHERE project_id = 1 ORDER BY sh.date DESC LIMIT 1;";
+                EmployeeResponseDto dto = new EmployeeResponseDto();
+                ArrayList<ResourceProject>  allocatedProjects = new ArrayList<>();
+                ArrayList<ResourceProject>  pendingProjects = new ArrayList<>();
+                dto.setId((int) row[0]);
+                dto.setName((String) row[1]);
+
+                String nativeQuery1 = "SELECT p.id , p.name FROM project_resource AS pr JOIN project AS p ON pr.project_id = p.id WHERE pr.employee_id= :employeeId AND pr.approved = true  GROUP BY p.id ;";
+
+
+                List<Object[]> resultList1 = entityManager.createNativeQuery(nativeQuery1)
+                        .setParameter("employeeId",dto.getId())
+                        .getResultList();
+                for (Object[] row1 : resultList1) {
+//                String csquery = "SELECT date FROM status_history AS sh WHERE project_id = 1 ORDER BY sh.date DESC LIMIT 1;";
+                    ResourceProject rp  = new ResourceProject();
+
+                    rp.setId((int) row1[0]);
+                    rp.setName((String) row1[1]);
+
+
+                    allocatedProjects.add(rp);
+                }
+
+
+
+                String nativeQuery2 = "SELECT p.id , p.name FROM project_resource AS pr JOIN project AS p ON pr.project_id = p.id WHERE pr.employee_id= :employeeId AND pr.approved = false  GROUP BY p.id ;";
+
+
+                List<Object[]> resultList2 = entityManager.createNativeQuery(nativeQuery2)
+                        .setParameter("employeeId",dto.getId())
+                        .getResultList();
+                for (Object[] row2 : resultList2) {
+//                String csquery = "SELECT date FROM status_history AS sh WHERE project_id = 1 ORDER BY sh.date DESC LIMIT 1;";
+                    ResourceProject rpn  = new ResourceProject();
+
+                    rpn.setId((int) row2[0]);
+                    rpn.setName((String) row2[1]);
+
+
+                    pendingProjects.add(rpn);
+                }
+                dto.setAllocatedProjects(allocatedProjects);
+                dto.setPendingProjects(pendingProjects);
+
+                dtos.add(dto);
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
 
 }
