@@ -12,8 +12,10 @@ import java.util.List;
 public interface ProjectResourceRepo extends JpaRepository<ProjectResource, Long> {
 
     // Find employees not allocated to the specified project and approved
-    @Query("SELECT pr.employee FROM ProjectResource pr WHERE pr.project.id = :projectId AND pr.approved = true")
+    @Query("SELECT e FROM Employee e WHERE e.id NOT IN " +
+            "(SELECT pr.employee.id FROM ProjectResource pr WHERE pr.project.id = :projectId AND pr.approved = true)")
     List<Employee> findEmployeesNotAllocatedToProject(@Param("projectId") Long projectId);
+
 
     // Find projects allocated to the employee excluding the specified project and approved
     @Query("SELECT pr.project FROM ProjectResource pr WHERE pr.employee.id = :employeeId AND pr.project.id <> :excludedProjectId AND pr.approved = true")

@@ -7,14 +7,20 @@ import java.util.List;
 
 public class EmployeeNameDto {
 
+    private Long employeeId;  // New field for employee ID
     private String name;
     private List<Project> allocatedProjects;
     private List<Project> pendingProjects;
 
     public EmployeeNameDto(Employee employee, List<Project> allocatedProjects, List<Project> pendingProjects) {
+        this.employeeId = (long) employee.getId();  // Set the employee ID
         this.name = employee.getName();
         this.allocatedProjects = allocatedProjects;
         this.pendingProjects = pendingProjects;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
     public String getName() {
@@ -35,6 +41,10 @@ public class EmployeeNameDto {
 
     public void setAllocatedProjects(List<Project> allocatedProjects) {
         this.allocatedProjects = allocatedProjects;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public void setName(String name) {
