@@ -7,13 +7,13 @@ import java.util.List;
 
 public class EmployeeNameDto {
 
-    private Long employeeId; 
+    private Long employeeId;
     private String name;
     private List<Project> allocatedProjects;
     private List<Project> pendingProjects;
 
     public EmployeeNameDto(Employee employee, List<Project> allocatedProjects, List<Project> pendingProjects) {
-        this.employeeId = (long) employee.getId(); 
+        this.employeeId = (long) employee.getId();
         this.name = employee.getName();
         this.allocatedProjects = allocatedProjects;
         this.pendingProjects = pendingProjects;
