@@ -4,8 +4,10 @@ package com.inova.project_manager_api.services.impl;
 import com.inova.project_manager_api.dao.ProjectResourceDao;
 import com.inova.project_manager_api.dto.request.*;
 import com.inova.project_manager_api.dto.response.ProjectResourceResponseDto;
+import com.inova.project_manager_api.dto.response.ProjectResourceTableResponseDto;
 import com.inova.project_manager_api.dto.response.ResourceAllocationResponseDto;
 import com.inova.project_manager_api.services.ProjectResourceService;
+import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +89,26 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
         List<ResourceAllocationResponseDto> availableList = this.projectResourceDao.availablePercentagesWithProject(request);
 
         return availableList;
+    }
+
+    @Override
+    public StandardResponse getProjectsByResource(int employeeId) {
+        try {
+            List<ProjectResourceTableResponseDto> projectsByResource = projectResourceDao.getProjectsByResource(employeeId);
+            return new StandardResponse(
+                    200,
+                    "Data ",
+                    projectsByResource
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  new StandardResponse(
+                    400,
+                    "error ",
+                    null
+            );
+        }
+
     }
 
     static class DatePair {

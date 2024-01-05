@@ -2,7 +2,7 @@ package com.inova.project_manager_api.dao.impl;
 
 import com.inova.project_manager_api.dao.ProjectResourceDao;
 import com.inova.project_manager_api.dto.request.ProjectResourceDto;
-import com.inova.project_manager_api.dto.response.ProjectStatusSimpleResponseDto;
+import com.inova.project_manager_api.dto.response.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 import java.util.List;
 import com.inova.project_manager_api.dto.request.ResourceRequestDto;
-import com.inova.project_manager_api.dto.response.ProjectResourceResponseDto;
-import com.inova.project_manager_api.dto.response.ResourceAllocationResponseDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,6 +170,42 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
                 return result;
             }
         });
+    }
+
+    @Override
+    public List<ProjectResourceTableResponseDto> getProjectsByResource(int employeeId) {
+        try {
+
+
+            String nativeQuery = "SELECT p.name, MIN(pr.allocated_date) AS min_allocated_date, MAX(pr.release_date) AS max_release_date, MAX(pr.approved) AS max_approved " +
+                    "FROM project_resource AS pr " +
+                    "JOIN project AS p ON pr.project_id = p.id " +
+                    "WHERE pr.employee_id = :employeeId " +
+                    "GROUP BY p.name, pr.project_id";
+
+
+            List<Object[]> resultList = entityManager.createNativeQuery(nativeQuery)
+                    .setParameter("employeeId",employeeId)
+                    .getResultList();
+
+            List<ProjectResourceTableResponseDto> dtos = new ArrayList<>();
+
+            for (Object[] row : resultList) {
+//                String csquery = "SELECT date FROM status_history AS sh WHERE project_id = 1 ORDER BY sh.date DESC LIMIT 1;";
+                ProjectResourceTableResponseDto dto = new ProjectResourceTableResponseDto();
+
+                dto.setProject((String) row[0]);
+                dto.setFromDate((Date) row[1]);
+                dto.setToDate((Date) row[2]);
+                dto.setApproved((Boolean) row[3]);
+
+                dtos.add(dto);
+            }
+            return dtos;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
 }
