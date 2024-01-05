@@ -41,7 +41,7 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
     public List<ProjectResourceDto> ResourceList() {
         try {
 
-            String name = "SELECT e.name, MIN(pr.allocated_date) as smallest_allocated_date, MAX(pr.release_date) as latest_released_date, pr.approved "+
+            String name = "SELECT e.id, e.name, MIN(pr.allocated_date) as smallest_allocated_date, MAX(pr.release_date) as latest_released_date, pr.approved "+
             "FROM employee e JOIN project_resource pr ON e.id = pr.employee_id"
             +" WHERE pr.project_id = 1"
             +" GROUP BY e.id, e.name, pr.approved"
@@ -57,11 +57,11 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
 
             for (Object[] row : results) {
                 ProjectResourceDto dto = new ProjectResourceDto();
-
-                dto.setName((String) row[0]);  // Assuming name is the first column
-                dto.setAllocated_date(((Date) row[1]));  // Assuming allocated_date is the second column
-                dto.setReleased_date(((Date) row[2]));   // Assuming release_date is the third column
-                dto.setStatus((boolean) row[3]);
+                dto.setId((int) row[0]);
+                dto.setName((String) row[1]);  // Assuming name is the first column
+                dto.setAllocated_date(((Date) row[2]));  // Assuming allocated_date is the second column
+                dto.setReleased_date(((Date) row[3]));   // Assuming release_date is the third column
+                dto.setStatus((boolean) row[4]);
 
 
                 dtos.add(dto);

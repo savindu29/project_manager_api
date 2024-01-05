@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Data
 public class ProjectResourceDto {
+    private int id;
     private String name;
     private boolean status;
     private Date allocated_date;
