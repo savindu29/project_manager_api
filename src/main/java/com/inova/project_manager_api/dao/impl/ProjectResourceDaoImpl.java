@@ -40,17 +40,17 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
     protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<ProjectResourceDto> ResourceList() {
+    public List<ProjectResourceDto> ResourceList(int projectId) {
         try {
 
             String name = "SELECT e.name, MIN(pr.allocated_date) as smallest_allocated_date, MAX(pr.release_date) as latest_released_date, pr.approved "+
             "FROM employee e JOIN project_resource pr ON e.id = pr.employee_id"
-            +" WHERE pr.project_id = 1"
+            +" WHERE pr.project_id = :projectId"
             +" GROUP BY e.id, e.name, pr.approved"
             +" ORDER BY smallest_allocated_date ASC";
 
 
-            List<Object[]> results  = entityManager.createNativeQuery(name).getResultList();
+            List<Object[]> results  = entityManager.createNativeQuery(name).setParameter("projectId",projectId).getResultList();
 
 
 

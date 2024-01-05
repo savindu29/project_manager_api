@@ -17,11 +17,11 @@ public class ProjectResourcesController {
     @Autowired
     ProjectResourcesService projectResourcesService;
 
-    @GetMapping(value = "/ResourceList")
-    public ResponseEntity<StandardResponse> ResourceList() {
+    @GetMapping(value = "/ResourceList", params = {"projectId"})
+    public ResponseEntity<StandardResponse> ResourceList(int projectId) {
         return new ResponseEntity<>(
 
-                projectResourcesService.resources()
+                projectResourcesService.resources(projectId)
                 , HttpStatus.OK
         );
 
