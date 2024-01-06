@@ -18,7 +18,7 @@ public class ResourceController {
     @GetMapping("/employees/notAllocatedToProject")
     public ResponseEntity<StandardResponse> getEmployeesNotAllocatedToProject(@RequestParam int projectId) {
         return new ResponseEntity<>(
-                resourceService.getEmployeesAndProjectsNotAllocatedToProject((long) projectId),
+                resourceService.getEmployeesAndProjectsNotAllocatedToProject( projectId),
                 HttpStatus.OK
         );
     }

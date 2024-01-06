@@ -1,6 +1,9 @@
 package com.inova.project_manager_api.services.impl;
 
+import com.inova.project_manager_api.dao.ProjectResourceDao;
 import com.inova.project_manager_api.dto.request.EmployeeNameDto;
+import com.inova.project_manager_api.dto.request.ProjectResourceDto;
+import com.inova.project_manager_api.dto.response.EmployeeResponseDto;
 import com.inova.project_manager_api.entities.Employee;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ProjectResourceRepo;
@@ -18,6 +21,8 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private ProjectResourceRepo projectResourceRepo;
+    @Autowired
+    private ProjectResourceDao projectResourceDao;
 
     @Override
     public StandardResponse searchPotentialResources() {
@@ -25,21 +30,15 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public StandardResponse getEmployeesAndProjectsNotAllocatedToProject(Long projectId) {
-        List<EmployeeNameDto> employeesNotAllocated = projectResourceRepo.findEmployeesNotAllocatedToProject(projectId)
-                .stream()
-                .map(employee -> {
-                    List<Project> allocatedProjects = projectResourceRepo.findProjectsAllocatedToEmployeeExcludingGivenProject((long) employee.getId(), projectId);
-                    List<Project> pendingProjects = projectResourceRepo.findPendingProjectsForEmployeeAndProject((long) employee.getId(), projectId);
+    public StandardResponse getEmployeesAndProjectsNotAllocatedToProject(int projectId) {
+        ProjectResourceDto projectResourceDto = new ProjectResourceDto();
 
-                    // Check for null and provide empty lists
-                    allocatedProjects = allocatedProjects != null ? allocatedProjects : Collections.emptyList();
-                    pendingProjects = pendingProjects != null ? pendingProjects : Collections.emptyList();
-
-                    return new EmployeeNameDto(employee, allocatedProjects, pendingProjects);
-                })
-                .collect(Collectors.toList());
-
-        return new StandardResponse("Success", employeesNotAllocated);
+        List<EmployeeResponseDto> employeesNotAllocatedToProject = projectResourceDao.findEmployeesNotAllocatedToProject(projectId);
+        return new StandardResponse(
+                200,
+                "Data ",
+                employeesNotAllocatedToProject
+        );
     }
+
 }
