@@ -1,8 +1,11 @@
 package com.inova.project_manager_api.dao.impl;
 
+import com.inova.project_manager_api.controllers.ProjectResourceController;
 import com.inova.project_manager_api.dao.ProjectResourceDao;
 import com.inova.project_manager_api.dto.request.ProjectResourceDto;
 import com.inova.project_manager_api.dto.response.*;
+import com.inova.project_manager_api.entities.ProjectResource;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -14,6 +17,9 @@ import java.util.List;
 import com.inova.project_manager_api.dto.request.ResourceRequestDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -36,46 +42,50 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
 
     @Autowired
     protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    
+    private static final  Logger logger = LoggerFactory.getLogger(ProjectResourceDaoImpl.class);
 
     @Override
-    public List<ProjectResourceDto> ResourceList() {
-        try {
+    public List<ProjectResourceDto> ResourceList(Integer projectId ,Date allocatedDate ,Date releasedDate ,String employeeName) {
+    	
+        try {	
+        	String query = "SELECT pr.id, pr.employee_id, pr.allocated_date, pr.release_date , e.name " +
+                    "FROM project_resource pr " +
+        			"JOIN employee e ON pr.employee_id = e.id " +
+                    "WHERE (?1 is null or pr.project_id = ?1) " +
+                    "AND ((?2 is null or pr.allocated_date <=?2) " +
+                    "AND (?3 is null or pr.release_date >= ?3)) " +
+                    "AND (?4 is null or lower(e.name) like lower(concat('%', ?4, '%'))) " +
+                    "ORDER BY pr.allocated_date ASC";
 
-            String name = "SELECT e.id, e.name, MIN(pr.allocated_date) as smallest_allocated_date, MAX(pr.release_date) as latest_released_date, pr.approved "+
-            "FROM employee e JOIN project_resource pr ON e.id = pr.employee_id"
-            +" WHERE pr.project_id = 1"
-            +" GROUP BY e.id, e.name, pr.approved"
-            +" ORDER BY smallest_allocated_date ASC";
-
-
-            List<Object[]> results  = entityManager.createNativeQuery(name).getResultList();
-
-
-
+            List<Object[]> results = entityManager.createNativeQuery(query)
+                    .setParameter(1, projectId)
+                    .setParameter(2, allocatedDate)
+                    .setParameter(3, releasedDate)
+                    .setParameter(4, employeeName )
+                    .getResultList();
+            
+            System.out.println("query size is " +results.size() );
 
             List<ProjectResourceDto> dtos = new ArrayList<>();
 
             for (Object[] row : results) {
-                ProjectResourceDto dto = new ProjectResourceDto();
-                dto.setId((int) row[0]);
-                dto.setName((String) row[1]);  // Assuming name is the first column
-                dto.setAllocated_date(((Date) row[2]));  // Assuming allocated_date is the second column
-                dto.setReleased_date(((Date) row[3]));   // Assuming release_date is the third column
-                dto.setStatus((boolean) row[4]);
-
-
+                ProjectResourceDto dto = new ProjectResourceDto();               
+                dto.setEmployeeId((int) row[1]);            
+                dto.setEmployeeName(String.valueOf(row[4]));  
+                dto.setAllocatedDate((Date)row[2]);  
+                dto.setReleasedDate((Date)row[3]);  
                 dtos.add(dto);
             }
             return dtos;
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            }
+        catch (Exception e) {
+        	logger.error("Get Request List failed due to: {} {}" , e.getMessage() , e);
+        	}
         return null;
-
-    }
-
-
+        }
+    
+    
 
     @Override
     public List<ProjectResourceResponseDto> availablePercentages(ResourceRequestDto request) {

@@ -6,11 +6,10 @@ import java.util.Date;
 
 @Data
 public class ProjectResourceDto {
-    private int id;
-    private String name;
-    private boolean status;
-    private Date allocated_date;
-    private Date released_date;
-    private int percentage;
+	
+    private int employeeId;
+    private String employeeName;
+    private Date allocatedDate;
+    private Date releasedDate;
 
 }

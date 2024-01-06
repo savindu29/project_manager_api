@@ -10,6 +10,7 @@ import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -18,26 +19,14 @@ public class ProjectResourcesServiceImpl implements ProjectResourcesService {
     @Autowired
     private ProjectResourceDao projectResourceDao;
 
-
-    @Override
-    public StandardResponse resources() {
-        try{
-            List<ProjectResourceDto> ResourceList = projectResourceDao.ResourceList();
-            return
-                    new StandardResponse(
-                            200,
-                            "sucess " ,
-                            ResourceList
-                    );
-
-        }catch (Throwable e) {
-
-            return new StandardResponse(
-                    500,
-                    "Error occurred while saving the project: " + e.getMessage(),
-                    null
-            );
-
-        }
-    }
-}
+	@Override
+	public StandardResponse resources(Integer projectId, Date allocatedDate, Date releasedDate, String employeeName) {
+		try{
+			List<ProjectResourceDto> ResourceList = projectResourceDao.ResourceList(projectId ,allocatedDate , releasedDate , employeeName);
+			return new StandardResponse( 200, "sucess " ,ResourceList);
+			
+		}catch (Throwable e) {
+			return new StandardResponse(500, "Error occurred while saving the project: " + e.getMessage(),null );
+			}
+		}
+	}
