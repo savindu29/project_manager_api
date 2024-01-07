@@ -2,6 +2,7 @@ package com.inova.project_manager_api.dao;
 
 import com.inova.project_manager_api.dto.request.ProjectResourceDto;
 import com.inova.project_manager_api.dto.request.ResourceRequestDto;
+import com.inova.project_manager_api.dto.request.ResourceSpecificationRequestDto;
 import com.inova.project_manager_api.dto.response.*;
 import com.inova.project_manager_api.entities.Employee;
 
@@ -19,5 +20,6 @@ public interface ProjectResourceDao {
     List<ProjectResourceTableResponseDto> getProjectsByResource(int employeeId);
     List<EmployeeResponseDto> findEmployeesNotAllocatedToProject(int projectId);
 
+    List<EmployeeSpecificationResponseDto> getEmployeesBySkill(ResourceSpecificationRequestDto request);
 }
 
