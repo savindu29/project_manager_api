@@ -3,7 +3,9 @@ package com.inova.project_manager_api.services.impl;
 import com.inova.project_manager_api.dao.ProjectResourceDao;
 import com.inova.project_manager_api.dto.request.EmployeeNameDto;
 import com.inova.project_manager_api.dto.request.ProjectResourceDto;
+import com.inova.project_manager_api.dto.request.ResourceSpecificationRequestDto;
 import com.inova.project_manager_api.dto.response.EmployeeResponseDto;
+import com.inova.project_manager_api.dto.response.EmployeeSpecificationResponseDto;
 import com.inova.project_manager_api.entities.Employee;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.repositories.ProjectResourceRepo;
@@ -38,6 +40,23 @@ public class ResourceServiceImpl implements ResourceService {
                 200,
                 "Data ",
                 employeesNotAllocatedToProject
+        );
+    }
+
+    @Override
+    public StandardResponse getEmployeesBySkill(ResourceSpecificationRequestDto request) {
+        List<EmployeeSpecificationResponseDto> employeesBySkill = projectResourceDao.getEmployeesBySkill(request);
+        if(employeesBySkill==null){
+            return new StandardResponse(
+                    500,
+                    "Server error ",
+                    null
+            );
+        }
+        return new StandardResponse(
+                200,
+                "data",
+                employeesBySkill
         );
     }
 
