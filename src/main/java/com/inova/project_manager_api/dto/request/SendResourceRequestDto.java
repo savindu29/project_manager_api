@@ -9,6 +9,6 @@ public class SendResourceRequestDto {
     private Date allocateDate;
     private Date releaseDate;
     private int percentage;
-    private ProjectRole userRole;
+    private int userRole;
     private String note;
 }

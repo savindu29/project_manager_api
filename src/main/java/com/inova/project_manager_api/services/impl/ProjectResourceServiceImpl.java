@@ -9,10 +9,8 @@ import com.inova.project_manager_api.dto.response.ResourceAllocationResponseDto;
 import com.inova.project_manager_api.entities.Employee;
 import com.inova.project_manager_api.entities.Project;
 import com.inova.project_manager_api.entities.ProjectResource;
-import com.inova.project_manager_api.repositories.EmployeeRepo;
-import com.inova.project_manager_api.repositories.MstProjectRoleRepo;
-import com.inova.project_manager_api.repositories.ProjectRepo;
-import com.inova.project_manager_api.repositories.ProjectResourceRepo;
+import com.inova.project_manager_api.entities.ProjectRole;
+import com.inova.project_manager_api.repositories.*;
 import com.inova.project_manager_api.services.ProjectResourceService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,7 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
     private EmployeeRepo employeeRepository;
 
     @Autowired
-    private MstProjectRoleRepo mstProjectRoleRepository;
+    private ProjectRoleRepo projectRoleRepo;
 
     @Autowired
     private ProjectResourceRepo projectResourceRepository;
@@ -133,6 +131,7 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
         try {
             Optional<Project> optionalProject = projectRepository.findById(projectId);
             Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+            ProjectRole projectRole = projectRoleRepo.findById(resourceRequest.getUserRole()).get();
 
             if (optionalProject.isPresent() || optionalEmployee.isPresent()) {
                 // insert to project_resource
@@ -145,7 +144,7 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
                 projectResource.setEmployee(optionalEmployee.get());
                 projectResource.setProject(optionalProject.get());
                 projectResource.setPercentage(resourceRequest.getPercentage());
-                projectResource.setProjectRole(resourceRequest.getUserRole());
+                projectResource.setProjectRole(projectRole);
 
                 ProjectResource projectResourceEntity = projectResourceRepository.save(projectResource);
 
