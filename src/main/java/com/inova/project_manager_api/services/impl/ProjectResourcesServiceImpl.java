@@ -20,9 +20,9 @@ public class ProjectResourcesServiceImpl implements ProjectResourcesService {
 
 
     @Override
-    public StandardResponse resources() {
+    public StandardResponse resources(int projectId) {
         try{
-            List<ProjectResourceDto> ResourceList = projectResourceDao.ResourceList();
+            List<ProjectResourceDto> ResourceList = projectResourceDao.ResourceList(projectId);
             return
                     new StandardResponse(
                             200,

@@ -4,11 +4,13 @@ import com.inova.project_manager_api.entities.ProjectRole;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
+
 @Data
 public class SendResourceRequestDto {
-    private Date allocateDate;
-    private Date releaseDate;
-    private int percentage;
+    private List<ProjectResourceRequestDto> resourceSpec;
+
+
     private int userRole;
     private String note;
 }

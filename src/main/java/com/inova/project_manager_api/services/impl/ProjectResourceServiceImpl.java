@@ -135,18 +135,24 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
 
             if (optionalProject.isPresent() || optionalEmployee.isPresent()) {
                 // insert to project_resource
-                ProjectResource projectResource = new ProjectResource();
 
-                projectResource.setAllocatedDate(resourceRequest.getAllocateDate());
-                projectResource.setReleaseDate(resourceRequest.getReleaseDate());
-                projectResource.setPercentage(resourceRequest.getPercentage());
-                projectResource.setApproved(false);
-                projectResource.setEmployee(optionalEmployee.get());
-                projectResource.setProject(optionalProject.get());
-                projectResource.setPercentage(resourceRequest.getPercentage());
-                projectResource.setProjectRole(projectRole);
 
-                ProjectResource projectResourceEntity = projectResourceRepository.save(projectResource);
+                for (ProjectResourceRequestDto dto:resourceRequest.getResourceSpec()) {
+                    ProjectResource projectResource = new ProjectResource();
+                    projectResource.setAllocatedDate(dto.getFromDate());
+                    projectResource.setReleaseDate(dto.getToDate());
+                    projectResource.setPercentage(dto.getPercentage());
+                    projectResource.setApproved(false);
+                    projectResource.setEmployee(optionalEmployee.get());
+                    projectResource.setProject(optionalProject.get());
+                    projectResource.setProjectRole(projectRole);
+                    ProjectResource projectResourceEntity = projectResourceRepository.save(projectResource);
+                }
+
+
+
+
+
 
                 //ProjectResponseDto resourceResponseDto = projectMapper.toProjectResponseDto(projectResourceEntity.getProject());
 

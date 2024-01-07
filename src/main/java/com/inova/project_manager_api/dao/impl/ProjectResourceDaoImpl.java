@@ -41,17 +41,17 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
     protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<ProjectResourceDto> ResourceList() {
+    public List<ProjectResourceDto> ResourceList(int projectId) {
         try {
 
             String name = "SELECT e.id, e.name, MIN(pr.allocated_date) as smallest_allocated_date, MAX(pr.release_date) as latest_released_date, pr.approved " +
                     "FROM employee e JOIN project_resource pr ON e.id = pr.employee_id"
-                    + " WHERE pr.project_id = 1"
+                    + " WHERE pr.project_id = :projectId"
                     + " GROUP BY e.id, e.name, pr.approved"
                     + " ORDER BY smallest_allocated_date ASC";
 
 
-            List<Object[]> results = entityManager.createNativeQuery(name).getResultList();
+            List<Object[]> results = entityManager.createNativeQuery(name).setParameter("projectId", projectId).getResultList();
 
 
             List<ProjectResourceDto> dtos = new ArrayList<>();
@@ -284,54 +284,68 @@ public class ProjectResourceDaoImpl implements ProjectResourceDao {
 
     @Override
     public List<EmployeeSpecificationResponseDto> getEmployeesBySkill(ResourceSpecificationRequestDto request) {
-
-
         try {
             List<Integer> specifications = request.getSpecifications();
             List<Integer> specificationLevels = request.getSpecificationLevels();
+
             StringBuilder query = new StringBuilder();
-            query.append(" SELECT e.id ,  e.name , sp.name , spl.name FROM employee_specification AS es \n");
-            query.append("        JOIN employee AS e on es.employee_id = e.id \n");
-            query.append("        JOIN mst_specification AS sp ON es.specification_id = sp.id \n");
-            query.append("        JOIN mst_specification_level AS spl ON es.level_id = spl.id ");
-            query.append("WHERE \n");
+            query.append("SELECT e.id, e.name, ");
+            query.append("GROUP_CONCAT(DISTINCT sp.name ORDER BY sp.name SEPARATOR ', ') AS skills, ");
+            query.append("GROUP_CONCAT(DISTINCT spl.name ORDER BY spl.name SEPARATOR ', ') AS skillLevels ");
+            query.append("FROM employee_specification AS es ");
+            query.append("JOIN employee AS e on es.employee_id = e.id ");
+            query.append("JOIN mst_specification AS sp ON es.specification_id = sp.id ");
+            query.append("JOIN mst_specification_level AS spl ON es.level_id = spl.id ");
+            query.append("WHERE ");
 
-            if(!specifications.isEmpty()){
-                query.append("( \n");
-                for (int i:specifications) {
-                    query.append(" sp.id = "+i+" OR \n");
+            if (!specifications.isEmpty()) {
+                query.append("( ");
+                for (int i : specifications) {
+                    query.append("sp.id = ").append(i).append(" OR ");
                 }
-                query.append("FALSE ) AND \n");
-
+                query.append("FALSE ) AND ");
             }
-            if (!specificationLevels.isEmpty()){
-                query.append("( \n");
-                for (int i:specificationLevels) {
-                    query.append(" spl.id = "+i+" OR \n");
+
+            if (!specificationLevels.isEmpty()) {
+                query.append("( ");
+                for (int i : specificationLevels) {
+                    query.append("spl.id = ").append(i).append(" OR ");
                 }
-                query.append("FALSE ) AND \n");
-
+                query.append("FALSE ) AND ");
             }
-            query.append("TRUE ; \n");
+
+            query.append("TRUE GROUP BY e.id, e.name;");
 
             List<Object[]> resultList = entityManager.createNativeQuery(query.toString()).getResultList();
             List<EmployeeSpecificationResponseDto> list = new ArrayList<>();
+
             for (Object[] row : resultList) {
                 EmployeeSpecificationResponseDto dto = new EmployeeSpecificationResponseDto();
-                dto.setId((int)row[0]);
+                dto.setId((int) row[0]);
                 dto.setName((String) row[1]);
-                dto.setSpecification((String) row[2]);
-                dto.setLevel((String) row[3]);
-                list.add(dto);
+                dto.setSkills(new ArrayList<>());
 
+                // Split and set skills
+                String[] skillsArray = ((String) row[2]).split(", ");
+                String[] skillsLevels = ((String) row[3]).split(", ");
+                List<SkillResponseDto> skillsList = new ArrayList<>();
+                for (int j = 0; j < skillsArray.length; j++) {
+                    SkillResponseDto skillDto = new SkillResponseDto();
+                    skillDto.setSpecification(skillsArray[j]);
+                    skillDto.setLevel(skillsLevels[j]);
+                    dto.getSkills().add(skillDto);
+                }
+
+
+                list.add(dto);
             }
+
             return list;
         } catch (Exception e) {
             return null;
         }
-
-
     }
+
 
 
 }
