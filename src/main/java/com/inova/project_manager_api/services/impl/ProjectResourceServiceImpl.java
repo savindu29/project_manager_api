@@ -6,24 +6,41 @@ import com.inova.project_manager_api.dto.request.*;
 import com.inova.project_manager_api.dto.response.ProjectResourceResponseDto;
 import com.inova.project_manager_api.dto.response.ProjectResourceTableResponseDto;
 import com.inova.project_manager_api.dto.response.ResourceAllocationResponseDto;
+import com.inova.project_manager_api.entities.Employee;
+import com.inova.project_manager_api.entities.Project;
+import com.inova.project_manager_api.entities.ProjectResource;
+import com.inova.project_manager_api.repositories.EmployeeRepo;
+import com.inova.project_manager_api.repositories.MstProjectRoleRepo;
+import com.inova.project_manager_api.repositories.ProjectRepo;
+import com.inova.project_manager_api.repositories.ProjectResourceRepo;
 import com.inova.project_manager_api.services.ProjectResourceService;
 import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProjectResourceServiceImpl implements ProjectResourceService {
 
     @Autowired
     private ProjectResourceDao projectResourceDao;
+    @Autowired
+    private EmployeeRepo employeeRepository;
+
+    @Autowired
+    private MstProjectRoleRepo mstProjectRoleRepository;
+
+    @Autowired
+    private ProjectResourceRepo projectResourceRepository;
+
+    @Autowired
+    private ProjectRepo projectRepository;
     @Override
     public List<ProjectResourceResponseDto> availablePercentage(ResourceRequestDto request) {
 
@@ -109,6 +126,64 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
             );
         }
 
+    }
+
+    @Override
+    public ResponseEntity<StandardResponse> sendResourceRequest(SendResourceRequestDto resourceRequest, int projectId, int employeeId) {
+        try {
+            Optional<Project> optionalProject = projectRepository.findById(projectId);
+            Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+
+            if (optionalProject.isPresent() || optionalEmployee.isPresent()) {
+                // insert to project_resource
+                ProjectResource projectResource = new ProjectResource();
+
+                projectResource.setAllocatedDate(resourceRequest.getAllocateDate());
+                projectResource.setReleaseDate(resourceRequest.getReleaseDate());
+                projectResource.setPercentage(resourceRequest.getPercentage());
+                projectResource.setApproved(false);
+                projectResource.setEmployee(optionalEmployee.get());
+                projectResource.setProject(optionalProject.get());
+                projectResource.setPercentage(resourceRequest.getPercentage());
+                projectResource.setProjectRole(resourceRequest.getUserRole());
+
+                ProjectResource projectResourceEntity = projectResourceRepository.save(projectResource);
+
+                //ProjectResponseDto resourceResponseDto = projectMapper.toProjectResponseDto(projectResourceEntity.getProject());
+
+
+
+
+                return new ResponseEntity<>(
+                        new StandardResponse(
+                                200,
+                                "Project Updated",
+                                null
+                        ),
+                        HttpStatus.OK
+                );
+
+            } else {
+                return new ResponseEntity<>(
+                        new StandardResponse(
+                                404,
+                                "Not Found",
+                                null
+                        ),
+                        HttpStatus.NO_CONTENT
+                );
+            }
+        } catch (Throwable e) {
+
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            500,
+                            "Error occurred while updating the project: " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     static class DatePair {

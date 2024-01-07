@@ -1,10 +1,13 @@
 package com.inova.project_manager_api.controllers;
 
 import com.inova.project_manager_api.dto.request.ResourceRequestDto;
+import com.inova.project_manager_api.dto.request.SendResourceRequestDto;
 import com.inova.project_manager_api.dto.response.ProjectResourceResponseDto;
 import com.inova.project_manager_api.dto.response.ResourceAllocationResponseDto;
+import com.inova.project_manager_api.exceptions.ApplicationGeneralException;
 import com.inova.project_manager_api.services.ProjectResourceService;
 import com.inova.project_manager_api.utils.StandardResponse;
+import com.inova.project_manager_api.utils.URIPrefix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +51,18 @@ public class ProjectResourceController {
                 projectResourceService.getProjectsByResource(employeeId),
                 HttpStatus.OK
         );
+
+    }
+
+    @PostMapping(URIPrefix.REQUEST + URIPrefix.RESOURCE + URIPrefix.SEND_REQUEST)
+    public ResponseEntity<StandardResponse> sendResourceRequest(@RequestBody SendResourceRequestDto resourceRequest, @RequestParam int projectId, @RequestParam int employeeId) throws ApplicationGeneralException {
+
+        try {
+            ResponseEntity<StandardResponse> resourceRequestDetails = projectResourceService.sendResourceRequest(resourceRequest, projectId, employeeId);
+            return resourceRequestDetails;
+        } catch (Exception e) {
+            throw new ApplicationGeneralException(e.getMessage());
+        }
 
     }
 
