@@ -9,7 +9,7 @@ import com.inova.project_manager_api.entities.Employee;
 import java.util.List;
 
 public interface ProjectResourceDao {
-    List<ProjectResourceDto> ResourceList();
+    List<ProjectResourceDto> ResourceList(int projectId);
 
     List<ProjectResourceResponseDto> availablePercentages(ResourceRequestDto request);
 

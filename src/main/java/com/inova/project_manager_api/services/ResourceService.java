@@ -9,4 +9,6 @@ public interface ResourceService {
     StandardResponse getEmployeesAndProjectsNotAllocatedToProject(int projectId);
 
     StandardResponse getEmployeesBySkill(ResourceSpecificationRequestDto request);
+
+    StandardResponse getEmployeeSkills(int employeeId);
 }

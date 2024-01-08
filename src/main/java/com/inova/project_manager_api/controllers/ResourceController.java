@@ -36,5 +36,13 @@ public class ResourceController {
         );
     }
 
+    @GetMapping("/employees/get-skills")
+    public ResponseEntity<StandardResponse> getEmployeeSkills(@RequestParam int employeeId) {
+        return new ResponseEntity<>(
+                resourceService.getEmployeeSkills( employeeId),
+                HttpStatus.OK
+        );
+    }
+
 
 }

@@ -5,10 +5,7 @@ import com.inova.project_manager_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/projectReosurces")
@@ -18,10 +15,10 @@ public class ProjectResourcesController {
     ProjectResourcesService projectResourcesService;
 
     @GetMapping(value = "/ResourceList")
-    public ResponseEntity<StandardResponse> ResourceList() {
+    public ResponseEntity<StandardResponse> ResourceList(@RequestParam int projectId) {
         return new ResponseEntity<>(
 
-                projectResourcesService.resources()
+                projectResourcesService.resources(projectId)
                 , HttpStatus.OK
         );
 

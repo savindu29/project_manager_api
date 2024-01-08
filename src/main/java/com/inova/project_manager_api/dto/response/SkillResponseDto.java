@@ -5,16 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class EmployeeSpecificationResponseDto {
-    private int id;
-    private String name;
-    private List<SkillResponseDto> skills;
-
-
+public class SkillResponseDto {
+    private String specification;
+    private String level;
 }
