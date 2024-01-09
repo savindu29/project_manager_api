@@ -28,4 +28,6 @@ public interface ProjectDao {
     List<ProjectStatusSimpleResponseDto> getImplFailedProjectNames();
 
     List<ProjectStatusSimpleResponseDto> getImplSucessProjectNames();
+
+    List<ProjectStatusSimpleResponseDto> getUserRoles();
 }

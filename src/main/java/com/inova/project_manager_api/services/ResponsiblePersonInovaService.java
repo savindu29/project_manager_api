@@ -15,7 +15,7 @@ public interface ResponsiblePersonInovaService {
 
     StandardResponse searchEmployeeByName(String searchtext);
 
-    StandardResponse findProject(int intId);
+    StandardResponse findResponsiblePerson(int intId);
 
     ResponseEntity<StandardResponse> deleteEmployee(int employeeId);
 }

@@ -80,7 +80,7 @@ public class ResponsiblePersonInovaController {
 
         return new ResponseEntity<>(
 
-                responsiblePersonInovaService.findProject(intId),
+                responsiblePersonInovaService.findResponsiblePerson(intId),
                 HttpStatus.OK
         );
 

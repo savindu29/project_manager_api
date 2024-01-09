@@ -12,18 +12,11 @@ import java.util.List;
 public class ProjectStatusMapper {
     public ProjectStatusResponseDto toProjectStatusResponseDto(ProjectStatus ps) {
         return new ProjectStatusResponseDto(
-                ps.getId(),ps.getName(),ps.getStageCode()
+                ps.getId(), ps.getName(), ps.getStageCode()
         );
     }
 
 
-    public List<ProjectStatusResponseDto> toProjectStatusResponseDtoList(List<ProjectStatus> list) {
-        List<ProjectStatusResponseDto> dtoList = new ArrayList<>();
-        for (ProjectStatus i : list) {
-            dtoList.add(toProjectStatusResponseDto(i));
-        }
-        return dtoList;
-    }
     public ProjectStatus toProjectStatusEntity(ProjectStatusRequestDto dto){
         ProjectStatus ps =new ProjectStatus();
         ps.setName(dto.getName());
@@ -31,5 +24,12 @@ public class ProjectStatusMapper {
         return ps;
 
     }
-
+    public List<ProjectStatusResponseDto> toProjectStatusResponseDtoList(List<ProjectStatus> list) {
+        List<ProjectStatusResponseDto> dtoList = new ArrayList<>();
+        for (ProjectStatus i : list) {
+            dtoList.add(toProjectStatusResponseDto(i));
+        }
+        return dtoList;
+    }
 }
+   

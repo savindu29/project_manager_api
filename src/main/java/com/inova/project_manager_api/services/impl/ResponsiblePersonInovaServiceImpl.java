@@ -158,7 +158,7 @@ public class ResponsiblePersonInovaServiceImpl implements ResponsiblePersonInova
     }
 
     @Override
-    public StandardResponse findProject(int intId) {
+    public StandardResponse findResponsiblePerson(int intId) {
         Optional<ResponsiblePersonInova> byId = responsiblePersonInovaRepo.findById(intId);
         ResponsiblePersonInovaResponseDto responsiblePersonInovaResponseDto = responsiblePersonInovaMapper.toResponsiblePersonInovaResponseDto(byId.get());
         if (responsiblePersonInovaResponseDto == null) {
